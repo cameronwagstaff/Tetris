@@ -10,27 +10,32 @@
 
 //Tetris Constructor
 
-Tetris::Tetris(GLUT_Plotter* g){
+Tetris::Tetris(GLUT_Plotter* g)
+{
 	this->g = g;
 }
 
 
 //Tetris Main Game Loop
-void Tetris::Play(void){
+void Tetris::Play(void)
+{
 
 	//Check for Keyboard Hit
-	while(g->kbhit()){
+	while(g->kbhit())
+    {
 		int k = g->getKey();
-		switch (k){
-		     case 27: exit(1); //ESC key
-		              break;
+		switch (k)
+		{
+		     case 27://ESC key
+		         exit(1);
+             break;
 		}
 	}
 
 
 	//Check for mouse click
-	while(g->click()){
-
+	while(g->click())
+    {
 		Click c;
 		c = g->getClick();
 	}

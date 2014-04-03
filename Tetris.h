@@ -11,7 +11,8 @@
 #include "GLUT_Plotter.h"
 
 
-class Tetris{
+class Tetris
+{
 private:
 	GLUT_Plotter *g;
 
