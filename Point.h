@@ -3,7 +3,11 @@
  * Description: Defines a Point struct to represent a point on the screen with *
  *              x and y coordinates                                            *
  * Date Created: 02 April 2014                                                 *
+<<<<<<< HEAD
  * Date Last Modified: 03 April 2014 - Matt Arnold                             *
+=======
+ * Date Last Modified: 02 April 2014 - Matt Arnold                             *
+>>>>>>> FETCH_HEAD
  ******************************************************************************/
 
 
@@ -19,7 +23,11 @@ class OffScreen{};
 struct Point
 {
     int x, y;
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> FETCH_HEAD
     /***************************************************************************
      * Description: Point object constructor                                   *
      * Return: none                                                            *
@@ -34,6 +42,7 @@ struct Point
         {
             throw(OffScreen());
         }
+<<<<<<< HEAD
         
         this->x = x;
         this->y = y;
@@ -50,6 +59,12 @@ struct Point
         this->x = c.x;
         this->y = c.y;
     }
+=======
+
+        this->x = x;
+        this->y = y;
+    }
+>>>>>>> FETCH_HEAD
 };
 
 #endif

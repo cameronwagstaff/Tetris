@@ -13,10 +13,11 @@ using namespace std;
 void Player(void);
 Tetris* game;
 
-int main() {
-	GLUT_Plotter* g = new GLUT_Plotter(); //Create plotter 
+int main()
+{
+	GLUT_Plotter* g = new GLUT_Plotter(); //Create plotter
 	game = new Tetris(g);                 //Create Game (Tetris)
-	g->RegisterIdleFunc(Player);          //Register Callback 
+	g->RegisterIdleFunc(Player);          //Register Callback
 	g->MainLoop();                        //Enter main loop
 	return 0;
 }
