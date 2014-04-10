@@ -32,29 +32,22 @@ Tetris::Tetris(GLUT_Plotter* g)
 //Tetris Main Game Loop
 void Tetris::Play(void)
 {
-<<<<<<< HEAD
     drawGame();
     m.draw(g);
     
-=======
-
->>>>>>> FETCH_HEAD
 	//Check for Keyboard Hit
 	while(g->kbhit())
     {
 		int k = g->getKey();
 		switch (k)
-<<<<<<< HEAD
         {
             case 27: exit(1); //ESC key
                 break;
             default: cout << k << endl;
-=======
 		{
 		     case 27://ESC key
 		         exit(1);
              break;
->>>>>>> FETCH_HEAD
 		}
 	}
     
@@ -62,10 +55,6 @@ void Tetris::Play(void)
 	//Check for mouse click
 	while(g->click())
     {
-<<<<<<< HEAD
-        
-=======
->>>>>>> FETCH_HEAD
 		Click c;
 		c = g->getClick();
         cout << c.x << " " << c.y << endl;
