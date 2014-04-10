@@ -7,6 +7,7 @@
  * Date Last Modified: 02 April 2014 - Matt Arnold
  ******************************************************************************/
 
+
 #ifndef Tetris_Button_h
 #define Tetris_Button_h
 
@@ -20,8 +21,6 @@ using namespace std;
 
 const int BUTTON_LENGTH = 310;
 const int BUTTON_WIDTH = 50;
-const int BUTTON_LENGTH = 160;
-const int BUTTON_WIDTH = 80;
 
 class Button
 {
@@ -32,8 +31,7 @@ class Button
     public:
         Button(string s = "TEXT", Point tl = Point(0,0),
                Point br = Point(BUTTON_LENGTH, BUTTON_WIDTH),
-        Button(string s = "TEXT", Point tl = Point(0,0), Point br = Point(0, 0),
-               int color = WHITE,int textColor = BLACK);
+               unsigned int color = WHITE, unsigned int textColor = BLACK);
         void draw(GLUT_Plotter* g);
         void erase(GLUT_Plotter* g);
         void press(GLUT_Plotter* g);
@@ -48,9 +46,7 @@ class Button
         Point getTopLeft();
         Point getBottomRight();
         bool isInRange(Point a);
-        unsigned int getColor();
-        unsigned int getTextColor();
-        string getText();
+    
 };
 
 #endif

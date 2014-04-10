@@ -5,7 +5,6 @@
  * Due Date:
  * Date Created: 01 April 2014
  * Date Last Modified: 08 April 2014 - Matt Arnold
- * Date Last Modified: 02 April 2014 - Matt Arnold
  */
 
 
@@ -21,7 +20,7 @@ class Menu
 private:
     Button startButton, viewScores;
     bool running;
-
+    
 public:
     Menu();
     void draw(GLUT_Plotter *g);

@@ -44,10 +44,6 @@ void Tetris::Play(void)
             case 27: exit(1); //ESC key
                 break;
             default: cout << k << endl;
-		{
-		     case 27://ESC key
-		         exit(1);
-             break;
 		}
 	}
     
@@ -55,6 +51,7 @@ void Tetris::Play(void)
 	//Check for mouse click
 	while(g->click())
     {
+        
 		Click c;
 		c = g->getClick();
         cout << c.x << " " << c.y << endl;

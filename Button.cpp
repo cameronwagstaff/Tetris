@@ -15,7 +15,8 @@
  * Post: a Button object is constructed with text s, top left Point tl, bottom *
  *       right Point br, color color and text color textColor                  *
  ******************************************************************************/
-Button::Button(string s, Point tl, Point br, int color, int textColor)
+Button::Button(string s, Point tl, Point br, unsigned int color,
+               unsigned int textColor)
 {
     this->text = s;
     this->topLeft = tl;
