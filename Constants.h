@@ -19,6 +19,7 @@ const unsigned int BACKGROUND_WHITE = 0xFBFBFF;     //White background for gamep
 const unsigned int BACKGROUND_GRAY  = 0xADADAD;     //Gray background for main window colour
 const unsigned int BLACK            = 0x000000;     //Black
 const unsigned int WHITE            = 0xFFFFFF;     //White
+const unsigned int MENU_BLUE        = 0x1254AF;     //Blue for menu background
 
 //Screen Dimensions
 const int GAME_RIGHT                = 500;          //x coordinate for the right edge of the gameplay area

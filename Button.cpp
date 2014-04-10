@@ -3,7 +3,7 @@
  * Description: Implementation for the Button class, graphical objects which   *
  *              function as buttons                                            *
  * Date Created: 01 April 2014                                                 *
- * Date Last Modified: 02 April 2014                                           *
+ * Date Last Modified: 03 April 2014 - Matt Arnold                             *
  ******************************************************************************/
 
 #include "Button.h"
@@ -40,7 +40,7 @@ void Button::draw(GLUT_Plotter* g)
         for(int j = topLeft.y;
             j < bottomRight.y; j++)
         {
-            g->plot(i, j);
+            g->plot(i, SCREEN_HEIGHT - j);
         }
     }
 }
@@ -60,7 +60,7 @@ void Button::erase(GLUT_Plotter* g)
     {
         for(int j = topLeft.y; j < bottomRight.y; j++)
         {
-            g->plot(i, j);
+            g->plot(i, SCREEN_HEIGHT - j);
         }
     }
     
@@ -76,20 +76,29 @@ void Button::erase(GLUT_Plotter* g)
  ******************************************************************************/
 void Button::press(GLUT_Plotter* g)
 {
+    float pressTime = .22;
+    int times = clock();
     //erase existing button and redraw with different color
     erase(g);
-    color += 0x777777;
-    textColor += 0x777777;
+    color += 0x555555;
+    textColor += 0x555555;
     draw(g);
+    cout << hex << color << endl;
+    
+    g->Draw();
     
     //will probably add some kind of Sleep here
     
+    while(clock() < times + pressTime * CLOCKS_PER_SEC);
     
     //erase button and redraw with original color
     erase(g);
-    color -= 0x777777;
-    textColor -= 0x777777;
+    color -= 0x555555;
+    cout << hex << color << dec << endl;
+    textColor -= 0x555555;
     draw(g);
+    
+    g->Draw();
 }
 
 /*******************************************************************************
@@ -124,6 +133,29 @@ void Button::setText(string newText)
 {
     text = newText;
 }
+
+/*******************************************************************************
+ * Description: Setter for topLeft                                             *
+ * Return: void                                                                *
+ * Pre: object exists                                                          *
+ * Post: topLeft is assigned a Point b                                         *
+ ******************************************************************************/
+void Button::setTopLeft(Point a)
+{
+    topLeft = a;
+}
+
+/*******************************************************************************
+ * Description: Setter for bottomRight                                         *
+ * Return: void                                                                *
+ * Pre: object exists                                                          *
+ * Post: bottomRight is assigned a Point b                                     *
+ ******************************************************************************/
+void Button::setBottomRight(Point b)
+{
+    bottomRight = b;
+}
+
 /*******************************************************************************
  * Description: getter for color                                               *
  * Return: an unsigned integer value representing the color of the object      *
@@ -157,3 +189,36 @@ string Button::getText()
     return text;
 }
 
+/*******************************************************************************
+ * Description:
+ * Return:
+ * Pre:
+ * Post:
+ ******************************************************************************/
+Point Button::getTopLeft()
+{
+    return topLeft;
+}
+
+/*******************************************************************************
+ * Description:
+ * Return:
+ * Pre:
+ * Post:
+ ******************************************************************************/
+Point Button::getBottomRight()
+{
+    return bottomRight;
+}
+
+/*******************************************************************************
+ * Description: Checks wheter a Point is within the space occupied by a Button *
+ * Return: true if the Point is inside the Button's area, false otherwise      *
+ * Pre: object exists                                                          *
+ * Post: object unchanged                                                      *
+ ******************************************************************************/
+bool Button::isInRange(Point a)
+{
+    return a.x > topLeft.x && a.y > topLeft.y &&
+           a.x < bottomRight.x && a.y < bottomRight.y;
+}

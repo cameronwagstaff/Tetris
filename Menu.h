@@ -4,7 +4,7 @@
  * Assignment Description:
  * Due Date:
  * Date Created: 01 April 2014
- * Date Last Modified: 02 April 2014 - Matt Arnold
+ * Date Last Modified: 08 April 2014 - Matt Arnold
  */
 
 
@@ -19,11 +19,16 @@ class Menu
 {
 private:
     Button startButton, viewScores;
+    bool running;
     
 public:
     Menu();
     void draw(GLUT_Plotter *g);
     void erase(GLUT_Plotter *g);
+    void run(GLUT_Plotter *g);
+    Button getStartButton();
+    Button getViewScores();
+    bool operator !();
 };
 
 #endif

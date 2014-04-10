@@ -3,7 +3,7 @@
  * Description: Defines a Point struct to represent a point on the screen with *
  *              x and y coordinates                                            *
  * Date Created: 02 April 2014                                                 *
- * Date Last Modified: 02 April 2014 - Matt Arnold                             *
+ * Date Last Modified: 03 April 2014 - Matt Arnold                             *
  ******************************************************************************/
 
 
@@ -37,6 +37,18 @@ struct Point
         
         this->x = x;
         this->y = y;
+    }
+    
+    /***************************************************************************
+     * Description: Constructs a Point object from a Click
+     * Return: none
+     * Pre: Click object exists, x and y are within screen range
+     * Post: Point object is created with x c.x and y c.y
+     **************************************************************************/
+    Point(Click c)
+    {
+        this->x = c.x;
+        this->y = c.y;
     }
 };
 
