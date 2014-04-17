@@ -53,16 +53,16 @@ Piece::Piece(int pieceType)
             break;
 
         case J:
-            p1.x = SCREEN_WIDTH / 2;
+            p1.x = MAX_ROWS / 2;
             p1.y = 0;
 
-            p2.x = SCREEN_WIDTH / 2;
+            p2.x = MAX_ROWS / 2;
             p2.y = 1;
 
-            p3.x = SCREEN_WIDTH / 2;
+            p3.x = MAX_ROWS / 2;
             p3.y = 2;
 
-            p4.x = (SCREEN_WIDTH / 2) - 1;
+            p4.x = (MAX_ROWS / 2) - 1;
             p4.y = 3;
 
             break;
