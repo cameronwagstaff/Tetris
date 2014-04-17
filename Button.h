@@ -4,7 +4,7 @@
  * Assignment Description:
  * Due Date:
  * Date Created: 01 April 2014
- * Date Last Modified: 02 April 2014 - Matt Arnold
+ * Date Last Modified: 10 April 2014 - Matt Arnold
  ******************************************************************************/
 
 
@@ -16,36 +16,30 @@
 #include "GLUT_Plotter.h"
 #include "Point.h"
 #include "Constants.h"
+#include "Rectangle.h"
 
 using namespace std;
 
 const int BUTTON_LENGTH = 310;
 const int BUTTON_WIDTH = 50;
 
-class Button
+class Button : public Rectangle
 {
     private:
-        unsigned int color, textColor;
-        Point topLeft, bottomRight;
+        unsigned int textColor;
         string text;
     public:
         Button(string s = "TEXT", Point tl = Point(0,0),
                Point br = Point(BUTTON_LENGTH, BUTTON_WIDTH),
                unsigned int color = WHITE, unsigned int textColor = BLACK);
+        ~Button();
         void draw(GLUT_Plotter* g);
         void erase(GLUT_Plotter* g);
         void press(GLUT_Plotter* g);
-        void setColor(unsigned int newColor);
         void setTextColor(unsigned int newTextColor);
         void setText(string newText);
-        void setTopLeft(Point a);
-        void setBottomRight(Point b);
-        unsigned int getColor();
         unsigned int getTextColor();
         string getText();
-        Point getTopLeft();
-        Point getBottomRight();
-        bool isInRange(Point a);
     
 };
 

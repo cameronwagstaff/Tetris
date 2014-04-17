@@ -1,8 +1,8 @@
 /*******************************************************************************
- * Author: Matt Arnold
- * Description:
- * Date Created: 07 April 2014
- * Date Last Modified: 07 April 2014 - Matt Arnold
+ * Author: Matt Arnold                                                         *
+ * Description: Defines a Player struct to hold data about a player            *
+ * Date Created: 07 April 2014                                                 *
+ * Date Last Modified: 10 April 2014 - Matt Arnold                             *
  ******************************************************************************/
 
 #ifndef __Player__
@@ -19,8 +19,10 @@ struct Player
     
     Player(string name);
     double pointsPerGame() const;
+    void addGame(int score);
     bool operator < (const Player& other) const;
     bool operator == (const Player& other) const;
+    bool operator > (const Player& other) const;
 };
 
 

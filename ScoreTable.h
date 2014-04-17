@@ -2,7 +2,7 @@
  * Author: Matt Arnold
  * Description:
  * Date Created: 07 April 2014
- * Date Last Modified: 07 April 2014 - Matt Arnold
+ * Date Last Modified: 10 April 2014 - Matt Arnold
  ******************************************************************************/
 
 #ifndef Tetris_ScoreTable_h
@@ -24,6 +24,7 @@ class ScoreTable
     public:
         ScoreTable();
         ScoreTable& addPlayer(string);
+        ScoreTable& addPlayer(Player p);
         void draw(GLUT_Plotter *g);
         int search(Player key);
         int search(string key);

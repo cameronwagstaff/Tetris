@@ -10,6 +10,7 @@
 #ifndef Tetris_Point_h
 #define Tetris_Point_h
 
+#include "GLUT_Plotter.h"
 #include "Constants.h"
 
 //OffScreen is an exception class to be thrown when a Point is made that is

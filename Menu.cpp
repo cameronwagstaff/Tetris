@@ -1,33 +1,33 @@
 /*******************************************************************************
- * Author: Matt Arnold
- * Assignment Title:
- * Assignment Description:
- * Due Date:
- * Date Created: 01 April 2014
- * Date Last Modified: 08 April 2014 - Matt Arnold
+ * Author: Matt Arnold                                                         *
+ * Description: Implements the Menu class, which handles the game menu         *
+ * Date Created: 01 April 2014                                                 *
+ * Date Last Modified: 10 April 2014 - Matt Arnold                             *
  ******************************************************************************/
 
 #include "Menu.h"
 
 /*******************************************************************************
- * Description:
- * Return:
- * Pre:
- * Post:
+ * Description: Constructor for the Menu class, initializes buttons            *
+ * Return: nothing                                                             *
+ * Pre: Object exists                                                          *
+ * Post: Object unchanged                                                      *
  ******************************************************************************/
 Menu::Menu()
 //use initialization list to invoke constructors for Buttons with arguments
-: startButton("Start Game", Point(95, 320), Point(95 + BUTTON_LENGTH, 320 + BUTTON_WIDTH), BLACK),
-  viewScores("View High Scores",Point(95, 420), Point(95 + BUTTON_LENGTH, 420 + BUTTON_WIDTH))
+: startButton("Start Game", Point(95, 320),
+              Point(95 + BUTTON_LENGTH, 320 + BUTTON_WIDTH), MENU_BUTTON_COLOR),
+  viewScores("View High Scores",Point(95, 420),
+             Point(95 + BUTTON_LENGTH, 420 + BUTTON_WIDTH), MENU_BUTTON_COLOR)
 {
-    //Empty block
+    running = true;
 }
 
 /*******************************************************************************
- * Description:
- * Return:
- * Pre:
- * Post:
+ * Description: Draws the menu to the screen                                   *
+ * Return: void                                                                *
+ * Pre: Object exists                                                          *
+ * Post: Object unchanged                                                      *
  ******************************************************************************/
 void Menu::draw(GLUT_Plotter *g)
 {
@@ -47,32 +47,59 @@ void Menu::draw(GLUT_Plotter *g)
 }
 
 /*******************************************************************************
- * Description:
- * Return:
- * Pre:
- * Post:
+ * Description: erases the menu                                                *
+ * Return: void                                                                *
+ * Pre: object exists                                                          *
+ * Post: object unchanged                                                      *
  ******************************************************************************/
 void Menu::erase(GLUT_Plotter *g)
 {
-    
-    
     //Erase Buttons
     startButton.erase(g);
     viewScores.erase(g);
 }
 
-Button Menu::getStartButton()
+/*******************************************************************************
+ * Description: accessor for startButton Button                                *
+ * Return: a reference to startButton                                          *
+ * Pre: object exists                                                          *
+ * Post: object unchanged                                                      *
+ ******************************************************************************/
+Button& Menu::getStartButton()
 {
     return startButton;
 }
 
-Button Menu::getViewScores()
+/*******************************************************************************
+ * Description: accessor for viewScores Button                                 *
+ * Return: a reference to viewScores                                           *
+ * Pre: object exists                                                          *
+ * Post: object unchanged                                                      *
+ ******************************************************************************/
+Button& Menu::getViewScores()
 {
     return viewScores;
 }
 
-bool Menu::operator!()
+/*******************************************************************************
+ * Description: allows Menu object to be treated as a boolean variable         *
+ * Return: true if menu should be running, false otherwise                     *
+ * Pre: object exists                                                          *
+ * Post: object unchaged                                                       *
+ ******************************************************************************/
+Menu::operator bool()
 {
-    return !running;
+    return running;
+}
+
+/*******************************************************************************
+ * Description: Sets the boolean variable running                              *
+ * Return: void                                                                *
+ * Pre: object exists                                                          *
+ * Post: the value of running is assigned the value of a                       *
+ ******************************************************************************/
+void Menu::setRun(bool a)
+{
+    running = a;
 }
 

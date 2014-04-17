@@ -2,7 +2,7 @@
  * Author: Matt Arnold                                                         *
  * Description: Contains various constants to be used in the Tetris game       *
  * Date Created:02 April 2014                                                  *
- * Date Last Modified:02 April 2014 - Matt Arnold                              *
+ * Date Last Modified:10 April 2014 - Matt Arnold                              *
  ******************************************************************************/
 
 
@@ -19,7 +19,8 @@ const unsigned int BACKGROUND_WHITE = 0xFBFBFF;     //White background for gamep
 const unsigned int BACKGROUND_GRAY  = 0xADADAD;     //Gray background for main window colour
 const unsigned int BLACK            = 0x000000;     //Black
 const unsigned int WHITE            = 0xFFFFFF;     //White
-const unsigned int MENU_BLUE        = 0x1254AF;     //Blue for menu background
+const unsigned int MENU_BLUE        = 0x02449F;     //Blue for menu background
+const unsigned int MENU_BUTTON_COLOR= 0xddbd00;     //Color for buttons in menu
 
 //Screen Dimensions
 const int GAME_RIGHT                = 500;          //x coordinate for the right edge of the gameplay area

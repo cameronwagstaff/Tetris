@@ -1,10 +1,9 @@
-/*
- * Tetris.cpp
- *
- *  Created on: Mar 31, 2014
- *  Modified on: Mar 31, 2014
- *  Author: D. Booth
- */
+/*******************************************************************************
+ * Author: Dr. Booth, Matt Arnold                                              *
+ * Description: Does the Tetris                                                *
+ * Created on: Mar 31, 2014                                                    *
+ * Last Modified: 10 April 2014 - Matt Arnold                                  *
+ ******************************************************************************/
 
 #include "Tetris.h"
 
@@ -33,9 +32,13 @@ Tetris::Tetris(GLUT_Plotter* g)
 void Tetris::Play(void)
 {
     drawGame();
-    m.draw(g);
     
-	//Check for Keyboard Hit
+    if(m)
+    {
+        m.draw(g);
+    }
+    
+    //Check for Keyboard Hit
 	while(g->kbhit())
     {
 		int k = g->getKey();
@@ -56,11 +59,12 @@ void Tetris::Play(void)
 		c = g->getClick();
         cout << c.x << " " << c.y << endl;
         
-        if(m.getStartButton().isInRange(Point(c)))
+        if(m && m.getStartButton().isInRange(Point(c)))
         {
             m.getStartButton().press(g);
+            m.setRun(false);
         }
-        if(m.getViewScores().isInRange(Point(c)))
+        if(m && m.getViewScores().isInRange(Point(c)))
             m.getViewScores().press(g);
     }
     
@@ -69,6 +73,12 @@ void Tetris::Play(void)
 	g->Draw();
 }
 
+/*******************************************************************************
+ * Description: Draws the basic gameplay screen                                *
+ * Return: void                                                                *
+ * Pre: Tetris exists, God transcends us                                       *
+ * Post: game drawn to screen                                                  *
+ ******************************************************************************/
 void Tetris::drawGame()
 {
     g->setColor(BACKGROUND_GRAY);
@@ -96,5 +106,9 @@ void Tetris::drawGame()
             g->plot(i, j);
         }
     }
+    
+    Rectangle b(Point(537, 75),Point(537+225, 75 + 100),(m)? MENU_BLUE :
+                                                              BACKGROUND_WHITE);
+    b.draw(g);
     
 }
