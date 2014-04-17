@@ -30,7 +30,8 @@ const int SCREEN_WIDTH              = 800;          //Width of the window
 const int SCREEN_HEIGHT             = 600;          //Height of the window
 
 //Booleans
-const bool MATT_IS_THE_BEST = true;                 //Just me being a narcissist
+const bool MATT_IS_THE_BEST = false;                 //Just me being a narcissist
+const bool JACOB_IS_REALLY_COOL = true;
 
 
 #endif
