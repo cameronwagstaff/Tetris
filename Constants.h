@@ -11,8 +11,21 @@
 
 using namespace std;
 
-//Type - enumerated type to represent the shape of the block.
-enum Type {I,J,S,T,L,O,Z};
+//Matrix Dimensions
+
+const int MAX_ROWS = 30;
+const int MAX_COLS = 50;
+const int MIN_ROWS = 0;
+const int MIN_COLS = 0;
+
+//pieceTypes - const integers for switch statements used in the piece class
+const int I = 0;
+const int J = 1;
+const int S = 2;
+const int T = 3;
+const int L = 4;
+const int O = 5;
+const int Z = 6;
 
 //Colors
 const unsigned int BACKGROUND_WHITE = 0xFBFBFF;     //White background for gameplay area
@@ -31,6 +44,5 @@ const int SCREEN_HEIGHT             = 600;          //Height of the window
 
 //Booleans
 const bool MATT_IS_THE_BEST = true;                 //Just me being a narcissist
-
 
 #endif

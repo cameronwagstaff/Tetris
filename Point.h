@@ -12,6 +12,7 @@
 
 #include "GLUT_Plotter.h"
 #include "Constants.h"
+#include "GLUT_Plotter.h"
 
 //OffScreen is an exception class to be thrown when a Point is made that is
 //outside the boudaries of the display window
@@ -20,7 +21,7 @@ class OffScreen{};
 struct Point
 {
     int x, y;
-    
+
     /***************************************************************************
      * Description: Point object constructor                                   *
      * Return: none                                                            *
@@ -35,11 +36,11 @@ struct Point
         {
             throw(OffScreen());
         }
-        
+
         this->x = x;
         this->y = y;
     }
-    
+
     /***************************************************************************
      * Description: Constructs a Point object from a Click
      * Return: none
