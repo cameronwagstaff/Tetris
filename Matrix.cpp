@@ -1,3 +1,10 @@
+/******************************************************************************
+ * Author: John Daniel                                                        *
+ * Description: Implementation of Matrix Class                                *
+ * Date Created:16 April 2014                                                 *
+ * Date Last Modified:18 April 2014 - Matt Arnold                             *
+ *****************************************************************************/
+
 #include "Matrix.h"
 
 
@@ -28,6 +35,17 @@ Matrix::Matrix()
 ******************************************************************************/
 Matrix::~Matrix()
 {
+    //Destructer needs to touch all levels of the array
+    for(int i = 0; i < MAX_ROWS; i++)
+    {
+        for(int j = 0; j < MAX_COLS; j++)
+        {
+            delete [] matrix[i][j];
+        }
+        
+        delete [] matrix[i];
+    }
+    
     delete [] matrix;
 }
 
@@ -70,20 +88,29 @@ int Matrix::rowSum(int r)
 }
 
 /******************************************************************************
-* Description: Deletes the entire ROOOOW!                                     *
+* Description: Deletes the entire row!                                        *
 * Return: void                                                                *
 * Pre: The row is full and ready to be deleted                                *
 * Post: The row is deleted and ready to be shifted down                       *
 ******************************************************************************/
 void Matrix::deleteRow(int r)
-{
+{    
+    //Shift matrix down
+    shiftDown(r);
+    
+    //Set top row to NULL
     for (int c = MIN_COLS; c < MAX_COLS; c++)
     {
         ///////////////////////////////////////\
         // I think this is a hardcore leak/////\
         ///////////////////////////////////////\
+        
+        ///////////////////////////////////////\
+        // Nah man, I think you're good////////\
+        ///////////////////////////////////////\
+        
         //delete matrix[r][c];
-        matrix[r][c] = NULL;
+        matrix[MIN_ROWS][c] = NULL;
     }
     return;
 }
@@ -114,11 +141,23 @@ void Matrix::shiftDown(int r)
 ******************************************************************************/
 Matrix& Matrix::addShape(int r, int c, Shape& object)
 {
-    if (matrix[r][c] != NULL)
+    //If matrix already points to an object, we are trying to add something
+    //  where something is already present; throw LocationOccupied
+    if(matrix[r][c] != NULL)
+    {
+        throw(LocationOccupied(r, c));
+    }
+    
+    //Else, add object to the matrix
+    matrix[r][c] = &object;
+    
+    //Commented John's stuff out rather than deleting in case I'm crazy - Matt
+    /*//Add Shape if matrix[r][c] is null. else there is already something there
+    if (matrix[r][c] == NULL)
     {
         matrix[r][c] = &object;
     }
-    // else throw some kind of exception...too tired to think about that
+    // else throw some kind of exception...too tired to think about that*/
     return *this;
 }
 

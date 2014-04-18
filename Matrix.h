@@ -2,13 +2,40 @@
  * Author: John Daniel                                                        *
  * Description: Matrix Class, all you need in a Matrix 2.0! (2-D)             *
  * Date Created:16 April 2014                                                 *
- * Date Last Modified:16 April 2014 - John Daniel                             *
+ * Date Last Modified:18 April 2014 - Matt Arnold                             *
  *****************************************************************************/
 #ifndef TETRIS_MATRIX_H_
 #define TETRIS_MATRIX_H_
 
+#include <exception>
+#include <string>
+#include <sstream>
 #include "Constants.h"
 #include "Shape.h"
+
+//Exception class thrown if the user tries to add a shape to the matrix in
+//  a location that is already occupied
+//Note: I tried way too hard on this - Matt
+class LocationOccupied : public exception
+{
+    private:
+        int row, col;
+    public:
+        LocationOccupied(int r, int c)
+        {
+            row = r;
+            col = c;
+        }
+        const char* what()
+        {
+            std::stringstream ss;
+            
+            ss << "LocationOccupied: row " << row << " column " << col << endl;
+            
+            return ss.str().c_str();
+        }
+    
+};
 
 class Matrix
 {
