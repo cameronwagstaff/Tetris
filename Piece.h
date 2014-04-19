@@ -25,13 +25,23 @@ class Piece
         void moveRight();
         void moveLeft();
         void draw();
+        //might need to reconsider this mehtod. will work but overly complex code.
+        void setOrientation(int);
 
     private:
-        int Orientation;
+        int orientation;
         int color;
         int pieceType;
         Point p1, p2, p3, p4;
         bool rest;
+        //implement the rest piece type orientations??
+        void iOrientation(int);
+        void jOrientation(int);
+        void sOrientation(int);
+        void tOrientation(int);
+        void lOrientation(int);
+        void oOrientation(int);
+        void zOrientation(int);
 
 };
 

@@ -32,57 +32,67 @@ Return value:  None
 ******************************************************************************/
 Piece::Piece(int pieceType)
 {
+    orientation = 0;
+
     this->pieceType = pieceType;
 
     switch(pieceType)
     {
+        //I need to change this to set to orientation 1 of each type. this will make more readable.
         case I:
-            p1.x = SCREEN_WIDTH / 2;
-            p1.y = 0;
-
-            p2.x = SCREEN_WIDTH / 2;
+            p2.x = MAX_ROWS / 2;
             p2.y = 1;
 
-            p3.x = SCREEN_WIDTH / 2;
-            p3.y = 2;
-
-            p4.x = SCREEN_WIDTH / 2;
-            p4.y = 3;
-
+            iOrientation(0);
             //need to define colors in constants.h
             break;
 
         case J:
-            p1.x = MAX_ROWS / 2;
-            p1.y = 0;
 
             p2.x = MAX_ROWS / 2;
             p2.y = 1;
 
-            p3.x = MAX_ROWS / 2;
-            p3.y = 2;
+            jOrientation(0);
 
-            p4.x = (MAX_ROWS / 2) - 1;
-            p4.y = 3;
 
             break;
 
         case S:
+            p2.x = MAX_ROWS / 2;
+            p2.y = 1;
+
+            sOrientation(0);
             break;
 
         case T:
+            p2.x = MAX_ROWS / 2;
+            p2.y = 1;
+
+            tOrientation(0);
+
             break;
 
         case L:
+            p2.x = MAX_ROWS / 2;
+            p2.y = 1;
+
+            lOrientation(0);
             break;
 
         case O:
-            break;
+            p2.x = MAX_ROWS / 2;
+            p2.y = 1;
 
-        case Z:
+            oOrientation(0);
+
             break;
 
         default:
+            p2.x = MAX_ROWS / 2;
+            p2.y = 1;
+
+            zOrientation(0);
+
           break;
     }
 }
@@ -131,7 +141,13 @@ Return value:  None
 ******************************************************************************/
 void Piece::fall()
 {
-
+    if(!rest)
+    {
+        p1.y -= 1;
+        p2.y -= 1;
+        p3.y -= 1;
+        p4.y -= 1;
+    }
 }
 
 /******************************************************************************
@@ -143,7 +159,11 @@ Return value:  None
 ******************************************************************************/
 void Piece::moveRight()
 {
-
+    //in orientaion file may want to always put p1 te the far right block and p4 to the far right block to test movability simply
+    p1.x += 1;
+    p2.x += 1;
+    p3.x += 1;
+    p4.x += 1;
 }
 
 /******************************************************************************
@@ -155,7 +175,10 @@ Return value:  None
 ******************************************************************************/
 void Piece::moveLeft()
 {
-
+    p1.x -= 1;
+    p2.x -= 1;
+    p3.x -= 1;
+    p4.x -= 1;
 }
 
 /******************************************************************************
@@ -170,5 +193,108 @@ void Piece::draw()
 
 }
 
+void Piece::setOrientation(int newOrientation)
+{
+    switch(this->pieceType)
+    {
+
+        case I:
+            iOrientation(newOrientation);
+            break;
+
+        case J:
+            jOrientation(newOrientation);
+            break;
+
+        case S:
+            sOrientation(newOrientation);
+            break;
+
+        case T:
+            tOrientation(newOrientation);
+            break;
+
+        case L:
+            lOrientation(newOrientation);
+            break;
+
+        case O:
+            oOrientation(newOrientation);
+            break;
+
+        case Z:
+            zOrientation(newOrientation);
+            break;
+
+        default:
+          break;
+    }
+}
+
+void Piece::iOrientation(int newOrientation)
+{
+    switch(newOrientation)
+    {
+        case 0:
+            p1.x = p2.x;
+            p1.y = p2.y - 1;
+
+            p3.x = p2.x;
+            p3.y = p2.y + 1;
+
+            p4.x = p2.x;
+            p4.y = p2.y + 2;
+
+            break;
+
+        case 1:
+            p1.y = p2.y;
+            p1.x = p2.x - 1;
+
+            p3.y = p2.y;
+            p3.x = p2.x + 1;
+
+            p4.y = p2.y;
+            p4.x = p2.x + 2;
+
+            break;
+
+        case 2:
+            iOrientation(0);
+            break;
+        default:
+            iOrientation(1);
+    }
+}
+
+void Piece::jOrientation(int newOrientation)
+{
+
+}
+
+void Piece::sOrientation(int newOrientation)
+{
+
+}
+
+void Piece::tOrientation(int newOrientation)
+{
+
+}
+
+void Piece::lOrientation(int newOrientation)
+{
+
+}
+
+void Piece::oOrientation(int newOrientation)
+{
+
+}
+
+void Piece::zOrientation(int newOrientation)
+{
+
+}
 
 

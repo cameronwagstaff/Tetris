@@ -12,7 +12,6 @@
 using namespace std;
 
 //Matrix Dimensions
-
 const int MAX_ROWS = 30;
 const int MAX_COLS = 50;
 const int MIN_ROWS = 0;
