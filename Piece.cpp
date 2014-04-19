@@ -18,9 +18,9 @@ Return value:  None
 Piece::Piece()
 {
     color;
-    pieceType;
+    pieceType = I;
     Point p1, p2, p3, p4;
-    rest;
+    rest = false;
 }
 
 /******************************************************************************
@@ -36,65 +36,13 @@ Piece::Piece(int pieceType)
     rest = false;
     this->pieceType = pieceType;
 
-    switch(pieceType)
-    {
+    //set value for point 2
+    p2.x = MAX_ROWS / 2;
+    p2.y = 1;
 
-        case I:
-            p2.x = MAX_ROWS / 2;
-            p2.y = 1;
-
-            iOrientation(orientation);
-            //need to define colors in constants.h
-            break;
-
-        case J:
-
-            p2.x = MAX_ROWS / 2;
-            p2.y = 1;
-
-            jOrientation(orientation);
-
-
-            break;
-
-        case S:
-            p2.x = MAX_ROWS / 2;
-            p2.y = 1;
-
-            sOrientation(orientation);
-            break;
-
-        case T:
-            p2.x = MAX_ROWS / 2;
-            p2.y = 1;
-
-            tOrientation(orientation);
-
-            break;
-
-        case L:
-            p2.x = MAX_ROWS / 2;
-            p2.y = 1;
-
-            lOrientation(orientation);
-            break;
-
-        case O:
-            p2.x = MAX_ROWS / 2;
-            p2.y = 1;
-
-            oOrientation(orientation);
-
-            break;
-
-        default:
-            p2.x = MAX_ROWS / 2;
-            p2.y = 1;
-
-            zOrientation(orientation);
-
-          break;
-    }
+    //set value and orientation for all ofther points
+    setOrientation(orientation);
+    setColor();
 }
 /******************************************************************************
 Function name:  ~Piece()
@@ -125,6 +73,8 @@ void Piece::rotateRight()
     {
         orientation++;
     }
+
+    setOrientation(orientation);
 }
 
 /******************************************************************************
@@ -144,6 +94,7 @@ void Piece::rotateLeft()
     {
         orientation--;
     }
+    setOrientation(orientation);
 }
 
 /******************************************************************************
@@ -207,6 +158,53 @@ void Piece::draw()
 
 }
 
+/******************************************************************************
+Function name:  setColor()
+Description:
+Precondition:  Object must exist.
+Postcondition:  Object is not changed
+Return value:  None
+******************************************************************************/
+void Piece::setColor()
+{
+    switch(pieceType)
+    {
+
+        case I:
+            color = CYAN;
+            break;
+
+        case J:
+            color = BLUE;
+            break;
+
+        case S:
+            color = GREEN;
+            break;
+
+        case T:
+            color = PURPLE;
+            break;
+
+        case L:
+            color = ORANGE;
+            break;
+
+        case O:
+            color = YELLOW;
+            break;
+
+        default:
+            color = RED;
+    }
+}
+/******************************************************************************
+Function name:  setOrientation()
+Description:  Sets correct orientation depending upon which pieceType.
+Precondition:  Object must exist.
+Postcondition:  Orientation of object is changed.
+Return value:  None
+******************************************************************************/
 void Piece::setOrientation(int newOrientation)
 {
     switch(this->pieceType)
@@ -245,6 +243,13 @@ void Piece::setOrientation(int newOrientation)
     }
 }
 
+/******************************************************************************
+Function name:  iOrientation()
+Description:  Orientation options for the I piece.
+Precondition:  Object must exist.
+Postcondition:  Orientation of object is changed.
+Return value:  None
+******************************************************************************/
 void Piece::iOrientation(int newOrientation)
 {
     switch(newOrientation)
@@ -281,6 +286,13 @@ void Piece::iOrientation(int newOrientation)
     }
 }
 
+/******************************************************************************
+Function name:  jOrientation()
+Description:  Orientation options for the J piece.
+Precondition:  Object must exist.
+Postcondition:  Orientation of object is changed.
+Return value:  None
+******************************************************************************/
 void Piece::jOrientation(int newOrientation)
 {
     switch(newOrientation)
@@ -332,6 +344,13 @@ void Piece::jOrientation(int newOrientation)
     }
 }
 
+/******************************************************************************
+Function name:  sOrientation()
+Description:  Orientation options for the S piece.
+Precondition:  Object must exist.
+Postcondition:  Orientation of object is changed.
+Return value:  None
+******************************************************************************/
 void Piece::sOrientation(int newOrientation)
 {
     switch(newOrientation)
@@ -369,11 +388,71 @@ void Piece::sOrientation(int newOrientation)
     }
 }
 
+/******************************************************************************
+Function name:  tOrientation()
+Description:  Orientation options for the T piece.
+Precondition:  Object must exist.
+Postcondition:  Orientation of object is changed.
+Return value:  None
+******************************************************************************/
 void Piece::tOrientation(int newOrientation)
 {
+    switch(newOrientation)
+    {
+        case 0:
+            p1.x = p2.x - 1;
+            p1.y = p2.y;
 
+            p3.x = p2.x;
+            p3.y = p2.y + 1;
+
+            p4.x = p2.x + 1;
+            p4.y = p2.y;
+
+            break;
+
+        case 1:
+            p1.y = p2.y;
+            p1.x = p2.x - 1;
+
+            p3.y = p2.y + 1;
+            p3.x = p2.x;
+
+            p4.y = p2.y - 1;
+            p4.x = p2.x;
+
+            break;
+
+        case 2:
+            p1.y = p2.y;
+            p1.x = p2.x - 1;
+
+            p3.y = p2.y + 1;
+            p3.x = p2.x;
+
+            p4.y = p2.y - 1;
+            p4.x = p2.x;
+
+            break;
+        default:
+            p1.y = p2.y - 1;
+            p1.x = p2.x;
+
+            p3.y = p2.y - 1;
+            p3.x = p2.x;
+
+            p4.y = p2.y;
+            p4.x = p2.x + 1;
+    }
 }
 
+/******************************************************************************
+Function name:  lOrientation()
+Description:  Orientation options for the L piece.
+Precondition:  Object must exist.
+Postcondition:  Orientation of object is changed.
+Return value:  None
+******************************************************************************/
 void Piece::lOrientation(int newOrientation)
 {
     switch(newOrientation)
@@ -425,6 +504,13 @@ void Piece::lOrientation(int newOrientation)
     }
 }
 
+/******************************************************************************
+Function name:  oOrientation()
+Description:  Orientation options for the O piece.
+Precondition:  Object must exist.
+Postcondition:  Orientation of object is changed.
+Return value:  None
+******************************************************************************/
 void Piece::oOrientation(int newOrientation)
 {
 
@@ -439,6 +525,13 @@ void Piece::oOrientation(int newOrientation)
 
 }
 
+/******************************************************************************
+Function name:  zOrientation()
+Description:  Orientation options for the Z piece.
+Precondition:  Object must exist.
+Postcondition:  Orientation of object is changed.
+Return value:  None
+******************************************************************************/
 void Piece::zOrientation(int newOrientation)
 {
     switch(newOrientation)

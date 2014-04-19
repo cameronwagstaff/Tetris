@@ -26,6 +26,15 @@ const int L = 4;
 const int O = 5;
 const int Z = 6;
 
+//Piece Colors
+const unsigned int CYAN   = 0x00FFFF;
+const unsigned int PURPLE = 0x6600FF;
+const unsigned int GREEN  = 0x00FF00;
+const unsigned int RED    = 0xFF0000;
+const unsigned int BLUE   = 0x0000FF;
+const unsigned int YELLOW = 0xFFFF00;
+const unsigned int ORANGE = 0xFF6600;
+
 //Colors
 const unsigned int BACKGROUND_WHITE = 0xFBFBFF;     //White background for gameplay area
 const unsigned int BACKGROUND_GRAY  = 0xADADAD;     //Gray background for main window colour
