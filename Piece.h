@@ -4,7 +4,7 @@ File Name:  Piece.h
 Description:  Defines the Piece class. Includes prototypes of functions
               and private fields.
 Date Created:  April 16, 2014
-Date Last Modified:  April 16, 2014 - Created - Brennan Saul
+Date Last Modified:  April 19, 2014 - Created - Brennan Saul
 ******************************************************************************/
 
 #ifndef PIECE_H_INCLUDED

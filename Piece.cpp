@@ -3,7 +3,7 @@ Author:  Brennan Saul
 File Name:  Piece.cpp
 Description:  Implements the Piece class.
 Date Created:  April 16, 2014
-Date Last Modified:  April 16, 2014 - Created - Brennan Saul
+Date Last Modified:  April 19, 2014 - Created - Brennan Saul
 ******************************************************************************/
 
 #include "Piece.h"
@@ -33,17 +33,17 @@ Return value:  None
 Piece::Piece(int pieceType)
 {
     orientation = 0;
-
+    rest = false;
     this->pieceType = pieceType;
 
     switch(pieceType)
     {
-        //I need to change this to set to orientation 1 of each type. this will make more readable.
+
         case I:
             p2.x = MAX_ROWS / 2;
             p2.y = 1;
 
-            iOrientation(0);
+            iOrientation(orientation);
             //need to define colors in constants.h
             break;
 
@@ -52,7 +52,7 @@ Piece::Piece(int pieceType)
             p2.x = MAX_ROWS / 2;
             p2.y = 1;
 
-            jOrientation(0);
+            jOrientation(orientation);
 
 
             break;
@@ -61,14 +61,14 @@ Piece::Piece(int pieceType)
             p2.x = MAX_ROWS / 2;
             p2.y = 1;
 
-            sOrientation(0);
+            sOrientation(orientation);
             break;
 
         case T:
             p2.x = MAX_ROWS / 2;
             p2.y = 1;
 
-            tOrientation(0);
+            tOrientation(orientation);
 
             break;
 
@@ -76,14 +76,14 @@ Piece::Piece(int pieceType)
             p2.x = MAX_ROWS / 2;
             p2.y = 1;
 
-            lOrientation(0);
+            lOrientation(orientation);
             break;
 
         case O:
             p2.x = MAX_ROWS / 2;
             p2.y = 1;
 
-            oOrientation(0);
+            oOrientation(orientation);
 
             break;
 
@@ -91,7 +91,7 @@ Piece::Piece(int pieceType)
             p2.x = MAX_ROWS / 2;
             p2.y = 1;
 
-            zOrientation(0);
+            zOrientation(orientation);
 
           break;
     }
@@ -117,7 +117,14 @@ Return value:  None
 ******************************************************************************/
 void Piece::rotateRight()
 {
-
+    if(orientation == 3)
+    {
+        orientation = 0;
+    }
+    else
+    {
+        orientation++;
+    }
 }
 
 /******************************************************************************
@@ -129,7 +136,14 @@ Return value:  None
 ******************************************************************************/
 void Piece::rotateLeft()
 {
-
+    if(orientation == 0)
+    {
+        orientation = 3;
+    }
+    else
+    {
+        orientation--;
+    }
 }
 
 /******************************************************************************
@@ -269,12 +283,90 @@ void Piece::iOrientation(int newOrientation)
 
 void Piece::jOrientation(int newOrientation)
 {
+    switch(newOrientation)
+    {
+        case 0:
+            p1.x = p2.x - 1;
+            p1.y = p2.y + 1;
 
+            p3.x = p2.x;
+            p3.y = p2.y + 1;
+
+            p4.x = p2.x;
+            p4.y = p2.y -1;
+
+            break;
+
+        case 1:
+            p1.y = p2.y - 1;
+            p1.x = p2.x - 1;
+
+            p3.y = p2.y;
+            p3.x = p2.x - 1;
+
+            p4.y = p2.y;
+            p4.x = p2.x + 1;
+
+            break;
+
+        case 2:
+            p1.y = p2.y + 1;
+            p1.x = p2.x;
+
+            p3.y = p2.y - 1;
+            p3.x = p2.x;
+
+            p4.y = p2.y - 1;
+            p4.x = p2.x + 1;
+
+            break;
+        default:
+            p1.y = p2.y;
+            p1.x = p2.x - 1;
+
+            p3.y = p2.y;
+            p3.x = p2.x + 1;
+
+            p4.y = p2.y + 1;
+            p4.x = p2.x + 1;
+    }
 }
 
 void Piece::sOrientation(int newOrientation)
 {
+    switch(newOrientation)
+    {
+        case 0:
+            p1.x = p2.x - 1;
+            p1.y = p2.y;
 
+            p3.x = p2.x;
+            p3.y = p2.y - 1;
+
+            p4.x = p2.x + 1;
+            p4.y = p2.y -1;
+
+            break;
+
+        case 1:
+            p1.y = p2.y - 1;
+            p1.x = p2.x;
+
+            p3.y = p2.y;
+            p3.x = p2.x + 1;
+
+            p4.y = p2.y - 1;
+            p4.x = p2.x + 1;
+
+            break;
+
+        case 2:
+            sOrientation(0);
+
+            break;
+        default:
+            sOrientation(1);
+    }
 }
 
 void Piece::tOrientation(int newOrientation)
@@ -284,17 +376,104 @@ void Piece::tOrientation(int newOrientation)
 
 void Piece::lOrientation(int newOrientation)
 {
+    switch(newOrientation)
+    {
+        case 0:
+            p1.x = p2.x;
+            p1.y = p2.y - 1;
 
+            p3.x = p2.x;
+            p3.y = p2.y + 1;
+
+            p4.x = p2.x + 1;
+            p4.y = p2.y + 1;
+
+            break;
+
+        case 1:
+            p1.y = p2.y + 1;
+            p1.x = p2.x - 1;
+
+            p3.y = p2.y;
+            p3.x = p2.x - 1;
+
+            p4.y = p2.y;
+            p4.x = p2.x + 1;
+
+            break;
+
+        case 2:
+            p1.y = p2.y - 1;
+            p1.x = p2.x - 1;
+
+            p3.y = p2.y - 1;
+            p3.x = p2.x;
+
+            p4.y = p2.y + 1;
+            p4.x = p2.x;
+
+            break;
+        default:
+            p1.y = p2.y;
+            p1.x = p2.x - 1;
+
+            p3.y = p2.y;
+            p3.x = p2.x + 1;
+
+            p4.y = p2.y - 1;
+            p4.x = p2.x + 1;
+    }
 }
 
 void Piece::oOrientation(int newOrientation)
 {
 
+    p1.x = p2.x;
+    p1.y = p2.y - 1;
+
+    p3.x = p2.x + 1;
+    p3.y = p2.y - 1;
+
+    p4.x = p2.x + 1;
+    p4.y = p2.y;
+
 }
 
 void Piece::zOrientation(int newOrientation)
 {
+    switch(newOrientation)
+    {
+        case 0:
+            p1.x = p2.x - 1;
+            p1.y = p2.y - 1;
 
+            p3.x = p2.x;
+            p3.y = p2.y - 1;
+
+            p4.x = p2.x + 1;
+            p4.y = p2.y;
+
+            break;
+
+        case 1:
+            p1.y = p2.y + 1;
+            p1.x = p2.x - 1;
+
+            p3.y = p2.y;
+            p3.x = p2.x - 1;
+
+            p4.y = p2.y - 1;
+            p4.x = p2.x;
+
+            break;
+
+        case 2:
+            sOrientation(0);
+
+            break;
+        default:
+            sOrientation(1);
+    }
 }
 
 

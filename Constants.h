@@ -2,7 +2,7 @@
  * Author: Matt Arnold                                                         *
  * Description: Contains various constants to be used in the Tetris game       *
  * Date Created:02 April 2014                                                  *
- * Date Last Modified:10 April 2014 - Matt Arnold                              *
+ * Date Last Modified:19 April 2014 - Brennan Saul                             *
  ******************************************************************************/
 
 
