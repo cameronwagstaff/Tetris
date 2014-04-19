@@ -160,9 +160,9 @@ void Piece::draw()
 
 /******************************************************************************
 Function name:  setColor()
-Description:
+Description: Sets the piece's color dependent on t\piece type.
 Precondition:  Object must exist.
-Postcondition:  Object is not changed
+Postcondition:  Object color added
 Return value:  None
 ******************************************************************************/
 void Piece::setColor()
