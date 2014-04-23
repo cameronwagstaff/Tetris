@@ -2,14 +2,14 @@
  * Author: Dr. Booth, Matt Arnold                                              *
  * Description: Does the Tetris                                                *
  * Created on: Mar 31, 2014                                                    *
- * Last Modified: 10 April 2014 - Matt Arnold                                  *
+ * Last Modified: 22 April 2014 - Matt Arnold                                  *
  ******************************************************************************/
 
 #include "Tetris.h"
 #include "Rectangle.h"
 //Tetris Constructor
 
-Tetris::Tetris(GLUT_Plotter* g)
+Tetris::Tetris(GLUT_Plotter* g) : matrix(g)
 {
 	this->g = g;
 
@@ -31,12 +31,25 @@ Tetris::Tetris(GLUT_Plotter* g)
 //Tetris Main Game Loop
 void Tetris::Play(void)
 {
+    static double time = clock();
+    
     drawGame();
 
     if(m)
     {
         m.draw(g);
     }
+    else
+    {
+        if(clock() >= time + .75 * static_cast<double>(CLOCKS_PER_SEC))
+           {
+               current.erase(g);
+               current.fall();
+               time = clock();
+           }
+        current.draw(g);
+    }
+    
 
     //Check for Keyboard Hit
 	while(g->kbhit())
@@ -44,8 +57,12 @@ void Tetris::Play(void)
 		int k = g->getKey();
 		switch (k)
         {
-            case 27: exit(1); //ESC key
-                break;
+            case  27: exit(1); break;
+            case 164: current.moveLeft(); break;
+            case 166: current.moveRight(); break;
+            case 167: current.rotateLeft(); break;
+            case 165: current.rotateRight(); break;
+            case 32 : current.fall(); break;       //Space Bar    
             default: cout << k << endl;
 		}
 	}
@@ -106,6 +123,4 @@ void Tetris::drawGame()
             g->plot(i, j);
         }
     }
-
-
 }
