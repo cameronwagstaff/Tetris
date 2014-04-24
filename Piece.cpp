@@ -3,8 +3,9 @@ Author:  Brennan Saul
 File Name:  Piece.cpp
 Description:  Implements the Piece class.
 Date Created:  April 16, 2014
-Date Last Modified:  April 23, 2014 - Created - Brennan Saul
+Date Last Modified:  April 16, 2014 - Created - Brennan Saul
 Date Last Modified:  April 22, 2014 - Matt Arnold
+Date LAst Modified:  April 24, 2014 - Brennan Saul
 ******************************************************************************/
 #include "Piece.h"
 #include "Square.h"
@@ -94,6 +95,7 @@ Piece& Piece::operator=(const Piece &other)
         setOrientation(orientation);
         setColor();
     }
+    return *this;
 }
 
 
@@ -203,18 +205,14 @@ Return value:  None
 
 void Piece::moveLeft()
 {
-    //if(p1.x > MIN_COLS)
-    //{
-        //p1.x -= 1;
-        //p2.x -= 1;
-        //p3.x -= 1;
-        //p4.x -= 1;
-    //}
-    //add wall check
-    for(int i = 0; i < 4; i++)
+    //Wall not perfect but its a start!
+    if(squares[0]->getCenter().x > MIN_COLS + SQUARE_WIDTH)
     {
-        squares[i]->shiftLeft();
-    }
+        for(int i = 0; i < 4; i++)
+        {
+            squares[i]->shiftLeft();
+        }
+   }
 }
 
 /******************************************************************************
