@@ -33,10 +33,16 @@ class Piece
         void fall();
         void moveRight();
         void moveLeft();
+<<<<<<< HEAD
         void draw();
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 73b5a12792a91007b2ddc752109a08b2651599df
         void draw(GLUT_Plotter *g);
         void erase(GLUT_Plotter *g);
         void setOrientation(int);
+>>>>>>> 5e853c804c482acf6d8882c0b8dc7a096f368259
         void setColor();
         void setType(int newType);
         void setPosition(Point newCenter);
@@ -60,9 +66,19 @@ class Piece
         void lOrientation(int);
         void oOrientation(int);
         void zOrientation(int);
+<<<<<<< HEAD
         //moved setOrientation in to the private function becuase it is only
         //used within functions such as constructors and turns
         //void setOrientation(int);
+=======
+<<<<<<< HEAD
+        //moved setOrientation in to the private function becuase it is only
+        //used within functions such as constructors and turns
+        void setOrientation(int);
+
+=======
+>>>>>>> 5e853c804c482acf6d8882c0b8dc7a096f368259
+>>>>>>> 73b5a12792a91007b2ddc752109a08b2651599df
 };
 
 
