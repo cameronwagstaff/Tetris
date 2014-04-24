@@ -17,15 +17,14 @@ Return value:  None
 ******************************************************************************/
 Piece::Piece()
 {
-    srand(time(0));
-    pieceType = rand() & 6;
+    pieceType = rand() % 6;
     
     for(int i = 0; i < 4; i++)
     {
         squares[i] = new Square;
     }
     
-    squares[1]->setCenter(Point((GAME_RIGHT - BORDER_WIDTH) / 2, SQUARE_WIDTH + BORDER_WIDTH));
+    squares[1]->setCenter(PIECE_START);
     
     setColor();
     
@@ -112,7 +111,7 @@ void Piece::rotateRight()
     }
     else
     {
-        orientation++;
+        orientation += 1;
     }
 
     setOrientation(orientation);
@@ -133,8 +132,9 @@ void Piece::rotateLeft()
     }
     else
     {
-        orientation--;
+        orientation -= 1;
     }
+    
     setOrientation(orientation);
 }
 
@@ -318,7 +318,7 @@ Precondition:  Object must exist.
 Postcondition:  Orientation of object is changed.
 Return value:  None
 ******************************************************************************/
-void Piece::iOrientation(int newOrientation)
+void Piece::iOrientation(int newOrientation)    //Flawless
 {
     switch(newOrientation)
     {
@@ -374,7 +374,7 @@ Precondition:  Object must exist.
 Postcondition:  Orientation of object is changed.
 Return value:  None
 ******************************************************************************/
-void Piece::jOrientation(int newOrientation)
+void Piece::jOrientation(int newOrientation)    //Flawless
 {
     switch(newOrientation)
     {
@@ -456,7 +456,7 @@ void Piece::jOrientation(int newOrientation)
             //p3.y = p2.y;
             //p3.x = p2.x + 1;
             
-            squares[0]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
+            squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
                                         squares[1]->getCenter().y + SQUARE_WIDTH));
 
             //p4.y = p2.y + 1;
@@ -471,7 +471,7 @@ Precondition:  Object must exist.
 Postcondition:  Orientation of object is changed.
 Return value:  None
 ******************************************************************************/
-void Piece::sOrientation(int newOrientation)
+void Piece::sOrientation(int newOrientation)    //Flawlessish
 {
     switch(newOrientation)
     {
@@ -500,7 +500,8 @@ void Piece::sOrientation(int newOrientation)
         case 1:
             
             squares[0]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y - SQUARE_WIDTH));
+                                        squares[1]->getCenter().y -
+                                        SQUARE_WIDTH));
             
             //p1.y = p2.y - 1;
             //p1.x = p2.x;
@@ -512,7 +513,7 @@ void Piece::sOrientation(int newOrientation)
             //p3.x = p2.x + 1;
             
             squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
-                                        squares[1]->getCenter().y - SQUARE_WIDTH));
+                                        squares[1]->getCenter().y + SQUARE_WIDTH));
 
             //p4.y = p2.y - 1;
             //p4.x = p2.x + 1;
@@ -535,7 +536,7 @@ Precondition:  Object must exist.
 Postcondition:  Orientation of object is changed.
 Return value:  None
 ******************************************************************************/
-void Piece::tOrientation(int newOrientation)
+void Piece::tOrientation(int newOrientation)    //Flawless
 {
     switch(newOrientation)
     {
@@ -592,13 +593,13 @@ void Piece::tOrientation(int newOrientation)
             //p1.x = p2.x - 1;
             
             squares[2]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y + SQUARE_WIDTH));
+                                        squares[1]->getCenter().y - SQUARE_WIDTH));
 
             //p3.y = p2.y + 1;
             //p3.x = p2.x;
             
-            squares[3]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y - SQUARE_WIDTH));
+            squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
+                                        squares[1]->getCenter().y));
 
             //p4.y = p2.y - 1;
             //p4.x = p2.x;
@@ -607,7 +608,7 @@ void Piece::tOrientation(int newOrientation)
         default:
             
             squares[0]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y - SQUARE_WIDTH));
+                                        squares[1]->getCenter().y + SQUARE_WIDTH));
             
             //p1.y = p2.y - 1;
             //p1.x = p2.x;
@@ -633,7 +634,7 @@ Precondition:  Object must exist.
 Postcondition:  Orientation of object is changed.
 Return value:  None
 ******************************************************************************/
-void Piece::lOrientation(int newOrientation)
+void Piece::lOrientation(int newOrientation)    //Flawless
 {
     switch(newOrientation)
     {
@@ -729,20 +730,20 @@ Precondition:  Object must exist.
 Postcondition:  Orientation of object is changed.
 Return value:  None
 ******************************************************************************/
-void Piece::oOrientation(int newOrientation)
+void Piece::oOrientation(int newOrientation)    //Flawless
 {
     squares[0]->setCenter(Point(squares[1]->getCenter().x,
                                 squares[1]->getCenter().y - SQUARE_WIDTH));
     //p1.x = p2.x;
     //p1.y = p2.y - 1;
     
-    squares[0]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
+    squares[2]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
                                 squares[1]->getCenter().y - SQUARE_WIDTH));
 
     //p3.x = p2.x + 1;
     //p3.y = p2.y - 1;
     
-    squares[0]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
+    squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
                                 squares[1]->getCenter().y));
 
     //p4.x = p2.x + 1;
@@ -804,11 +805,11 @@ void Piece::zOrientation(int newOrientation)
             break;
 
         case 2:
-            sOrientation(0);
+            zOrientation(0);
 
             break;
         default:
-            sOrientation(1);
+            zOrientation(1);
     }
 }
 
@@ -817,6 +818,13 @@ void Piece::setType(int newType)
     pieceType = newType;
     setOrientation(0);
 }
+
+void Piece::setPosition(Point newCenter)
+{
+    squares[1]->setCenter(newCenter);
+    setOrientation(orientation);
+}
+
 int  Piece::getType()
 {
     return pieceType;

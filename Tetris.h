@@ -2,7 +2,7 @@
  * Author: Dr. Booth, Matt Arnold                                              *
  * Description: Tetris game class header                                       *
  * Created on: Mar 28, 2014                                                    *
- * Last Modified: 23 April 2014 by Cameron Wagstaff                            *
+ * Last Modified: 23 April 2014 by Matt Arnold                                 *
  ******************************************************************************/
 
 #ifndef TETRIS_H_
@@ -15,6 +15,11 @@
 #include "Square.h"
 #include "Constants.h"
 #include "Piece.h"
+#include "Rectangle.h"
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
 
 
 class Tetris
@@ -25,6 +30,7 @@ private:
     ScoreTable scores;
     Matrix matrix;
     Piece current,  next;
+    Rectangle nextBox;
 
 public:
     //constructor
@@ -33,6 +39,7 @@ public:
     //Main GAIM FUNCTION
     void Play(void);
     void drawGame();
+    void drawNextBox();
 };
 
 #endif /* TETRIS_H_ */

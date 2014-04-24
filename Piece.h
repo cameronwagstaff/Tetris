@@ -17,6 +17,9 @@ Date Last Modified:  April 23, 2014 - Cameron Wagstaff
 
 using namespace std;
 
+const Point PIECE_START             = Point((GAME_RIGHT - BORDER_WIDTH) / 2,
+                                            SQUARE_WIDTH + BORDER_WIDTH);
+
 class Piece
 {
     public:
@@ -35,6 +38,7 @@ class Piece
         void setOrientation(int);
         void setColor();
         void setType(int newType);
+        void setPosition(Point newCenter);
         int  getType();
         int  getOrientation();
 

@@ -27,6 +27,7 @@ class LocationOccupied : public exception
             row = r;
             col = c;
         }
+    
         const char* what()
         {
             std::stringstream ss;
