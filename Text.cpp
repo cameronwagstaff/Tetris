@@ -2,7 +2,7 @@
  * Author: Cameron Wagtaff                                                     *
  * Description: Prints text to the screen at a given point in desired colors   *
  * Date Created: 04 April 2014                                                 *
- * Date Last Modified: 22 April 2014 - Cameron Wagstaff                        *
+ * Date Last Modified: 23 April 2014 by Cameron Wagstaff                        *
  ******************************************************************************/
 
 #include "Text.h"
@@ -16,8 +16,8 @@ Text::Text(Point o, string n, unsigned int c, unsigned int bc)
     text = n;
     drawColor = c;
     backgroundColor = bc;
-    charWidth = 10;
-    charHeight = 16;
+    charWidth = characterWidth;
+    charHeight = characterHeight;
 }
 
 /******************************************************************************
@@ -140,3 +140,31 @@ int Text::charToInt(char c)
     //mind the gap
     throw(InvalidChar());
 }
+
+void drawString(GLUT_Plotter* g, string s, Point n, unsigned int color/*, unsigned int backgroundColor*/)
+{
+    Text temp(n, s, color, WHITE);
+
+    temp.draw(g);
+}
+
+void drawCenteredString(GLUT_Plotter* g, string s, Point n, unsigned int color)
+{
+    Point refPoint;
+
+    refPoint.x = n.x - s.size() * characterWidth / 2;
+    refPoint.y = n.y - characterHeight / 2;
+
+    drawString(g, s, refPoint, color);
+}
+
+
+
+
+
+
+
+
+
+
+

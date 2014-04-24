@@ -2,7 +2,7 @@
  * Author: Cameron Wagtaff                                                     *
  * Description: Prints text to the screen at a given point in desired colors   *
  * Date Created: 04 April 2014                                                 *
- * Date Last Modified: 17 April 2014 - Cameron Wagstaff                        *
+ * Date Last Modified:  April 23 2014 by Cameron Wagstaff                      *
  ******************************************************************************/
 
 #ifndef TEXT_H_INCLUDED
@@ -18,6 +18,19 @@ using namespace std;
 
 class InvalidChar{};;
 
+
+/******************************************************************************
+ATTENTION LAZY PEOPLE:
+    THIS IS A SINGLE FUNCTION WRAPPER FOR THE TEXT CLASS. USE IT
+******************************************************************************/
+void drawString(GLUT_Plotter* g, string s, Point n, unsigned int color/*, unsigned int backgroundColor*/);
+
+/******************************************************************************
+ATTENTION LAZY PEOPLE:
+    THIS CENTERS TEXT ABOUT A POINT YOU GIVE IT. IT MIGHT HELP YOU AVOID WORK
+******************************************************************************/
+void drawCenteredString(GLUT_Plotter* g, string s, Point n, unsigned int color);
+
 class Text
 {
     private:
@@ -25,6 +38,10 @@ class Text
         string text;
         int charWidth, charHeight;
         unsigned int drawColor, backgroundColor;
+
+        //draws a character you want, this function is public for debugging,
+        //do not write dependencies on it
+        void drawChar(GLUT_Plotter* g, int x, int y, int val);
 
         int charToInt(char);
 
@@ -36,10 +53,6 @@ class Text
         //you know what this does, but the location is defined by the top left
         //of the text
         void setLocation(Point o);
-
-        //draws a character you want, this function is public for debugging,
-        //do not write dependencies on it
-        void drawChar(GLUT_Plotter* g, int x, int y, int val);
 
         //the soon to be implemented function that will draw the string
         //contained in text<string> at origin<Point>

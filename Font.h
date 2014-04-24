@@ -4,13 +4,13 @@ Date Last Edited: 4/22/2014
 
 This file holds the font that the Text class uses to draw text.
 
-MAKE SURE THAT CAMERON KNOWS ABOUT CHANGES TO THIS FILE PRETTY PLEASE
+MAKE SURE THAT CAMERON KNOWS ABOUT CHANGES TO THIS FILE PLEASE
 ******************************************************************************/
 
 #ifndef FONT_H_INCLUDED
 #define FONT_H_INCLUDED
 
-int characters16[][16][10] = {
+const int characters16[][16][10] = {
 
 //0
 {{0,0,0,0,0,0,0,0,0,0},

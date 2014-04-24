@@ -2,7 +2,7 @@
  * Author: Matt Arnold                                                         *
  * Description: Implementation of the Rectangle class                          *
  * Date Created: 10 April 2014                                                 *
- * Date Last Modified: 10 April 2014                                           *
+ * Date Last Modified: 23 April 2014 by Cameron Wagstaff                       *
  ******************************************************************************/
 #include "Rectangle.h"
 
@@ -35,7 +35,7 @@ void Rectangle::draw(GLUT_Plotter* g)
 {
     //Set Color to the color of the button and fill the appropriate area
     g->setColor(color);
-    
+
     for(int i = topLeft.x; i < bottomRight.x; i++)
     {
         for(int j = topLeft.y; j < bottomRight.y; j++)
@@ -56,7 +56,7 @@ void Rectangle::erase(GLUT_Plotter* g)
 {
     //Set Color to background color and fill area previously held by button
     g->setColor(BACKGROUND_GRAY);
-    
+
     for(int i = topLeft.x; i < bottomRight.x; i++)
     {
         for(int j = topLeft.y; j < bottomRight.y; j++)
@@ -120,6 +120,21 @@ Point Rectangle::getTopLeft()
 Point Rectangle::getBottomRight()
 {
     return bottomRight;
+}
+
+/*******************************************************************************
+ * Description: Getter for center point                                        *
+ * Return: a point representing the center of the Rectangle                    *
+ * Pre: object exists                                                          *
+ * Post: object unchanged                                                      *
+ ******************************************************************************/
+Point Rectangle::getCenter()
+{
+    Point center;
+    center.x = topLeft.x + (bottomRight.x - topLeft.x) / 2;
+    center.y = topLeft.y + (bottomRight.y - topLeft.y) / 2;
+
+    return center;
 }
 
 /*******************************************************************************

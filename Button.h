@@ -16,6 +16,7 @@
 #include "GLUT_Plotter.h"
 #include "Point.h"
 #include "Constants.h"
+#include "Text.h"
 #include "Rectangle.h"
 
 using namespace std;
@@ -40,7 +41,7 @@ class Button : public Rectangle
         void setText(string newText);
         unsigned int getTextColor();
         string getText();
-    
+
 };
 
 #endif

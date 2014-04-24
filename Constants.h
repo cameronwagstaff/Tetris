@@ -2,7 +2,7 @@
  * Author: Matt Arnold                                                         *
  * Description: Contains various constants to be used in the Tetris game       *
  * Date Created:02 April 2014                                                  *
- * Date Last Modified:22 April 2014 - Matt Arnold                              *
+ * Date Last Modified:23 April 2014 by Cameron Wagstaff                        *
  ******************************************************************************/
 
 
@@ -56,6 +56,10 @@ const int MAX_COLS                  = (GAME_BOTTOM - 2 * BORDER_WIDTH) // Max nu
                                       / SQUARE_WIDTH;
 const int MIN_ROWS                  = 0;
 const int MIN_COLS                  = 0;
+
+//Text things
+const int characterHeight = 16;
+const int characterWidth = 10;
 
 //Booleans
 const bool MATT_IS_THE_BEST = true;                 //Just me being a narcissist

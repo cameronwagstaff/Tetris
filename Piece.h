@@ -4,7 +4,7 @@ File Name:  Piece.h
 Description:  Defines the Piece class. Includes prototypes of functions
               and private fields.
 Date Created:  April 16, 2014
-Date Last Modified:  April 22, 2014 - Matt Arnold
+Date Last Modified:  April 23, 2014 - Cameron Wagstaff
 ******************************************************************************/
 
 #ifndef PIECE_H_INCLUDED
@@ -12,6 +12,10 @@ Date Last Modified:  April 22, 2014 - Matt Arnold
 
 #include "Square.h"
 #include "GLUT_Plotter.h"
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
 
 class Piece
 {
