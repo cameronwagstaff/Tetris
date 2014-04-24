@@ -2,7 +2,7 @@
  * Author: John Daniel                                                        *
  * Description: Implementation of Matrix Class                                *
  * Date Created:16 April 2014                                                 *
- * Date Last Modified:18 April 2014 - Matt Arnold                             *
+ * Date Last Modified:22 April 2014 - Matt Arnold                             *
  *****************************************************************************/
 
 #include "Matrix.h"
@@ -14,7 +14,7 @@
 * Pre: Everything is Happy                                                    *
 * Post: Matrix is initiated with default shapes in it                         *
 ******************************************************************************/
-Matrix::Matrix()
+Matrix::Matrix(GLUT_Plotter *g)
 {
     matrix = new Shape**[MAX_ROWS];
     for (int i = MIN_ROWS; i < MAX_ROWS; i++)
@@ -25,6 +25,8 @@ Matrix::Matrix()
             matrix[i][j] = NULL;
         }
     }
+    
+    this->g = g;
 }
 
 /******************************************************************************
@@ -94,7 +96,12 @@ int Matrix::rowSum(int r)
 * Post: The row is deleted and ready to be shifted down                       *
 ******************************************************************************/
 void Matrix::deleteRow(int r)
-{    
+{
+    for(int i = 0; i < MAX_COLS; i++)
+    {
+        matrix[r][i]->erase(g);
+    }
+    
     //Shift matrix down
     shiftDown(r);
     

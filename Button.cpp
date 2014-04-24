@@ -3,7 +3,7 @@
  * Description: Implementation for the Button class, graphical objects which   *
  *              function as buttons                                            *
  * Date Created: 01 April 2014                                                 *
- * Date Last Modified: 16 April 2014 - Matt Arnold                             *
+ * Date Last Modified: 23 April 2014 - Cameron Wagstaff                        *
  ******************************************************************************/
 
 #include "Button.h"
@@ -38,8 +38,9 @@ void Button::draw(GLUT_Plotter* g)
 {
     //Draw Rectangle
     Rectangle::draw(g);
-    
+
     //Draw Text
+    drawCenteredString(g, text, getCenter(), textColor);
 }
 
 /*******************************************************************************
@@ -51,10 +52,11 @@ void Button::draw(GLUT_Plotter* g)
 void Button::erase(GLUT_Plotter* g)
 {
     //Erase Button Text
-    
+    //HAHA I DON'T NEED THIS TO ERASE TEXT
+
     //Erase Rectangle
     Rectangle::erase(g);
-    
+
 
 }
 
@@ -74,20 +76,20 @@ void Button::press(GLUT_Plotter* g)
     textColor += 0x555555;
     draw(g);
     cout << hex << color << endl;
-    
+
     g->Draw();
-    
+
     //Wait for pressTime seconds
-    
+
     while(clock() < times + pressTime * CLOCKS_PER_SEC);
-    
+
     //erase button and redraw with original color
     erase(g);
     color -= 0x555555;
     cout << hex << color << dec << endl;
     textColor -= 0x555555;
     draw(g);
-    
+
     g->Draw();
 }
 

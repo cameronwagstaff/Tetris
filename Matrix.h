@@ -2,7 +2,7 @@
  * Author: John Daniel                                                        *
  * Description: Matrix Class, all you need in a Matrix 2.0! (2-D)             *
  * Date Created:16 April 2014                                                 *
- * Date Last Modified:18 April 2014 - Matt Arnold                             *
+ * Date Last Modified:22 April 2014 - Matt Arnold                             *
  *****************************************************************************/
 #ifndef TETRIS_MATRIX_H_
 #define TETRIS_MATRIX_H_
@@ -10,6 +10,7 @@
 #include <exception>
 #include <string>
 #include <sstream>
+#include "GLUT_Plotter.h"
 #include "Constants.h"
 #include "Shape.h"
 
@@ -26,6 +27,7 @@ class LocationOccupied : public exception
             row = r;
             col = c;
         }
+    
         const char* what()
         {
             std::stringstream ss;
@@ -46,9 +48,10 @@ class Matrix
          pointers that point to pointers that point to NULL or SHAPES!
         **/
         Shape*** matrix;
+         GLUT_Plotter *g;
 
     public:
-        Matrix();
+        Matrix(GLUT_Plotter *g);
         //Matrix(const Matrix& other);
         ~Matrix();
         void lineCheck();

@@ -2,16 +2,23 @@
  * Author: Dr. Booth, Matt Arnold                                              *
  * Description: Does the Tetris                                                *
  * Created on: Mar 31, 2014                                                    *
- * Last Modified: 10 April 2014 - Matt Arnold                                  *
+ * Last Modified: 23 April 2014 - Matt Arnold                                  *
  ******************************************************************************/
 
 #include "Tetris.h"
 #include "Rectangle.h"
 //Tetris Constructor
 
-Tetris::Tetris(GLUT_Plotter* g)
+Tetris::Tetris(GLUT_Plotter* g) : matrix(g), nextBox(Point(GAME_RIGHT + 40, 70),
+                                                     Point(SCREEN_WIDTH - 40, 170), BACKGROUND_WHITE)
 {
+    current.setType(Z);
+    current.setOrientation(0);
+    current.setColor();
+
 	this->g = g;
+
+    next.setPosition(Point((GAME_RIGHT + SCREEN_WIDTH) / 2, 95));
 
     //Load player score data from file. If file does not exist, it is created
     try
@@ -31,12 +38,26 @@ Tetris::Tetris(GLUT_Plotter* g)
 //Tetris Main Game Loop
 void Tetris::Play(void)
 {
+    static double time = clock();
+
     drawGame();
 
     if(m)
     {
         m.draw(g);
     }
+    else
+    {
+        if(clock() >= time + .75 * static_cast<double>(CLOCKS_PER_SEC))
+           {
+               current.erase(g);
+               current.fall();
+               time = clock();
+           }
+        current.draw(g);
+        drawNextBox();
+    }
+
 
     //Check for Keyboard Hit
 	while(g->kbhit())
@@ -44,8 +65,14 @@ void Tetris::Play(void)
 		int k = g->getKey();
 		switch (k)
         {
-            case 27: exit(1); //ESC key
-                break;
+            case  27: exit(1); break;
+            case 164: current.moveLeft(); break; //Left Arrow
+            case 166: current.moveRight(); break; //Right Arrow
+            case 167: current.rotateLeft(); break; //Down Arrow
+            case 165: current.rotateRight(); break; //Up Arrow
+            case 32 : current.fall(); break;       //Space Bar
+            case 's': current.setType((current.getType() + 1) % 6); break; //s - Change type
+            case 'u': current.moveUp(); break; //u - move up ya know, in case we want that
             default: cout << k << endl;
 		}
 	}
@@ -106,6 +133,13 @@ void Tetris::drawGame()
             g->plot(i, j);
         }
     }
+}
 
+void Tetris::drawNextBox()
+{
+    nextBox.draw(g);
 
+    next.draw(g);
+
+    drawString(g, "Next Piece:", nextBox.getTopLeft(), BLACK);
 }
