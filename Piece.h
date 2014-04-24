@@ -25,7 +25,6 @@ class Piece
         void moveRight();
         void moveLeft();
         void draw();
-        void setOrientation(int);
         void setColor();
 
     private:
@@ -45,6 +44,9 @@ class Piece
         void lOrientation(int);
         void oOrientation(int);
         void zOrientation(int);
+        //moved setOrientation in to the private function becuase it is only
+        //used within functions such as constructors and turns
+        void setOrientation(int);
 
 };
 

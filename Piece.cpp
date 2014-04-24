@@ -3,7 +3,7 @@ Author:  Brennan Saul
 File Name:  Piece.cpp
 Description:  Implements the Piece class.
 Date Created:  April 16, 2014
-Date Last Modified:  April 19, 2014 - Created - Brennan Saul
+Date Last Modified:  April 23, 2014 - Created - Brennan Saul
 ******************************************************************************/
 
 #include "Piece.h"
@@ -33,11 +33,12 @@ Return value:  None
 ******************************************************************************/
 Piece::Piece(int pieceType)
 {
-    orientation = 0;
-    rest = false;
+    // 0 is the default orientation for all Pieces
+    orientation     = 0;
+    rest            = false;
     this->pieceType = pieceType;
 
-    //set value for point 2
+    //set value for point 2 which all other point are dependent on.
     p2.x = MAX_ROWS / 2;
     p2.y = 1;
 
@@ -107,6 +108,7 @@ Return value:  None
 ******************************************************************************/
 void Piece::fall()
 {
+    //need to check for peices under and check if at the bottem
     if(!rest)
     {
         p1.y -= 1;
@@ -118,14 +120,15 @@ void Piece::fall()
 
 /******************************************************************************
 Function name:  moveRight()
-Description:This function moves the piece one spot over right.
+Description:  This function moves the piece one spot over right.
 Precondition:  Object must exist.
 Postcondition:  Object point x values + 1
 Return value:  None
 ******************************************************************************/
 void Piece::moveRight()
 {
-    //in orientaion file may want to always put p1 te the far right block and p4 to the far right block to test movability simply
+    //point p1 is always farthest to the left and p4 is always farthest to the right
+    if(p4.x < MAX_COLS)
     p1.x += 1;
     p2.x += 1;
     p3.x += 1;
@@ -139,8 +142,10 @@ Precondition:  Object must exist.
 Postcondition:  Points x - 1
 Return value:  None
 ******************************************************************************/
+
 void Piece::moveLeft()
 {
+    if(p1.x > MIN_COLS)
     p1.x -= 1;
     p2.x -= 1;
     p3.x -= 1;
