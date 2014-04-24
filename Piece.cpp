@@ -151,9 +151,11 @@ void Piece::fall()
     
     for(int i = 0; i < 4; i++)
     {
-        if(squares[i]->getCenter().y + (SQUARE_WIDTH) >= GAME_BOTTOM - BORDER_WIDTH)
+        if(squares[i]->getCenter().y + (SQUARE_WIDTH) >= GAME_BOTTOM -
+           BORDER_WIDTH - SQUARE_WIDTH / 2)
         {
             canFall = false;
+            rest = true;
         }
     }
     

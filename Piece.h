@@ -18,7 +18,7 @@ Date Last Modified:  April 23, 2014 - Cameron Wagstaff
 using namespace std;
 
 const Point PIECE_START             = Point((GAME_RIGHT - BORDER_WIDTH) / 2,
-                                            SQUARE_WIDTH + BORDER_WIDTH);
+                                            SQUARE_WIDTH + BORDER_WIDTH * 2 + 1);
 
 class Piece
 {
@@ -41,6 +41,7 @@ class Piece
         void setPosition(Point newCenter);
         int  getType();
         int  getOrientation();
+        void moveUp();
 
     private:
         //private fields
@@ -58,8 +59,6 @@ class Piece
         void lOrientation(int);
         void oOrientation(int);
         void zOrientation(int);
-        void moveUp();
-
 };
 
 

@@ -51,7 +51,7 @@ void Tetris::Play(void)
         if(clock() >= time + .75 * static_cast<double>(CLOCKS_PER_SEC))
            {
                current.erase(g);
-               //current.fall();
+               current.fall();
                time = clock();
            }
         current.draw(g);
@@ -71,7 +71,8 @@ void Tetris::Play(void)
             case 167: current.rotateLeft(); break; //Down Arrow
             case 165: current.rotateRight(); break; //Up Arrow
             case 32 : current.fall(); break;       //Space Bar
-            case 's': current.setType((current.getType() + 1) % 6); //S - Change type
+            case 's': current.setType((current.getType() + 1) % 6); break; //s - Change type
+            case 'u': current.moveUp(); break; //u - move up ya know, in case we want that
             default: cout << k << endl;
 		}
 	}
