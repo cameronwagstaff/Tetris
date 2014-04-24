@@ -7,6 +7,7 @@
 
 #ifndef TETRIS_H_
 #define TETRIS_H_
+
 #include "GLUT_Plotter.h"
 #include "Text.h"
 #include "Menu.h"
@@ -21,7 +22,6 @@
 
 using namespace std;
 
-
 class Tetris
 {
 private:
@@ -30,7 +30,7 @@ private:
     ScoreTable scores;
     Matrix matrix;
     Piece current,  next;
-    Rectangle nextBox;
+    stdRect::Rectangle nextBox;
 
 public:
     //constructor

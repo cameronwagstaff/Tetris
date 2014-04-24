@@ -15,9 +15,9 @@ Tetris::Tetris(GLUT_Plotter* g) : matrix(g), nextBox(Point(GAME_RIGHT + 40, 70),
     current.setType(Z);
     current.setOrientation(0);
     current.setColor();
-    
+
 	this->g = g;
-    
+
     next.setPosition(Point((GAME_RIGHT + SCREEN_WIDTH) / 2, 95));
 
     //Load player score data from file. If file does not exist, it is created
@@ -39,7 +39,7 @@ Tetris::Tetris(GLUT_Plotter* g) : matrix(g), nextBox(Point(GAME_RIGHT + 40, 70),
 void Tetris::Play(void)
 {
     static double time = clock();
-    
+
     drawGame();
 
     if(m)
@@ -57,7 +57,7 @@ void Tetris::Play(void)
         current.draw(g);
         drawNextBox();
     }
-    
+
 
     //Check for Keyboard Hit
 	while(g->kbhit())
@@ -138,8 +138,8 @@ void Tetris::drawGame()
 void Tetris::drawNextBox()
 {
     nextBox.draw(g);
-    
+
     next.draw(g);
-    
+
     drawString(g, "Next Piece:", nextBox.getTopLeft(), BLACK);
 }

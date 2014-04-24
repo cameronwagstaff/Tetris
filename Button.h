@@ -24,7 +24,7 @@ using namespace std;
 const int BUTTON_LENGTH = 310;
 const int BUTTON_WIDTH = 50;
 
-class Button : public Rectangle
+class Button : public stdRect::Rectangle
 {
     private:
         unsigned int textColor;

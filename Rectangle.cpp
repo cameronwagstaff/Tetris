@@ -6,6 +6,8 @@
  ******************************************************************************/
 #include "Rectangle.h"
 
+using namespace stdRect;
+
 /*******************************************************************************
  * Description: Constructor for the Rectangle class                            *
  * Return: nothing                                                             *
