@@ -3,7 +3,7 @@
  * Description: Implementation of the ScoreTable class, which represents the   *
  *              high scores table                                              *
  * Date Created: 07 April 2014                                                 *
- * Date Last Modified: 10 April 2014 - Matt Arnold                             *
+ * Date Last Modified: 24 April 2014 - Matt Arnold                             *
  ******************************************************************************/
 
 #include "ScoreTable.h"
@@ -15,8 +15,9 @@
  * Post: object created
  ******************************************************************************/
 ScoreTable::ScoreTable()
+: menuButton("Return to Menu", Point(95, 506), Point(95 + BUTTON_LENGTH, 506 + BUTTON_WIDTH), WHITE, BLACK)
 {
-    //This block intentionally left empty
+    backgroundColor = 0x22DC45;
 }
 
 /*******************************************************************************
@@ -54,7 +55,36 @@ ScoreTable& ScoreTable::addPlayer(Player p)
  ******************************************************************************/
 void ScoreTable::draw(GLUT_Plotter *g)
 {
+    int leftEdge = 3 * BORDER_WIDTH;
+    int tab = 15 * characterWidth;
+    int gap = 2.5 * characterHeight;
     
+    drawBackground(g);
+    
+    drawCenteredString(g, "High Scores", Point(GAME_RIGHT / 2, 2 * BORDER_WIDTH), BLACK);
+    
+    Point cursor(leftEdge, 6 * BORDER_WIDTH);
+    
+    drawString(g, "Name", cursor, BLACK);
+    cursor.x += tab;
+    drawString(g, "High Score", cursor, BLACK);
+    cursor.x += tab;
+    drawString(g, "Average Score", cursor, BLACK);
+    
+    cursor.x = leftEdge;
+    cursor.y += gap + .5 * characterHeight;
+    
+    for(int i = 0; i < players.size() && i < 10; i++)
+    {
+        drawString(g, players[i].name, cursor, BLACK);
+        cursor.x += tab;
+        drawString(g, to_string(players[i].highScore), cursor, BLACK);
+        cursor.x += tab;
+        drawString(g, to_string(players[i].pointsPerGame()), cursor, BLACK);
+        
+        cursor.y += gap;
+        cursor.x = leftEdge;
+    }
 }
 
 /*******************************************************************************
@@ -128,7 +158,7 @@ void ScoreTable::sort()
     //sort elements in ascending order
     std::sort(players.begin(), players.end());
     
-    //reverse to have elements sorted in ascending order
+    //reverse to have elements sorted in descending order
     std::reverse(players.begin(), players.end());
 }
 
@@ -180,4 +210,56 @@ void ScoreTable::get() throw(NoScores)
     data.read(reinterpret_cast<char*>(players.data()), num * sizeof(Player));
     
     data.close();
+}
+
+void ScoreTable::drawBackground(GLUT_Plotter *g)
+{
+    g->setColor(BACKGROUND_GRAY);
+    for(int i = 0; i < SCREEN_WIDTH; i++)
+    {
+        for(int j = 0; j < SCREEN_HEIGHT; j++)
+        {
+            g->plot(i, j);
+        }
+    }
+    
+    g->setColor(BLACK);
+    
+    for(int i = 0; i < GAME_BOTTOM; i++)
+    {
+        g->plot(GAME_RIGHT, i);
+    }
+
+    
+    g->setColor(backgroundColor);
+    
+    for(int i = BORDER_WIDTH; i < GAME_RIGHT - BORDER_WIDTH; i++)
+    {
+        for(int j = BORDER_WIDTH; j < GAME_BOTTOM - BORDER_WIDTH; j++)
+        {
+            g->plot(i, j);
+        }
+    }
+    
+    menuButton.draw(g);
+}
+
+bool ScoreTable::getRun()
+{
+    return run;
+}
+
+void ScoreTable::setRun(bool newVal)
+{
+    run = newVal;
+}
+
+ScoreTable::operator bool()
+{
+    return getRun();
+}
+
+Button ScoreTable::getMenuButton()
+{
+    return menuButton;
 }

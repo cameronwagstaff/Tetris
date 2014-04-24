@@ -31,7 +31,20 @@ Tetris::Tetris(GLUT_Plotter* g) : matrix(g), nextBox(Point(GAME_RIGHT + 40, 70),
         ofstream data;
         data.open("scores.bin");
         data.close();
+        scores.get();
     }
+    
+    scores.search(Player("Jeff"));
+    scores.search("Tim");
+    scores.search("Marsha");
+    scores.search("Tom");
+    scores.search("Dick");
+    scores.search("Harry");
+    scores.search("Paul");
+    scores.search("Paula");
+    scores.search("Latasha");
+    scores.search("Cheyenne");
+
 }
 
 
@@ -45,6 +58,10 @@ void Tetris::Play(void)
     if(m)
     {
         m.draw(g);
+    }
+    else if(scores)
+    {
+        scores.draw(g);
     }
     else
     {
@@ -92,7 +109,19 @@ void Tetris::Play(void)
             m.setRun(false);
         }
         if(m && m.getViewScores().isInRange(Point(c)))
+        {
             m.getViewScores().press(g);
+            m.setRun(false);
+            scores.setRun(true);
+        }
+        
+        if(scores && scores.getMenuButton().isInRange(c))
+        {
+            scores.getMenuButton().press(g);
+            scores.setRun(false);
+            m.setRun(true);
+        }
+        
     }
 
 
