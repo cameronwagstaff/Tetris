@@ -13,7 +13,8 @@ using namespace std;
 void Player(void);
 Tetris* game;
 
-int main() {
+int main()
+{
 	GLUT_Plotter* g = new GLUT_Plotter(); //Create plotter
 	game = new Tetris(g);                 //Create Game (Tetris)
 	g->RegisterIdleFunc(Player);          //Register Callback
@@ -21,6 +22,7 @@ int main() {
 	return 0;
 }
 
-void Player(void){
+void Player(void)
+{
 	game->Play();
 }

@@ -9,6 +9,8 @@
 #ifndef Tetris_Constants_h
 #define Tetris_Constants_h
 
+#include <string>
+
 using namespace std;
 
 //pieceTypes - const integers for switch statements used in the piece class
@@ -57,9 +59,12 @@ const int MAX_COLS                  = (GAME_BOTTOM - 2 * BORDER_WIDTH) // Max nu
 const int MIN_ROWS                  = 0;
 const int MIN_COLS                  = 0;
 
-//Text things
-const int characterHeight = 16;
-const int characterWidth = 10;
+//Text
+const int characterHeight = 16; //Height of characters in Font.h in pixels
+const int characterWidth = 10;  //Width of characters in Font.h in pixels
+
+//Oddities
+const string WINDOW_TITLE = "AWESOME TETRIS GAME"; //The string displayed on the title bar of the game
 
 //Booleans
 const bool MATT_IS_THE_BEST = true;                 //Just me being a narcissist
