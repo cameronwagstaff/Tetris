@@ -12,7 +12,7 @@
 
 #include "GLUT_Plotter.h"
 #include "Constants.h"
-#include "GLUT_Plotter.h"
+
 
 //OffScreen is an exception class to be thrown when a Point is made that is
 //outside the boudaries of the display window
