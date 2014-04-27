@@ -16,9 +16,9 @@ enterName("Enter Your Name")
 
 {
     end = false;
-    
+
     currentScore = 0;
-    
+
     this->g = g;
 
     next.setPosition(Point((GAME_RIGHT + SCREEN_WIDTH) / 2, 95));
@@ -67,7 +67,7 @@ void Tetris::Play(void)
             current.fall();
             time = clock();
         }
-        
+
         current.draw(g);
         drawNextBox();
     }
@@ -77,14 +77,14 @@ void Tetris::Play(void)
 	while(g->kbhit())
     {
 		int k = g->getKey();
-        
+
         //Escape key always exits game
         if(k == 27)
         {
             this->~Tetris();
             exit(1);
         }
-        
+
         if(end)
         {
             switch(k)
@@ -93,28 +93,28 @@ void Tetris::Play(void)
 
                 {
                     enterName.setAlNumErr(false);
-                    
-                    if(enterName.getData().length() <= MAX_LEN)
+
+                    if(static_cast<int>(enterName.getData().length()) <= MAX_LEN)
                     {
                         enterName.setExcedesLength(false);
                     }
-                    
+
                     if(enterName.getData().length() > 0)
                     {
                         enterName.getData().erase(enterName.getData().size() - 1, 1);
                     }
-                    
+
                     break;
                 }
                 default:
                 {
                     if((isalnum(static_cast<char>(k)) ||
                         static_cast<char>(k) == ' ')
-                       && enterName.getData().length() <= MAX_LEN)
+                       && static_cast<int>(enterName.getData().length()) <= MAX_LEN)
                     {
                         enterName.getData() += toupper(static_cast<char>(k));
                         enterName.setAlNumErr(false);
-                        
+
                     }
                     else
                     {
@@ -122,18 +122,18 @@ void Tetris::Play(void)
                         {
                             enterName.setAlNumErr(true);
                         }
-                        
-                        if(enterName.getData().length() >= MAX_LEN)
+
+                        if(static_cast<int>(enterName.getData().length()) >= MAX_LEN)
                         {
                             enterName.setExcedesLength(true);
                         }
                     }
-                    
+
                     break;
                 }
             }
         }
-        
+
         else
         {
             switch (k)
@@ -158,7 +158,7 @@ void Tetris::Play(void)
 		Click c;
 		c = g->getClick();
         cout << c.x << " " << c.y << endl;
-        
+
         if(end && enterName.getEnter().isInRange(c))
         {
             enterName.getEnter().press(g);
@@ -171,7 +171,7 @@ void Tetris::Play(void)
             scores.setRun(true);
             break;
         }
-        
+
         if(end && enterName.getCancel().isInRange(c))
         {
             enterName.getCancel().press(g);
@@ -198,16 +198,16 @@ void Tetris::Play(void)
             scores.setRun(true);
             scores.sort();
         }
-        
+
         if(scores && scores.getMenuButton().isInRange(c))
         {
             scores.getMenuButton().press(g);
             scores.setRun(false);
             m.setRun(true);
         }
-        
+
     }
-    
+
 
 	// Update screen - draw game
 	g->Draw();

@@ -25,7 +25,7 @@ Matrix::Matrix(GLUT_Plotter *g)
             matrix[i][j] = NULL;
         }
     }
-    
+
     this->g = g;
 }
 
@@ -44,10 +44,10 @@ Matrix::~Matrix()
         {
             delete [] matrix[i][j];
         }
-        
+
         delete [] matrix[i];
     }
-    
+
     delete [] matrix;
 }
 
@@ -101,21 +101,21 @@ void Matrix::deleteRow(int r)
     {
         matrix[r][i]->erase(g);
     }
-    
+
     //Shift matrix down
     shiftDown(r);
-    
+
     //Set top row to NULL
     for (int c = MIN_COLS; c < MAX_COLS; c++)
     {
-        ///////////////////////////////////////\
+        /*/////////////////////////////////////\
         // I think this is a hardcore leak/////\
-        ///////////////////////////////////////\
-        
-        ///////////////////////////////////////\
+        //////////////////////////////////////*/
+
+        /*/////////////////////////////////////\
         // Nah man, I think you're good////////\
-        ///////////////////////////////////////\
-        
+        //////////////////////////////////////*/
+
         //delete matrix[r][c];
         matrix[MIN_ROWS][c] = NULL;
     }
@@ -154,10 +154,10 @@ Matrix& Matrix::addShape(int r, int c, Shape& object)
     {
         throw(LocationOccupied(r, c));
     }
-    
+
     //Else, add object to the matrix
     matrix[r][c] = &object;
-    
+
     //Commented John's stuff out rather than deleting in case I'm crazy - Matt
     /*//Add Shape if matrix[r][c] is null. else there is already something there
     if (matrix[r][c] == NULL)

@@ -20,8 +20,9 @@ InputBox::InputBox(string prompt, unsigned int backgroundColor,
 : background(Point(80, 175), Point(430, 360), backgroundColor),
   dataBox(Point(100, 250)
           , Point( 400, 285), WHITE),
-  enter("OK", Point(100, 300), Point(240, 345), buttonColor),
-  cancel("Cancel", Point(260, 300), Point(400, 345), buttonColor)
+  enter("OK", Point(260, 300), Point(400, 345), buttonColor),
+  cancel("Cancel", Point(100, 300), Point(240, 345), buttonColor)
+
 {
     this->data = data;
     this->prompt = prompt;
@@ -67,7 +68,7 @@ InputBox& InputBox::operator = (const InputBox& other)
         this->data = other.data;
         this->prompt = other.prompt;
     }
-    
+
     return *this;
 }
 
@@ -77,7 +78,7 @@ InputBox& InputBox::operator = (const InputBox& other)
  * Pre: object exists                                                          *
  * Post: object unchanged                                                      *
  ******************************************************************************/
-Rectangle& InputBox::getBackground()
+stdRect::Rectangle& InputBox::getBackground()
 {
     return background;
 }
@@ -88,7 +89,7 @@ Rectangle& InputBox::getBackground()
  * Pre: object exists                                                          *
  * Post: object unchanged                                                      *
  ******************************************************************************/
-Rectangle& InputBox::getDataBox()
+stdRect::Rectangle& InputBox::getDataBox()
 {
     return dataBox;
 }
@@ -149,16 +150,16 @@ void InputBox::draw(GLUT_Plotter *g)
     dataBox.draw(g);
     enter.draw(g);
     cancel.draw(g);
-    
+
     drawCenteredString(g, prompt, Point(250, 220), BLACK);
     drawString(g, data, dataBox.getTopLeft(), BLACK);
-    
+
     if(alNumErr)
     {
         drawCenteredString(g, "Alphanumeric Characters and Spaces Only!!!",
                            Point(255, 125), RED);
     }
-    
+
     if(exceedsLength)
     {
         drawCenteredString(g, "Input must be smaller than 10 characters!!!",
@@ -178,7 +179,7 @@ void InputBox::erase(GLUT_Plotter *g)
     dataBox.erase(g);
     enter.erase(g);
     cancel.erase(g);
-    
+
 }
 
 /*******************************************************************************
