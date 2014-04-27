@@ -8,6 +8,8 @@
 
 #include "ScoreTable.h"
 
+using namespace std;
+
 /*******************************************************************************
  * Description: constructor for the ScoreTable Class                           *
  * Return: nothing                                                             *
@@ -44,7 +46,7 @@ ScoreTable::~ScoreTable()
 ScoreTable& ScoreTable::addPlayer(string name)
 {
     players.push_back(Player(name));
-    
+
     return *this;
 }
 
@@ -57,7 +59,7 @@ ScoreTable& ScoreTable::addPlayer(string name)
 ScoreTable& ScoreTable::addPlayer(Player p)
 {
     players.push_back(Player(p));
-    
+
     return *this;
 }
 
@@ -73,34 +75,41 @@ void ScoreTable::draw(GLUT_Plotter *g)
     int leftEdge = 3 * BORDER_WIDTH;
     int tab = 15 * characterWidth;
     int gap = 2.5 * characterHeight;
-    
+
     drawBackground(g);
-    
+
     drawCenteredString(g, "High Scores", Point(GAME_RIGHT / 2, 2 * BORDER_WIDTH)
                        , BLACK);
-    
+
     //cursor will be the starting point for text drawing
     Point cursor(leftEdge, 6 * BORDER_WIDTH);
-    
+
     //Draw Header
     drawString(g, "Name", cursor, BLACK);
     cursor.x += tab;
     drawString(g, "High Score", cursor, BLACK);
     cursor.x += tab;
     drawString(g, "Average Score", cursor, BLACK);
-    
+
     cursor.x = leftEdge;
     cursor.y += gap + .5 * characterHeight;
-    
+
     for(int i = 0; i < players.size() && i < 10; i++)
     {
         //Draw Player's daat.
+        stringstream contentSS;
+
+        contentSS << players[i].highScore;
+
         drawString(g, players[i].name, cursor, BLACK);
         cursor.x += tab;
-        drawString(g, to_string(players[i].highScore), cursor, BLACK);
+        drawString(g, contentSS.str(), cursor, BLACK);
+        contentSS.clear();
+        contentSS << players[i].pointsPerGame();
         cursor.x += tab;
-        drawString(g, to_string(players[i].pointsPerGame()), cursor, BLACK);
-        
+        drawString(g, contentSS.str(), cursor, BLACK);
+        contentSS.clear();
+
         cursor.y += gap;
         cursor.x = leftEdge;
     }
@@ -116,7 +125,7 @@ void ScoreTable::draw(GLUT_Plotter *g)
 int ScoreTable::search(Player key)
 {
     int position = -1;
-    
+
     //Search list using linear search
     for(int i = 0; i < players.size() && position == -1; i++)
     {
@@ -125,14 +134,14 @@ int ScoreTable::search(Player key)
             position = i;
         }
     }
-    
+
     //If Player not found, add to players
     if(position == -1)
     {
         position = players.size();
         addPlayer(key);
     }
-    
+
     return position;
 }
 
@@ -146,7 +155,7 @@ int ScoreTable::search(Player key)
 int ScoreTable::search(string key)
 {
     int position = -1;
-    
+
     //Search list using linear search
     for(int i = 0; i < players.size() && position == -1; i++)
     {
@@ -155,14 +164,14 @@ int ScoreTable::search(string key)
             position = i;
         }
     }
-    
+
     //If Player not found, add to players
     if(position == -1)
     {
         position = players.size();
         addPlayer(key);
     }
-    
+
     return position;
 }
 
@@ -176,7 +185,7 @@ void ScoreTable::sort()
 {
     //sort elements in ascending order
     std::sort(players.begin(), players.end());
-    
+
     //reverse to have elements sorted in descending order
     std::reverse(players.begin(), players.end());
 }
@@ -190,12 +199,12 @@ void ScoreTable::sort()
 void ScoreTable::save()
 {
     fstream data;
-    
+
     //open file and write data
     data.open("scores.bin", ios::out|ios::binary);
     data.write(reinterpret_cast<char*>(players.data()),
                players.size() * sizeof(Player));
-    
+
     data.close();
 }
 
@@ -211,31 +220,31 @@ void ScoreTable::get() throw(NoScores)
     fstream data;
     int num;
     Player *a;
-    
-    
+
+
     //Open and test file
     data.open("scores.bin", ios::in|ios::binary);
-    
+
     if(!data)
     {
         throw(NoScores());
     }
-    
+
     //Calculate number of Players in the file
     data.seekg(0L, ios::end);
     num = data.tellg() / sizeof(Player);
     data.seekg(0L, ios::beg);
-    
+
     a = new Player [num];
-    
+
     //read data
     data.read(reinterpret_cast<char*>(a), num * sizeof(Player));
-    
+
     for(int i = 0; i < num; i++)
     {
         players.push_back(a[i]);
     }
-    
+
     data.close();
 }
 
@@ -255,17 +264,17 @@ void ScoreTable::drawBackground(GLUT_Plotter *g)
             g->plot(i, j);
         }
     }
-    
+
     g->setColor(BLACK);
-    
+
     for(int i = 0; i < GAME_BOTTOM; i++)
     {
         g->plot(GAME_RIGHT, i);
     }
 
-    
+
     g->setColor(backgroundColor);
-    
+
     for(int i = BORDER_WIDTH; i < GAME_RIGHT - BORDER_WIDTH; i++)
     {
         for(int j = BORDER_WIDTH; j < GAME_BOTTOM - BORDER_WIDTH; j++)
@@ -273,7 +282,7 @@ void ScoreTable::drawBackground(GLUT_Plotter *g)
             g->plot(i, j);
         }
     }
-    
+
     menuButton.draw(g);
 }
 
