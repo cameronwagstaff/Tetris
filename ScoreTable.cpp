@@ -3,20 +3,36 @@
  * Description: Implementation of the ScoreTable class, which represents the   *
  *              high scores table                                              *
  * Date Created: 07 April 2014                                                 *
- * Date Last Modified: 10 April 2014 - Matt Arnold                             *
+ * Date Last Modified: 26 April 2014 - Matt Arnold                             *
  ******************************************************************************/
 
 #include "ScoreTable.h"
 
 /*******************************************************************************
- * Description: constructor for the ScoreTable Class
- * Return: nothing
- * Pre: none
- * Post: object created
+ * Description: constructor for the ScoreTable Class                           *
+ * Return: nothing                                                             *
+ * Pre: none                                                                   *
+ * Post: object created                                                        *
  ******************************************************************************/
 ScoreTable::ScoreTable()
+: menuButton("Return to Menu", Point(95, 506), Point(95 + BUTTON_LENGTH,
+                                                     506 + BUTTON_WIDTH),
+                                                            WHITE, BLACK)
 {
-    //This block intentionally left empty
+    backgroundColor = 0x22DC45;
+    run = false;
+}
+
+/*******************************************************************************
+ * Description: class destructor                                               *
+ * Return: nothing                                                             *
+ * Pre: object exists                                                          *
+ * Post: saves the data. That should probably happen elsewhere, but for now,   *
+ *       it's here                                                             *
+ ******************************************************************************/
+ScoreTable::~ScoreTable()
+{
+    save();
 }
 
 /*******************************************************************************
@@ -54,7 +70,40 @@ ScoreTable& ScoreTable::addPlayer(Player p)
  ******************************************************************************/
 void ScoreTable::draw(GLUT_Plotter *g)
 {
+    int leftEdge = 3 * BORDER_WIDTH;
+    int tab = 15 * characterWidth;
+    int gap = 2.5 * characterHeight;
     
+    drawBackground(g);
+    
+    drawCenteredString(g, "High Scores", Point(GAME_RIGHT / 2, 2 * BORDER_WIDTH)
+                       , BLACK);
+    
+    //cursor will be the starting point for text drawing
+    Point cursor(leftEdge, 6 * BORDER_WIDTH);
+    
+    //Draw Header
+    drawString(g, "Name", cursor, BLACK);
+    cursor.x += tab;
+    drawString(g, "High Score", cursor, BLACK);
+    cursor.x += tab;
+    drawString(g, "Average Score", cursor, BLACK);
+    
+    cursor.x = leftEdge;
+    cursor.y += gap + .5 * characterHeight;
+    
+    for(int i = 0; i < players.size() && i < 10; i++)
+    {
+        //Draw Player's daat.
+        drawString(g, players[i].name, cursor, BLACK);
+        cursor.x += tab;
+        drawString(g, to_string(players[i].highScore), cursor, BLACK);
+        cursor.x += tab;
+        drawString(g, to_string(players[i].pointsPerGame()), cursor, BLACK);
+        
+        cursor.y += gap;
+        cursor.x = leftEdge;
+    }
 }
 
 /*******************************************************************************
@@ -128,7 +177,7 @@ void ScoreTable::sort()
     //sort elements in ascending order
     std::sort(players.begin(), players.end());
     
-    //reverse to have elements sorted in ascending order
+    //reverse to have elements sorted in descending order
     std::reverse(players.begin(), players.end());
 }
 
@@ -161,6 +210,7 @@ void ScoreTable::get() throw(NoScores)
 {
     fstream data;
     int num;
+    Player *a;
     
     
     //Open and test file
@@ -176,8 +226,108 @@ void ScoreTable::get() throw(NoScores)
     num = data.tellg() / sizeof(Player);
     data.seekg(0L, ios::beg);
     
+    a = new Player [num];
+    
     //read data
-    data.read(reinterpret_cast<char*>(players.data()), num * sizeof(Player));
+    data.read(reinterpret_cast<char*>(a), num * sizeof(Player));
+    
+    for(int i = 0; i < num; i++)
+    {
+        players.push_back(a[i]);
+    }
     
     data.close();
+}
+
+/*******************************************************************************
+ * Description: reduces the amount of spaghetti in ScoreTable::draw()          *
+ * Return: void                                                                *
+ * Pre: object exists                                                          *
+ * Post: object unchanged, background drawn to screen                          *
+ ******************************************************************************/
+void ScoreTable::drawBackground(GLUT_Plotter *g)
+{
+    g->setColor(BACKGROUND_GRAY);
+    for(int i = 0; i < SCREEN_WIDTH; i++)
+    {
+        for(int j = 0; j < SCREEN_HEIGHT; j++)
+        {
+            g->plot(i, j);
+        }
+    }
+    
+    g->setColor(BLACK);
+    
+    for(int i = 0; i < GAME_BOTTOM; i++)
+    {
+        g->plot(GAME_RIGHT, i);
+    }
+
+    
+    g->setColor(backgroundColor);
+    
+    for(int i = BORDER_WIDTH; i < GAME_RIGHT - BORDER_WIDTH; i++)
+    {
+        for(int j = BORDER_WIDTH; j < GAME_BOTTOM - BORDER_WIDTH; j++)
+        {
+            g->plot(i, j);
+        }
+    }
+    
+    menuButton.draw(g);
+}
+
+/*******************************************************************************
+ * Description: returns the value of the run variable                          *
+ * Return: bool - the value of run                                             *
+ * Pre: object exists                                                          *
+ * Post: object unchanged                                                      *
+ ******************************************************************************/
+bool ScoreTable::getRun()
+{
+    return run;
+}
+
+/*******************************************************************************
+ * Description: sets the value of run                                          *
+ * Return: void                                                                *
+ * Pre: object exists                                                          *
+ * Post: run is assigned a value newVal                                        *
+ ******************************************************************************/
+void ScoreTable::setRun(bool newVal)
+{
+    run = newVal;
+}
+
+/*******************************************************************************
+ * Description: allows us to be lazy by casting a ScoreTable into a bool       *
+ * Return: technically nothing, effectually, the value of run                  *
+ * Pre: object exists                                                          *
+ * Post: object unchanged                                                      *
+ ******************************************************************************/
+ScoreTable::operator bool()
+{
+    return getRun();
+}
+
+/*******************************************************************************
+ * Description: getter for the menuButton Button                               *
+ * Return: a reference to menuButton                                           *
+ * Pre: object exists                                                          *
+ * Post: object unchanged                                                      *
+ ******************************************************************************/
+Button& ScoreTable::getMenuButton()
+{
+    return menuButton;
+}
+
+/*******************************************************************************
+ * Description: overloaded square brackets                                     *
+ * Return: a reference to the Player at players[index]                         *
+ * Pre: object exists                                                          *
+ * Post: object unchanged                                                      *
+ ******************************************************************************/
+Player& ScoreTable::operator[](int index)
+{
+    return players[index];
 }

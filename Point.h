@@ -3,7 +3,7 @@
  * Description: Defines a Point struct to represent a point on the screen with *
  *              x and y coordinates                                            *
  * Date Created: 02 April 2014                                                 *
- * Date Last Modified: 03 April 2014 - Matt Arnold                             *
+ * Date Last Modified: 26 April 2014 - Matt Arnold                             *
  ******************************************************************************/
 
 
@@ -12,7 +12,7 @@
 
 #include "GLUT_Plotter.h"
 #include "Constants.h"
-
+#include "GLUT_Plotter.h"
 
 //OffScreen is an exception class to be thrown when a Point is made that is
 //outside the boudaries of the display window
@@ -42,15 +42,31 @@ struct Point
     }
 
     /***************************************************************************
-     * Description: Constructs a Point object from a Click
-     * Return: none
-     * Pre: Click object exists, x and y are within screen range
-     * Post: Point object is created with x c.x and y c.y
+     * Description: Constructs a Point object from a Click                     *
+     * Return: none                                                            *
+     * Pre: Click object exists, x and y are within screen range               *
+     * Post: Point object is created with x c.x and y c.y                      *
      **************************************************************************/
     Point(Click c)
     {
         this->x = c.x;
         this->y = c.y;
+    }
+    
+    /***************************************************************************
+     * Description: adds two Points                                            *
+     * Return: a Point representing the sum of the two operands                *
+     * Pre: object exists                                                      *
+     * Post: object unchanged                                                  *
+     **************************************************************************/
+    Point operator + (Point other)
+    {
+        Point newPoint;
+        
+        newPoint.x = this->x + other.x;
+        newPoint.y = this->y + other.y;
+        
+        return newPoint;
     }
 };
 

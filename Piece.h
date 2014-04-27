@@ -1,11 +1,11 @@
-/******************************************************************************
-Author:  Brennan Saul
-File Name:  Piece.h
-Description:  Defines the Piece class. Includes prototypes of functions
-              and private fields.
-Date Created:  April 16, 2014
-Date Last Modified:  April 23, 2014 - Cameron Wagstaff
-******************************************************************************/
+/*******************************************************************************
+* Author:  Brennan Saul                                                        *
+* File Name:  Piece.h                                                          *
+* Description:  Defines the Piece class. Includes prototypes of functions      *
+*               and private fields.                                            *
+* Date Created:  16 April 2014                                                 *
+* Date Last Modified:  27 April 2014 - Matt Arnold                             *
+*******************************************************************************/
 
 #ifndef PIECE_H_INCLUDED
 #define PIECE_H_INCLUDED
@@ -17,8 +17,8 @@ Date Last Modified:  April 23, 2014 - Cameron Wagstaff
 
 using namespace std;
 
-const Point PIECE_START             = Point((GAME_RIGHT - BORDER_WIDTH) / 2,
-                                            SQUARE_WIDTH + BORDER_WIDTH * 2 + 1);
+const Point PIECE_START           = Point((GAME_RIGHT - BORDER_WIDTH) / 2,
+                                           SQUARE_WIDTH + BORDER_WIDTH * 2 - 1);
 
 class Piece
 {
@@ -33,7 +33,6 @@ class Piece
         void fall();
         void moveRight();
         void moveLeft();
-        void draw();
         void draw(GLUT_Plotter *g);
         void erase(GLUT_Plotter *g);
         void setOrientation(int);
@@ -60,11 +59,6 @@ class Piece
         void lOrientation(int);
         void oOrientation(int);
         void zOrientation(int);
-        //moved setOrientation in to the private function becuase it is only
-        //used within functions such as constructors and turns
-        //void setOrientation(int);
-        //moved setOrientation in to the private function becuase it is only
-        //used within functions such as constructors and turns
 };
 
 

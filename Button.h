@@ -1,10 +1,8 @@
 /*******************************************************************************
- * Author: Matt Arnold
- * Assignment Title:
- * Assignment Description:
- * Due Date:
- * Date Created: 01 April 2014
- * Date Last Modified: 10 April 2014 - Matt Arnold
+ * Author: Matt Arnold                                                         *
+ * Description: defines the Button class for buttons used in menus, etc        *
+ * Date Created: 01 April 2014                                                 *
+ * Date Last Modified: 10 April 2014 - Matt Arnold                             *
  ******************************************************************************/
 
 

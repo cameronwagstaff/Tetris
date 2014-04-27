@@ -2,7 +2,7 @@
  * Author: Matt Arnold                                                         *
  * Description: Implementatin of the Player struct                             *
  * Date Created: 07 April 2014                                                 *
- * Date Last Modified: 10 April 2014 - Matt Arnold                             *
+ * Date Last Modified: 25 April 2014 - Matt Arnold                             *
  ******************************************************************************/
 #include "Player.h"
 
@@ -59,24 +59,10 @@ void Player::addGame(int score)
  ******************************************************************************/
 bool Player::operator < (const Player& other) const
 {
-    bool result = false;
     
-    if(this->highScore < other.highScore)
-    {
-        result = true;
-    }
-    
-    if(!result && this->gamesPlayed < other.gamesPlayed)
-    {
-        result = true;
-    }
-    
-    if(!result && this->pointsPerGame() < other.pointsPerGame())
-    {
-        result = true;
-    }
-    
-    return result;
+    return (highScore == other.highScore)? pointsPerGame()
+                                           < other.pointsPerGame()
+                                           : highScore < other.highScore;
 }
 
 /*******************************************************************************

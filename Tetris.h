@@ -2,7 +2,7 @@
  * Author: Dr. Booth, Matt Arnold                                              *
  * Description: Tetris game class header                                       *
  * Created on: Mar 28, 2014                                                    *
- * Last Modified: 23 April 2014 by Matt Arnold                                 *
+ * Last Modified: 26 April 2014 - Matt Arnold                                  *
  ******************************************************************************/
 
 #ifndef TETRIS_H_
@@ -17,8 +17,10 @@
 #include "Constants.h"
 #include "Piece.h"
 #include "Rectangle.h"
+#include "InputBox.h"
 #include <cstdlib>
 #include <ctime>
+#include <string>
 
 using namespace std;
 
@@ -31,6 +33,9 @@ private:
     Matrix matrix;
     Piece current,  next;
     stdRect::Rectangle nextBox;
+    InputBox enterName;
+    bool end;
+    int currentScore;
 
 public:
     //constructor

@@ -17,7 +17,7 @@ struct Player
     string name;
     int highScore, gamesPlayed, totalScore;
     
-    Player(string name);
+    Player(string name = "");
     double pointsPerGame() const;
     void addGame(int score);
     bool operator < (const Player& other) const;

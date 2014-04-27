@@ -44,6 +44,9 @@ void Menu::draw(GLUT_Plotter *g)
     //Draw Buttons
     startButton.draw(g);
     viewScores.draw(g);
+    
+    //Draw Title
+    drawCenteredString(g, "TETRIS", Point(255, 135), 0x00FF33);
 }
 
 /*******************************************************************************
