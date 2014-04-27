@@ -13,6 +13,7 @@
 #include <fstream>
 #include <algorithm>
 #include <string>
+#include <cstdlib>
 #include "GLUT_Plotter.h"
 #include "Player.h"
 #include "Constants.h"

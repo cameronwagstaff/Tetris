@@ -22,11 +22,11 @@ using namespace stdRect;
 class InputBox
 {
     private:
-        Rectangle background, dataBox;
+        stdRect::Rectangle background, dataBox;
         Button enter, cancel;
         string data, prompt;
         bool alNumErr, exceedsLength;
-        
+
     public:
         InputBox(string prompt = "Enter data",
                  unsigned int backgroundColor = BACKGROUND_GRAY,
@@ -34,8 +34,8 @@ class InputBox
         ~InputBox();
         InputBox(const InputBox& other);
         InputBox& operator = (const InputBox& other);
-        Rectangle& getBackground();
-        Rectangle& getDataBox();
+        stdRect::Rectangle& getBackground();
+        stdRect::Rectangle& getDataBox();
         Button& getEnter();
         Button& getCancel();
         string& getData();
@@ -44,7 +44,7 @@ class InputBox
         void erase(GLUT_Plotter *g);
         void setAlNumErr(bool val);
         void setExcedesLength(bool val);
-    
+
 };
 
 #endif
