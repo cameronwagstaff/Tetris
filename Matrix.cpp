@@ -199,13 +199,13 @@ Matrix& Matrix::addShape(int r, int c, Square& object)
 * Pre: none                                                                   *
 * Post: Nothing is changed                                                    *
 ******************************************************************************/
-bool occupied(int r, int c)
+bool Matrix::occupied(int r, int c)
 {
     if (r >= MAX_ROWS || c >= MAX_COLS || r < MIN_ROWS || c < MIN_COLS)
     {
         throw(NotInMatrix(r,c));
     }
-    return Matrix[r][c] != NULL;
+    return matrix[r][c] != NULL;
 }
 
 
