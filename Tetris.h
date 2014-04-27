@@ -1,26 +1,50 @@
-/*
- * Tetris.h - Tetris game class header
- *
- *  Created on: Mar 28, 2014
- *  Created on: Mar 28, 2014
- *      Author: Dr. Booth
- */
+/*******************************************************************************
+ * Author: Dr. Booth, Matt Arnold                                              *
+ * Description: Tetris game class header                                       *
+ * Created on: Mar 28, 2014                                                    *
+ * Last Modified: 26 April 2014 - Matt Arnold                                  *
+ ******************************************************************************/
 
 #ifndef TETRIS_H_
 #define TETRIS_H_
+
 #include "GLUT_Plotter.h"
+#include "Text.h"
+#include "Menu.h"
+#include "Matrix.h"
+#include "ScoreTable.h"
+#include "Square.h"
+#include "Constants.h"
+#include "Piece.h"
+#include "Rectangle.h"
+#include "InputBox.h"
+#include <cstdlib>
+#include <ctime>
+#include <string>
 
+using namespace std;
 
-class Tetris{
+class Tetris
+{
 private:
-	GLUT_Plotter *g;
+    GLUT_Plotter *g;
+    Menu m;
+    ScoreTable scores;
+    Matrix matrix;
+    Piece current,  next;
+    stdRect::Rectangle nextBox;
+    InputBox enterName;
+    bool end;
+    int currentScore;
 
 public:
-	//constructor
-	Tetris(GLUT_Plotter* g);
+    //constructor
+    Tetris(GLUT_Plotter* g);
 
-	//Main GAIM FUNCTION
-	void Play(void);
+    //Main GAIM FUNCTION
+    void Play(void);
+    void drawGame();
+    void drawNextBox();
 };
 
 #endif /* TETRIS_H_ */
