@@ -182,7 +182,7 @@ void Square::fall()
  ******************************************************************************/
 void Square::shiftRight()
 {
-    center.x += 7; //Value will be changed to a named constant soon, but lazy
+    center.x += SHIFT_LENGTH;
 }
 
 /*******************************************************************************
@@ -193,7 +193,7 @@ void Square::shiftRight()
  ******************************************************************************/
 void Square::shiftLeft()
 {
-    center.x -= 7; //Value will be changed to a named constant soon, but lazy
+    center.x -= SHIFT_LENGTH;
 }
 
 /*******************************************************************************
