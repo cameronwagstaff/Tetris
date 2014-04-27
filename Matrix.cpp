@@ -16,10 +16,12 @@
 ******************************************************************************/
 Matrix::Matrix(GLUT_Plotter *g)
 {
-    matrix = new Shape**[MAX_ROWS];
+    matrix = new Shape** [MAX_ROWS];
+    
     for (int i = MIN_ROWS; i < MAX_ROWS; i++)
     {
-        matrix[i] = new Shape*[MAX_COLS];
+        matrix[i] = new Shape* [MAX_COLS];
+        
         for (int j = 0; j < MAX_COLS; j++)
         {
             matrix[i][j] = NULL;
@@ -42,7 +44,7 @@ Matrix::~Matrix()
     {
         for(int j = 0; j < MAX_COLS; j++)
         {
-            delete [] matrix[i][j];
+            delete matrix[i][j];
         }
 
         delete [] matrix[i];
@@ -66,6 +68,20 @@ void Matrix::lineCheck()
         {
             deleteRow(i);
             shiftDown(i);
+        }
+    }
+}
+
+void Matrix::draw(GLUT_Plotter *g)
+{
+    for(int i = 0; i < MAX_ROWS; i++)
+    {
+        for(int j = 0; j < MAX_COLS; j++)
+        {
+            if(matrix[i][j] != NULL)
+            {
+                matrix[i][j]->draw(g);
+            }
         }
     }
 }
@@ -140,13 +156,29 @@ void Matrix::shiftDown(int r)
     return;
 }
 
+Matrix& Matrix::addPiece(Piece object)
+{
+    
+    for(int i = 0; i < 4; i++)
+    {
+        int row = 0, col = 0;
+        
+        row = object.getSquares()[i]->getCenter().x / SQUARE_WIDTH; //maths
+        col = object.getSquares()[i]->getCenter().y / SQUARE_WIDTH; // maths
+        
+        addShape(row, col, *object.getSquares()[i]);
+    }
+    
+    return *this;
+}
+
 /******************************************************************************
 * Description: Puts a shape in the matrix                                     *
 * Return: Matrix&                                                             *
 * Pre: Valid shape                                                            *
 * Post: There is now a shape in row, col                                      *
 ******************************************************************************/
-Matrix& Matrix::addShape(int r, int c, Shape& object)
+Matrix& Matrix::addShape(int r, int c, Square& object)
 {
     //If matrix already points to an object, we are trying to add something
     //  where something is already present; throw LocationOccupied
@@ -156,15 +188,10 @@ Matrix& Matrix::addShape(int r, int c, Shape& object)
     }
 
     //Else, add object to the matrix
-    matrix[r][c] = &object;
+    matrix[r][c] = new Square(object);
 
-    //Commented John's stuff out rather than deleting in case I'm crazy - Matt
-    /*//Add Shape if matrix[r][c] is null. else there is already something there
-    if (matrix[r][c] == NULL)
-    {
-        matrix[r][c] = &object;
-    }
-    // else throw some kind of exception...too tired to think about that*/
     return *this;
 }
+
+
 

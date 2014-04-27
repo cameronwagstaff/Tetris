@@ -21,7 +21,7 @@ class Square : public Shape
     public:
         Square(Point center = Point(100, 100), unsigned int color = WHITE);
         Square(const Square & other);
-        Square& operator = (const Square& other);
+        Square& operator = (const Square &other);
         Point getCenter();
         void draw(GLUT_Plotter *g);
         void erase(GLUT_Plotter *g);
@@ -30,6 +30,7 @@ class Square : public Shape
         void moveUp();
         void shiftRight();
         void shiftLeft();
+        Point getTopLeft();
     
 };
 

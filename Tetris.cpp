@@ -70,6 +70,20 @@ void Tetris::Play(void)
 
         current.draw(g);
         drawNextBox();
+        
+        matrix.draw(g);
+        
+        if(current.getRest())
+        {
+            matrix.addPiece(current);
+            
+            current = next;
+            current.setPosition(PIECE_START);
+            
+            next.setType(rand() % 6);
+            next.setColor();
+        }
+        
     }
 
 

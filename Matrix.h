@@ -13,6 +13,7 @@
 #include "GLUT_Plotter.h"
 #include "Constants.h"
 #include "Shape.h"
+#include "Piece.h"
 
 //Exception class thrown if the user tries to add a shape to the matrix in
 //  a location that is already occupied
@@ -47,7 +48,7 @@ class Matrix
          pointer either points to NULL or a shape. So it's a group of
          pointers that point to pointers that point to NULL or SHAPES!
         **/
-        Shape*** matrix;
+         Shape*** matrix;
          GLUT_Plotter *g;
 
     public:
@@ -56,9 +57,11 @@ class Matrix
         ~Matrix();
         void lineCheck();
         void shiftDown(int r);
+        void draw(GLUT_Plotter *g);
         int  rowSum(int r);
         void deleteRow(int r);
-        Matrix& addShape(int row, int col, Shape& object);
+        Matrix& addPiece(Piece object);
+        Matrix& addShape(int row, int col, Square& object);
 };
 
 #endif

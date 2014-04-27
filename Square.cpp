@@ -40,8 +40,8 @@ Square& Square::operator = (const Square &other)
 {
     if(this != &other)
     {
-        this->color = other.color;
-        this->center = other.center;
+        setColor(other.color);// = other.color;
+        center = other.center;
     }
     
     return *this;
@@ -206,4 +206,10 @@ void Square::moveUp()
 {
     //Because up is negative...I don't get it either
     center.y -= FALL_LENGTH;
+}
+
+Point Square::getTopLeft()
+{
+    return Point(center.x - (SQUARE_WIDTH / 2), center.y +
+                 (SQUARE_WIDTH / 2));
 }
