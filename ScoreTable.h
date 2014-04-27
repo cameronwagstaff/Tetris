@@ -1,8 +1,9 @@
 /*******************************************************************************
- * Author: Matt Arnold
- * Description:
- * Date Created: 07 April 2014
- * Date Last Modified: 24 April 2014 - Matt Arnold
+ * Author: Matt Arnold                                                         *
+ * Description: Defines the ScoreTable class, which keeps track of and         *
+ *              displays Players' scores, esp. high scores                     *
+ * Date Created: 07 April 2014                                                 *
+ * Date Last Modified: 25 April 2014 - Matt Arnold                             *
  ******************************************************************************/
 
 #ifndef Tetris_ScoreTable_h
@@ -35,6 +36,7 @@ class ScoreTable
 
     public:
         ScoreTable();
+        ~ScoreTable();
         ScoreTable& addPlayer(string);
         ScoreTable& addPlayer(Player p);
         void draw(GLUT_Plotter *g);
@@ -46,7 +48,8 @@ class ScoreTable
         bool getRun();
         void setRun(bool newVal);
         operator bool();
-        Button getMenuButton();
+        Button& getMenuButton();
+        Player& operator [] (int index);
 };
 
 #endif

@@ -33,7 +33,6 @@ class Piece
         void fall();
         void moveRight();
         void moveLeft();
-        void draw();
         void draw(GLUT_Plotter *g);
         void erase(GLUT_Plotter *g);
         void setOrientation(int);
@@ -60,11 +59,6 @@ class Piece
         void lOrientation(int);
         void oOrientation(int);
         void zOrientation(int);
-        //moved setOrientation in to the private function becuase it is only
-        //used within functions such as constructors and turns
-        //void setOrientation(int);
-        //moved setOrientation in to the private function becuase it is only
-        //used within functions such as constructors and turns
 };
 
 

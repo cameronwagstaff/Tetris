@@ -2,7 +2,7 @@
  * Author: Matt Arnold                                                         *
  * Description: Contains various constants to be used in the Tetris game       *
  * Date Created:02 April 2014                                                  *
- * Date Last Modified:23 April 2014 by Cameron Wagstaff                        *
+ * Date Last Modified:23 April 2014 - Cameron Wagstaff                         *
  ******************************************************************************/
 
 
@@ -60,8 +60,9 @@ const int MIN_ROWS                  = 0;
 const int MIN_COLS                  = 0;
 
 //Text
-const int characterHeight = 16; //Height of characters in Font.h in pixels
-const int characterWidth = 10;  //Width of characters in Font.h in pixels
+const int characterHeight           = 16; //Height of characters in Font.h in pixels
+const int characterWidth            = 10;  //Width of characters in Font.h in pixels
+const int MAX_LEN                   = 10; //Maximum number of characters a user's name may have
 
 //Oddities
 const string WINDOW_TITLE = "AWESOME TETRIS GAME"; //The string displayed on the title bar of the game

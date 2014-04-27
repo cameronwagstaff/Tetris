@@ -3,12 +3,10 @@ Author:  Brennan Saul
 File Name:  Piece.cpp
 Description:  Implements the Piece class.
 Date Created:  April 16, 2014
-Date Last Modified:  April 16, 2014 - Created - Brennan Saul
 Date Last Modified:  April 22, 2014 - Matt Arnold
-Date LAst Modified:  April 24, 2014 - Brennan Saul
 ******************************************************************************/
+
 #include "Piece.h"
-#include "Square.h"
 
 /******************************************************************************
 Function name:  Piece()
@@ -20,18 +18,18 @@ Return value:  None
 Piece::Piece()
 {
     pieceType = rand() % 6;
-
+    
     for(int i = 0; i < 4; i++)
     {
         squares[i] = new Square;
     }
-
+    
     squares[1]->setCenter(PIECE_START);
-
+    
     setColor();
-
+    
     setOrientation(0);
-
+    
     rest = false;
 }
 
@@ -44,12 +42,11 @@ Return value:  None
 ******************************************************************************/
 Piece::Piece(int pieceType)
 {
-    // 0 is the default orientation for all Pieces
-    orientation     = 0;
-    rest            = false;
+    orientation = 0;
+    rest = false;
     this->pieceType = pieceType;
 
-    //set value for point 2 which all other point are dependent on.
+    //set value for point 2
     //p2.x = MAX_ROWS / 2;
     //p2.y = 1;
 
@@ -86,18 +83,18 @@ Piece& Piece::operator=(const Piece &other)
             delete squares[i];
             squares[i] = new Square(*(other.squares[i]));
         }
-
+        
         this->pieceType = other.pieceType;
         this->orientation = other.orientation;
         this->color = other.color;
         this->rest = other.rest;
-
+        
         setOrientation(orientation);
         setColor();
     }
+    
     return *this;
 }
-
 
 /******************************************************************************
 Function name:  rotateRight()
@@ -137,7 +134,7 @@ void Piece::rotateLeft()
     {
         orientation -= 1;
     }
-
+    
     setOrientation(orientation);
 }
 
@@ -150,10 +147,8 @@ Return value:  None
 ******************************************************************************/
 void Piece::fall()
 {
-    //need to check for peices under and check if at the bottem
-
     bool canFall = true;
-
+    
     for(int i = 0; i < 4; i++)
     {
         if(squares[i]->getCenter().y + (SQUARE_WIDTH) >= GAME_BOTTOM -
@@ -163,7 +158,7 @@ void Piece::fall()
             rest = true;
         }
     }
-
+    
     if(canFall)
     {
         for(int i = 0; i < 4; i++)
@@ -175,20 +170,13 @@ void Piece::fall()
 
 /******************************************************************************
 Function name:  moveRight()
-Description:  This function moves the piece one spot over right.
+Description:This function moves the piece one spot over right.
 Precondition:  Object must exist.
 Postcondition:  Object point x values + 1
 Return value:  None
 ******************************************************************************/
 void Piece::moveRight()
 {
-    //point p1 is always farthest to the left and p4 is always farthest to the right
-    //if(p4.x < MAX_COLS)
-    //p1.x += 1;
-    //p2.x += 1;
-    //p3.x += 1;
-    //p4.x += 1;
-
     for(int i = 0; i < 4; i++)
     {
         squares[i]->shiftRight();
@@ -202,17 +190,12 @@ Precondition:  Object must exist.
 Postcondition:  Points x - 1
 Return value:  None
 ******************************************************************************/
-
 void Piece::moveLeft()
 {
-    //Wall not perfect but its a start!
-    if(squares[0]->getCenter().x > MIN_COLS + SQUARE_WIDTH)
+    for(int i = 0; i < 4; i++)
     {
-        for(int i = 0; i < 4; i++)
-        {
-            squares[i]->shiftLeft();
-        }
-   }
+        squares[i]->shiftLeft();
+    }
 }
 
 /******************************************************************************
@@ -277,7 +260,7 @@ void Piece::setColor()
         default:
             color = RED;
     }
-
+    
     for(int i = 0; i < 4; i++)
     {
         squares[i]->setColor(color);
@@ -293,7 +276,7 @@ Return value:  None
 void Piece::setOrientation(int newOrientation)
 {
     orientation = newOrientation;
-
+    
     switch(this->pieceType)
     {
 
@@ -344,7 +327,7 @@ void Piece::iOrientation(int newOrientation)    //Flawless
         case 0:
             squares[0]->setCenter(Point(squares[1]->getCenter().x,
                                         squares[1]->getCenter().y - SQUARE_WIDTH));
-
+            
             squares[2]->setCenter(Point(squares[1]->getCenter().x,
                                         squares[1]->getCenter().y + SQUARE_WIDTH));
             /*p3.x = p2.x;
@@ -352,24 +335,24 @@ void Piece::iOrientation(int newOrientation)    //Flawless
 
             squares[3]->setCenter(Point(squares[1]->getCenter().x,
                                         squares[1]->getCenter().y + 2 * SQUARE_WIDTH));
-
+            
             /*p4.x = p2.x;
             p4.y = p2.y + 2;*/
 
             break;
 
         case 1:
-
+            
             squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
             // p1.y = p2.y;
             //p1.x = p2.x - 1;
-
+            
             squares[2]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
             //p3.y = p2.y;
             //p3.x = p2.x + 1;
-
+            
             squares[3]->setCenter(Point(squares[1]->getCenter().x + 2 * SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
 
@@ -398,24 +381,19 @@ void Piece::jOrientation(int newOrientation)    //Flawless
     switch(newOrientation)
     {
         case 0:
+            
             squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
                                         squares[1]->getCenter().y + SQUARE_WIDTH));
-
+            
             //p1.x = p2.x - 1;
             //p1.y = p2.y + 1;
-
-            squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
-                                        squares[1]->getCenter().y + SQUARE_WIDTH));
-
-            //p1.x = p2.x - 1;
-            //p1.y = p2.y + 1;
-
+            
             squares[2]->setCenter(Point(squares[1]->getCenter().x,
                                         squares[1]->getCenter().y + SQUARE_WIDTH));
 
             //p3.x = p2.x;
             //p3.y = p2.y + 1;
-
+            
             squares[3]->setCenter(Point(squares[1]->getCenter().x,
                                         squares[1]->getCenter().y - SQUARE_WIDTH));
 
@@ -425,24 +403,19 @@ void Piece::jOrientation(int newOrientation)    //Flawless
             break;
 
         case 1:
+            
             squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
                                         squares[1]->getCenter().y - SQUARE_WIDTH));
-
+            
             //p1.y = p2.y - 1;
             //p1.x = p2.x - 1;
-
-            squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
-                                        squares[1]->getCenter().y - SQUARE_WIDTH));
-
-            //p1.y = p2.y - 1;
-            //p1.x = p2.x - 1;
-
+            
             squares[2]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
 
             //p3.y = p2.y;
             //p3.x = p2.x - 1;
-
+            
             squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
 
@@ -452,24 +425,19 @@ void Piece::jOrientation(int newOrientation)    //Flawless
             break;
 
         case 2:
+            
             squares[0]->setCenter(Point(squares[1]->getCenter().x,
                                         squares[1]->getCenter().y + SQUARE_WIDTH));
-
+            
             //p1.y = p2.y + 1;
             //p1.x = p2.x;
-
-            squares[0]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y + SQUARE_WIDTH));
-
-            //p1.y = p2.y + 1;
-            //p1.x = p2.x;
-
+            
             squares[2]->setCenter(Point(squares[1]->getCenter().x,
                                         squares[1]->getCenter().y - SQUARE_WIDTH));
 
             //p3.y = p2.y - 1;
             //p3.x = p2.x;
-
+            
             squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
                                         squares[1]->getCenter().y - SQUARE_WIDTH));
             //p4.y = p2.y - 1;
@@ -477,25 +445,19 @@ void Piece::jOrientation(int newOrientation)    //Flawless
 
             break;
         default:
-
+            
             squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
-
+            
             //p1.y = p2.y;
             //p1.x = p2.x - 1;
-
-            squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
-                                        squares[1]->getCenter().y));
-
-            //p1.y = p2.y;
-            //p1.x = p2.x - 1;
-
+            
             squares[2]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
 
             //p3.y = p2.y;
             //p3.x = p2.x + 1;
-
+            
             squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
                                         squares[1]->getCenter().y + SQUARE_WIDTH));
 
@@ -516,25 +478,19 @@ void Piece::sOrientation(int newOrientation)    //Flawlessish
     switch(newOrientation)
     {
         case 0:
-
+            
             squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
-
+            
             //p1.x = p2.x - 1;
             //p1.y = p2.y;
-
-            squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
-                                        squares[1]->getCenter().y));
-
-            //p1.x = p2.x - 1;
-            //p1.y = p2.y;
-
+            
             squares[2]->setCenter(Point(squares[1]->getCenter().x,
                                         squares[1]->getCenter().y - SQUARE_WIDTH));
 
             //p3.x = p2.x;
             //p3.y = p2.y - 1;
-
+            
             squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
                                         squares[1]->getCenter().y - SQUARE_WIDTH));
 
@@ -544,27 +500,20 @@ void Piece::sOrientation(int newOrientation)    //Flawlessish
             break;
 
         case 1:
-
+            
             squares[0]->setCenter(Point(squares[1]->getCenter().x,
                                         squares[1]->getCenter().y -
                                         SQUARE_WIDTH));
-
+            
             //p1.y = p2.y - 1;
             //p1.x = p2.x;
-
-            squares[0]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y -
-                                        SQUARE_WIDTH));
-
-            //p1.y = p2.y - 1;
-            //p1.x = p2.x;
-
+            
             squares[2]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
 
             //p3.y = p2.y;
             //p3.x = p2.x + 1;
-
+            
             squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
                                         squares[1]->getCenter().y + SQUARE_WIDTH));
 
@@ -594,25 +543,19 @@ void Piece::tOrientation(int newOrientation)    //Flawless
     switch(newOrientation)
     {
         case 0:
-
+            
             squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
-
+            
             //p1.x = p2.x - 1;
             //p1.y = p2.y;
-
-            squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
-                                        squares[1]->getCenter().y));
-
-            //p1.x = p2.x - 1;
-            //p1.y = p2.y;
-
+            
             squares[2]->setCenter(Point(squares[1]->getCenter().x,
                                         squares[1]->getCenter().y + SQUARE_WIDTH));
 
             //p3.x = p2.x;
             //p3.y = p2.y + 1;
-
+            
             squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
 
@@ -622,24 +565,19 @@ void Piece::tOrientation(int newOrientation)    //Flawless
             break;
 
         case 1:
+            
             squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
-
+            
             //p1.y = p2.y;
             //p1.x = p2.x - 1;
-
-            squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
-                                        squares[1]->getCenter().y));
-
-            //p1.y = p2.y;
-            //p1.x = p2.x - 1;
-
+            
             squares[2]->setCenter(Point(squares[1]->getCenter().x,
                                         squares[1]->getCenter().y + SQUARE_WIDTH));
 
             //p3.y = p2.y + 1;
             //p3.x = p2.x;
-
+            
             squares[3]->setCenter(Point(squares[1]->getCenter().x,
                                         squares[1]->getCenter().y - SQUARE_WIDTH));
 
@@ -649,24 +587,19 @@ void Piece::tOrientation(int newOrientation)    //Flawless
             break;
 
         case 2:
+            
             squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
-
+            
             //p1.y = p2.y;
             //p1.x = p2.x - 1;
-
-            squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
-                                        squares[1]->getCenter().y));
-
-            //p1.y = p2.y;
-            //p1.x = p2.x - 1;
-
+            
             squares[2]->setCenter(Point(squares[1]->getCenter().x,
                                         squares[1]->getCenter().y - SQUARE_WIDTH));
 
             //p3.y = p2.y + 1;
             //p3.x = p2.x;
-
+            
             squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
 
@@ -675,25 +608,19 @@ void Piece::tOrientation(int newOrientation)    //Flawless
 
             break;
         default:
-
+            
             squares[0]->setCenter(Point(squares[1]->getCenter().x,
                                         squares[1]->getCenter().y + SQUARE_WIDTH));
-
+            
             //p1.y = p2.y - 1;
             //p1.x = p2.x;
-
-            squares[0]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y + SQUARE_WIDTH));
-
-            //p1.y = p2.y - 1;
-            //p1.x = p2.x;
-
+            
             squares[2]->setCenter(Point(squares[1]->getCenter().x,
                                         squares[1]->getCenter().y - SQUARE_WIDTH));
 
             //p3.y = p2.y - 1;
             //p3.x = p2.x;
-
+            
             squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
                                         squares[1]->getCenter().y ));
 
@@ -714,24 +641,19 @@ void Piece::lOrientation(int newOrientation)    //Flawless
     switch(newOrientation)
     {
         case 0:
+            
             squares[0]->setCenter(Point(squares[1]->getCenter().x,
                                         squares[1]->getCenter().y - SQUARE_WIDTH));
-
+            
             //p1.x = p2.x;
             //p1.y = p2.y - 1;
-
-            squares[0]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y - SQUARE_WIDTH));
-
-            //p1.x = p2.x;
-            //p1.y = p2.y - 1;
-
+            
             squares[2]->setCenter(Point(squares[1]->getCenter().x,
                                         squares[1]->getCenter().y + SQUARE_WIDTH));
 
             //p3.x = p2.x;
             //p3.y = p2.y + 1;
-
+            
             squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
                                         squares[1]->getCenter().y + SQUARE_WIDTH));
 
@@ -741,24 +663,19 @@ void Piece::lOrientation(int newOrientation)    //Flawless
             break;
 
         case 1:
+            
             squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
                                         squares[1]->getCenter().y + SQUARE_WIDTH));
-
+            
             //p1.y = p2.y + 1;
             //p1.x = p2.x - 1;
-
-            squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
-                                        squares[1]->getCenter().y + SQUARE_WIDTH));
-
-            //p1.y = p2.y + 1;
-            //p1.x = p2.x - 1;
-
+            
             squares[2]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
 
             //p3.y = p2.y;
             //p3.x = p2.x - 1;
-
+            
             squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
 
@@ -768,24 +685,19 @@ void Piece::lOrientation(int newOrientation)    //Flawless
             break;
 
         case 2:
+            
             squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
                                         squares[1]->getCenter().y - SQUARE_WIDTH));
-
+            
             //p1.y = p2.y - 1;
             //p1.x = p2.x - 1;
-
-            squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
-                                        squares[1]->getCenter().y - SQUARE_WIDTH));
-
-            //p1.y = p2.y - 1;
-            //p1.x = p2.x - 1;
-
+            
             squares[2]->setCenter(Point(squares[1]->getCenter().x,
                                         squares[1]->getCenter().y - SQUARE_WIDTH));
 
             //p3.y = p2.y - 1;
             //p3.x = p2.x;
-
+            
             squares[3]->setCenter(Point(squares[1]->getCenter().x,
                                         squares[1]->getCenter().y + SQUARE_WIDTH));
 
@@ -798,13 +710,13 @@ void Piece::lOrientation(int newOrientation)    //Flawless
                                         squares[1]->getCenter().y));
             //p1.y = p2.y;
             //p1.x = p2.x - 1;
-
+            
             squares[2]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
 
             //p3.y = p2.y;
             //p3.x = p2.x + 1;
-
+            
             squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
                                         squares[1]->getCenter().y - SQUARE_WIDTH));
 
@@ -826,13 +738,13 @@ void Piece::oOrientation(int newOrientation)    //Flawless
                                 squares[1]->getCenter().y - SQUARE_WIDTH));
     //p1.x = p2.x;
     //p1.y = p2.y - 1;
-
+    
     squares[2]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
                                 squares[1]->getCenter().y - SQUARE_WIDTH));
 
     //p3.x = p2.x + 1;
     //p3.y = p2.y - 1;
-
+    
     squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
                                 squares[1]->getCenter().y));
 
@@ -857,13 +769,13 @@ void Piece::zOrientation(int newOrientation)
                                         squares[1]->getCenter().y - SQUARE_WIDTH));
             //p1.x = p2.x - 1;
             //p1.y = p2.y - 1;
-
+            
             squares[2]->setCenter(Point(squares[1]->getCenter().x,
                                         squares[1]->getCenter().y - SQUARE_WIDTH));
 
             //p3.x = p2.x;
             //p3.y = p2.y - 1;
-
+            
             squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
 
@@ -873,25 +785,19 @@ void Piece::zOrientation(int newOrientation)
             break;
 
         case 1:
-
+            
             squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
                                         squares[1]->getCenter().y + SQUARE_WIDTH));
-
+            
             //p1.y = p2.y + 1;
             //p1.x = p2.x - 1;
-
-            squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
-                                        squares[1]->getCenter().y + SQUARE_WIDTH));
-
-            //p1.y = p2.y + 1;
-            //p1.x = p2.x - 1;
-
+            
             squares[2]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
 
             //p3.y = p2.y;
             //p3.x = p2.x - 1;
-
+            
             squares[3]->setCenter(Point(squares[1]->getCenter().x,
                                         squares[1]->getCenter().y - SQUARE_WIDTH));
 

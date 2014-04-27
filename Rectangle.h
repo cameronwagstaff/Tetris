@@ -3,7 +3,7 @@
  * Description: Defines the Rectangle class to be used for elements of the game*
  *              that involve rectangles                                        *
  * Date Created: 10 April 2014                                                 *
- * Date Last Modified: 23 April 2014 by Cameron Wagstaff                       *
+ * Date Last Modified: 23 April 2014 - Matt Arnold                             *
  ******************************************************************************/
 #ifndef __Rectangle__
 #define __Rectangle__

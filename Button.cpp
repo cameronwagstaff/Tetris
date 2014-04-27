@@ -75,8 +75,7 @@ void Button::press(GLUT_Plotter* g)
     color += 0x555555;
     textColor += 0x555555;
     draw(g);
-    cout << hex << color << endl;
-
+    
     g->Draw();
 
     //Wait for pressTime seconds
@@ -86,11 +85,10 @@ void Button::press(GLUT_Plotter* g)
     //erase button and redraw with original color
     erase(g);
     color -= 0x555555;
-    cout << hex << color << dec << endl;
     textColor -= 0x555555;
     draw(g);
 
-    g->Draw();
+    //g->Draw();
 }
 
 /*******************************************************************************

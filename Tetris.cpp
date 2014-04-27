@@ -2,21 +2,24 @@
  * Author: Dr. Booth, Matt Arnold                                              *
  * Description: Does the Tetris                                                *
  * Created on: Mar 31, 2014                                                    *
- * Last Modified: 23 April 2014 - Matt Arnold                                  *
+ * Last Modified: 26 April 2014 - Matt Arnold                                  *
  ******************************************************************************/
 
 #include "Tetris.h"
-#include "Rectangle.h"
+
 //Tetris Constructor
+Tetris::Tetris(GLUT_Plotter* g)
+: matrix(g),
+nextBox(Point(GAME_RIGHT + 40, 70),
+        Point(SCREEN_WIDTH - 40, 170), BACKGROUND_WHITE),
+enterName("Enter Your Name")
 
-Tetris::Tetris(GLUT_Plotter* g) : matrix(g), nextBox(Point(GAME_RIGHT + 40, 70),
-                                                     Point(SCREEN_WIDTH - 40, 170), BACKGROUND_WHITE)
 {
-    current.setType(Z);
-    current.setOrientation(0);
-    current.setColor();
-
-	this->g = g;
+    end = false;
+    
+    currentScore = 0;
+    
+    this->g = g;
 
     next.setPosition(Point((GAME_RIGHT + SCREEN_WIDTH) / 2, 95));
 
@@ -33,18 +36,6 @@ Tetris::Tetris(GLUT_Plotter* g) : matrix(g), nextBox(Point(GAME_RIGHT + 40, 70),
         data.close();
         scores.get();
     }
-    
-    scores.search(Player("Jeff"));
-    scores.search("Tim");
-    scores.search("Marsha");
-    scores.search("Tom");
-    scores.search("Dick");
-    scores.search("Harry");
-    scores.search("Paul");
-    scores.search("Paula");
-    scores.search("Latasha");
-    scores.search("Cheyenne");
-
 }
 
 
@@ -63,14 +54,20 @@ void Tetris::Play(void)
     {
         scores.draw(g);
     }
+    else if(end)
+    {
+        enterName.erase(g);
+        enterName.draw(g);
+    }
     else
     {
         if(clock() >= time + .75 * static_cast<double>(CLOCKS_PER_SEC))
-           {
-               current.erase(g);
-               current.fall();
-               time = clock();
-           }
+        {
+            current.erase(g);
+            current.fall();
+            time = clock();
+        }
+        
         current.draw(g);
         drawNextBox();
     }
@@ -80,18 +77,77 @@ void Tetris::Play(void)
 	while(g->kbhit())
     {
 		int k = g->getKey();
-		switch (k)
+        
+        //Escape key always exits game
+        if(k == 27)
         {
-            case  27: exit(1); break;
-            case 164: current.moveLeft(); break; //Left Arrow
-            case 166: current.moveRight(); break; //Right Arrow
-            case 167: current.rotateLeft(); break; //Down Arrow
-            case 165: current.rotateRight(); break; //Up Arrow
-            case 32 : current.fall(); break;       //Space Bar
-            case 's': current.setType((current.getType() + 1) % 6); break; //s - Change type
-            case 'u': current.moveUp(); break; //u - move up ya know, in case we want that
-            default: cout << k << endl;
-		}
+            this->~Tetris();
+            exit(1);
+        }
+        
+        if(end)
+        {
+            switch(k)
+            {
+                case 127://Backspace
+
+                {
+                    enterName.setAlNumErr(false);
+                    
+                    if(enterName.getData().length() <= MAX_LEN)
+                    {
+                        enterName.setExcedesLength(false);
+                    }
+                    
+                    if(enterName.getData().length() > 0)
+                    {
+                        enterName.getData().erase(enterName.getData().size() - 1, 1);
+                    }
+                    
+                    break;
+                }
+                default:
+                {
+                    if((isalnum(static_cast<char>(k)) ||
+                        static_cast<char>(k) == ' ')
+                       && enterName.getData().length() <= MAX_LEN)
+                    {
+                        enterName.getData() += toupper(static_cast<char>(k));
+                        enterName.setAlNumErr(false);
+                        
+                    }
+                    else
+                    {
+                        if(!(isalnum(static_cast<char>(k)) || static_cast<char>(k) == ' '))
+                        {
+                            enterName.setAlNumErr(true);
+                        }
+                        
+                        if(enterName.getData().length() >= MAX_LEN)
+                        {
+                            enterName.setExcedesLength(true);
+                        }
+                    }
+                    
+                    break;
+                }
+            }
+        }
+        
+        else
+        {
+            switch (k)
+            {
+                case 164: current.moveLeft(); break; //Left Arrow
+                case 166: current.moveRight(); break; //Right Arrow
+                case 167: current.rotateLeft(); break; //Down Arrow
+                case 165: current.rotateRight(); break; //Up Arrow
+                case 32 : current.fall(); break;       //Space Bar
+                case 's': current.setType((current.getType() + 1) % 6); break; //s - Change type
+                case 'u': current.moveUp(); break; //u - move up ya know, in case we want that
+                default: cout << k << endl;
+            }
+        }
 	}
 
 
@@ -102,17 +158,45 @@ void Tetris::Play(void)
 		Click c;
 		c = g->getClick();
         cout << c.x << " " << c.y << endl;
+        
+        if(end && enterName.getEnter().isInRange(c))
+        {
+            enterName.getEnter().press(g);
+            scores[scores.search(enterName.getData())].addGame(currentScore);
+            scores.save();
+            enterName.getData().clear();
+            enterName.setExcedesLength(false);
+            enterName.setAlNumErr(false);
+            end = false;
+            scores.setRun(true);
+            break;
+        }
+        
+        if(end && enterName.getCancel().isInRange(c))
+        {
+            enterName.getCancel().press(g);
+            end = false;
+            m.setRun(true);
+            enterName.getData().clear();
+            enterName.setExcedesLength(false);
+            enterName.setAlNumErr(false);
+            break;
+        }
+
 
         if(m && m.getStartButton().isInRange(Point(c)))
         {
+            currentScore = 0;
             m.getStartButton().press(g);
             m.setRun(false);
+            //end = true;   //This was here for testing
         }
         if(m && m.getViewScores().isInRange(Point(c)))
         {
             m.getViewScores().press(g);
             m.setRun(false);
             scores.setRun(true);
+            scores.sort();
         }
         
         if(scores && scores.getMenuButton().isInRange(c))
@@ -123,7 +207,7 @@ void Tetris::Play(void)
         }
         
     }
-
+    
 
 	// Update screen - draw game
 	g->Draw();

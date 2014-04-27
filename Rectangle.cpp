@@ -2,7 +2,7 @@
  * Author: Matt Arnold                                                         *
  * Description: Implementation of the Rectangle class                          *
  * Date Created: 10 April 2014                                                 *
- * Date Last Modified: 23 April 2014 by Cameron Wagstaff                       *
+ * Date Last Modified: 24 April 2014 - Matt Arnold                             *
  ******************************************************************************/
 #include "Rectangle.h"
 
@@ -22,6 +22,12 @@ Rectangle::Rectangle(Point tl, Point br, unsigned int color) : Shape(color)
     //this->color = color;
 }
 
+/*******************************************************************************
+ * Description: Destructor for Rectangles - does nothing                       *
+ * Return: nothing                                                             *
+ * Pre: object exists                                                          *
+ * Post: object destructed                                                     *
+ ******************************************************************************/
 Rectangle::~Rectangle()
 {
     //empty

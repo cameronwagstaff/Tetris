@@ -2,7 +2,7 @@
  * Author: Cameron Wagtaff                                                     *
  * Description: Prints text to the screen at a given point in desired colors   *
  * Date Created: 04 April 2014                                                 *
- * Date Last Modified: 23 April 2014 by Cameron Wagstaff                        *
+ * Date Last Modified: 26 April 2014 - Matt Arnold                             *
  ******************************************************************************/
 
 #include "Text.h"
@@ -133,6 +133,9 @@ int Text::charToInt(char c)
         break;
 
         case '\'':
+            
+        case '!':
+            return 40;
 
         break;
     }
