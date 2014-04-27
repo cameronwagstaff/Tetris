@@ -17,8 +17,8 @@
 
 using namespace std;
 
-const Point PIECE_START           = Point((GAME_RIGHT - BORDER_WIDTH) / 2 - 4,
-                                           SQUARE_WIDTH + BORDER_WIDTH * 2 - 2);
+const Point PIECE_START           = Point((GAME_RIGHT - BORDER_WIDTH) / 2 - 5,
+                                           SQUARE_WIDTH + BORDER_WIDTH * 2 +1);
 
 class Piece
 {
@@ -42,13 +42,15 @@ class Piece
         int  getType();
         int  getOrientation();
         void moveUp();
+        Square**& getSquares();
+        bool getRest();
 
     private:
         //private fields
         int          orientation;
         unsigned int color;
         int          pieceType;
-        Square*      squares[4];
+        Square**     squares;
         bool         rest;
 
         //private functions
