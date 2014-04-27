@@ -17,11 +17,11 @@
 Matrix::Matrix(GLUT_Plotter *g)
 {
     matrix = new Shape** [MAX_ROWS];
-    
+
     for (int i = MIN_ROWS; i < MAX_ROWS; i++)
     {
         matrix[i] = new Shape* [MAX_COLS];
-        
+
         for (int j = 0; j < MAX_COLS; j++)
         {
             matrix[i][j] = NULL;
@@ -158,17 +158,17 @@ void Matrix::shiftDown(int r)
 
 Matrix& Matrix::addPiece(Piece object)
 {
-    
+
     for(int i = 0; i < 4; i++)
     {
         int row = 0, col = 0;
-        
+
         row = object.getSquares()[i]->getCenter().x / SQUARE_WIDTH; //maths
         col = object.getSquares()[i]->getCenter().y / SQUARE_WIDTH; // maths
-        
+
         addShape(row, col, *object.getSquares()[i]);
     }
-    
+
     return *this;
 }
 
@@ -193,5 +193,19 @@ Matrix& Matrix::addShape(int r, int c, Square& object)
     return *this;
 }
 
+/******************************************************************************
+* Description: Checks if Matrix[r][c] is occutpied                            *
+* Return: bool                                                                *
+* Pre: none                                                                   *
+* Post: Nothing is changed                                                    *
+******************************************************************************/
+bool occupied(int r, int c)
+{
+    if (r >= MAX_ROWS || c >= MAX_COLS || r < MIN_ROWS || c < MIN_COLS)
+    {
+        throw(NotInMatrix(r,c));
+    }
+    return Matrix[r][c] != NULL;
+}
 
 

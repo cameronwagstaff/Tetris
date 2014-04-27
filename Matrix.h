@@ -28,16 +28,38 @@ class LocationOccupied : public exception
             row = r;
             col = c;
         }
-    
+
         const char* what()
         {
             std::stringstream ss;
-            
+
             ss << "LocationOccupied: row " << row << " column " << col << endl;
-            
+
             return ss.str().c_str();
         }
-    
+
+};
+
+class NotInMatrix : public exception
+{
+    private:
+        int row, col;
+    public:
+        NotInMatrix(int r, int c)
+        {
+            row = r;
+            col = c;
+        }
+
+        const char* what()
+        {
+            std::stringstream ss;
+
+            ss << "Points " << row << ", " << col << " are not in the Matrix" << endl;
+
+            return ss.str().c_str();
+        }
+
 };
 
 class Matrix
@@ -62,6 +84,7 @@ class Matrix
         void deleteRow(int r);
         Matrix& addPiece(Piece object);
         Matrix& addShape(int row, int col, Square& object);
+        bool occupied(int r, int c);
 };
 
 #endif
