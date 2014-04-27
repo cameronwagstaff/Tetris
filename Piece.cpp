@@ -206,7 +206,7 @@ Return value:  None
 void Piece::moveLeft()
 {
     //Wall not perfect but its a start!
-    if(squares[0]->getCenter().x > MIN_COLS + SQUARE_WIDTH)
+    if(squares[0]->getCenter().x > MIN_COLS + SQUARE_WIDTH + SQUARE_BORDER)
     {
         for(int i = 0; i < 4; i++)
         {
