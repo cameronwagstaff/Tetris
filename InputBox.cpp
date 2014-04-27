@@ -20,8 +20,9 @@ InputBox::InputBox(string prompt, unsigned int backgroundColor,
 : background(Point(80, 175), Point(430, 360), backgroundColor),
   dataBox(Point(100, 250)
           , Point( 400, 285), WHITE),
-  enter("OK", Point(100, 300), Point(240, 345), buttonColor),
-  cancel("Cancel", Point(260, 300), Point(400, 345), buttonColor)
+  enter("OK", Point(260, 300), Point(400, 345), buttonColor),
+  cancel("Cancel", Point(100, 300), Point(240, 345), buttonColor)
+
 {
     this->data = data;
     this->prompt = prompt;

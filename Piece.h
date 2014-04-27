@@ -1,11 +1,11 @@
-/******************************************************************************
-Author:  Brennan Saul
-File Name:  Piece.h
-Description:  Defines the Piece class. Includes prototypes of functions
-              and private fields.
-Date Created:  April 16, 2014
-Date Last Modified:  April 23, 2014 - Cameron Wagstaff
-******************************************************************************/
+/*******************************************************************************
+* Author:  Brennan Saul                                                        *
+* File Name:  Piece.h                                                          *
+* Description:  Defines the Piece class. Includes prototypes of functions      *
+*               and private fields.                                            *
+* Date Created:  16 April 2014                                                 *
+* Date Last Modified:  27 April 2014 - Matt Arnold                             *
+*******************************************************************************/
 
 #ifndef PIECE_H_INCLUDED
 #define PIECE_H_INCLUDED
@@ -17,8 +17,8 @@ Date Last Modified:  April 23, 2014 - Cameron Wagstaff
 
 using namespace std;
 
-const Point PIECE_START             = Point((GAME_RIGHT - BORDER_WIDTH) / 2,
-                                            SQUARE_WIDTH + BORDER_WIDTH * 2 + 1);
+const Point PIECE_START           = Point((GAME_RIGHT - BORDER_WIDTH) / 2,
+                                           SQUARE_WIDTH + BORDER_WIDTH * 2 - 1);
 
 class Piece
 {

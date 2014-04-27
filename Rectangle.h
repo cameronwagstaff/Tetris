@@ -16,8 +16,6 @@
 
 using namespace std;
 
-//Wow. Like, this is actually a thing. Wow.
-//Such namespace. many rect. wow. so computer. much magic.
 namespace stdRect
 {
     class Rectangle : public Shape
