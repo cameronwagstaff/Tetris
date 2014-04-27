@@ -197,12 +197,9 @@ Return value:  None
 ******************************************************************************/
 void Piece::moveLeft()
 {
-<<<<<<< HEAD
     //Wall not perfect but its a start!
-    if(squares[0]->getCenter().x > MIN_COLS + SQUARE_WIDTH + SQUARE_BORDER)
-=======
+    if(squares[0]->getCenter().x > MIN_COLS + SQUARE_WIDTH)
     for(int i = 0; i < 4; i++)
->>>>>>> 46b7923adab16f6a1a9a85fe81f09883cddc853a
     {
         squares[i]->shiftLeft();
     }
