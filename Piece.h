@@ -4,7 +4,7 @@
 * Description:  Defines the Piece class. Includes prototypes of functions      *
 *               and private fields.                                            *
 * Date Created:  16 April 2014                                                 *
-* Date Last Modified:  27 April 2014 - Matt Arnold                             *
+* Date Last Modified:  27 April 2014 - Cameron Wagstaff                        *
 *******************************************************************************/
 
 #ifndef PIECE_H_INCLUDED
@@ -17,8 +17,8 @@
 
 using namespace std;
 
-const Point PIECE_START           = Point((GAME_RIGHT - BORDER_WIDTH) / 2,
-                                           SQUARE_WIDTH + BORDER_WIDTH * 2 - 1);
+const Point PIECE_START           = Point((GAME_RIGHT - BORDER_WIDTH) / 2 - 4,
+                                           SQUARE_WIDTH + BORDER_WIDTH * 2 - 2);
 
 class Piece
 {

@@ -2,7 +2,7 @@
  * Author: Matt Arnold                                                         *
  * Description: Contains various constants to be used in the Tetris game       *
  * Date Created:02 April 2014                                                  *
- * Date Last Modified:27 April 2014 - Matt Arnold                              *
+ * Date Last Modified:27 April 2014 - Cameron Wagstaff                         *
  ******************************************************************************/
 
 
@@ -46,7 +46,7 @@ const int BORDER_WIDTH              = 11;           //Width of the border around
 const int SCREEN_WIDTH              = 800;          //Width of the window
 const int SCREEN_HEIGHT             = 600;          //Height of the window
 const int FALL_LENGTH               = 20;           //Defines how far shapes fall
-const int SHIFT_LENGTH              = 7;            //Distance shapes move left/right
+const int SHIFT_LENGTH              = 20;            //Distance shapes move left/right
 
 //Shape Dimentsions
 const int SQUARE_WIDTH              = 20;           //Side length of Squares
