@@ -1,45 +1,43 @@
-/******************************************************************************
-Author:  Brennan Saul
-File Name:  Piece.cpp
-Description:  Implements the Piece class.
-Date Created:  April 16, 2014
-Date Last Modified:  April 22, 2014 - Matt Arnold
-******************************************************************************/
+/*******************************************************************************
+ * Author:  Brennan Saul                                                       *
+ * File Name:  Piece.cpp                                                       *
+ * Description:  Implements the Piece class.                                   *
+ * Date Created:  16 April 2014                                                *
+ * Date Last Modified:  April 22, 2014 - Matt Arnold                           *
+ ******************************************************************************/
 
 #include "Piece.h"
 
-/******************************************************************************
-Function name:  Piece()
-Description:  The Piece class constructor.
-Precondition:  None
-Postcondition:  Object Created
-Return value:  None
-******************************************************************************/
+/*******************************************************************************
+ * Description:  The Piece class constructor.                                  *
+ * Precondition:  None                                                         *
+ * Postcondition:  Object Created                                              *
+ * Return value:  None                                                         *
+ ******************************************************************************/
 Piece::Piece()
 {
     pieceType = rand() % 6;
-    
+
     for(int i = 0; i < 4; i++)
     {
         squares[i] = new Square;
     }
-    
+
     squares[1]->setCenter(PIECE_START);
-    
+
     setColor();
-    
+
     setOrientation(0);
-    
+
     rest = false;
 }
 
-/******************************************************************************
-Function name:  Piece(int pieceType)
-Description:  The Piece class constructor.
-Precondition:  None
-Postcondition:  Object Created
-Return value:  None
-******************************************************************************/
+/*******************************************************************************
+ * Description:  The Piece class constructor.                                  *
+ * Precondition:  None                                                         *
+ * Postcondition:  Object Created                                              *
+ * Return value:  None                                                         *
+ ******************************************************************************/
 Piece::Piece(int pieceType)
 {
     orientation = 0;
@@ -54,13 +52,12 @@ Piece::Piece(int pieceType)
     setOrientation(orientation);
     setColor();
 }
-/******************************************************************************
-Function name:  ~Piece()
-Description:  Peice destructor
-Precondition:  Object must exist.
-Postcondition:  Object deleted.
-Return value:  None
-******************************************************************************/
+/*******************************************************************************
+ * Description:  Peice destructor                                              *
+ * Precondition:  Object must exist.                                           *
+ * Postcondition:  Object deleted.                                             *
+ * Return value:  None                                                         *
+ ******************************************************************************/
 Piece::~Piece()
 {
     for(int i = 0; i < 4; i++)
@@ -69,11 +66,23 @@ Piece::~Piece()
     }
 }
 
+/*******************************************************************************
+ * Description: Copy constructor                                               *
+ * Return: nothing                                                             *
+ * Pre: other is a valid instance of the Piece class                           *
+ * Post: object constructed as copy of other                                   *
+ ******************************************************************************/
 Piece::Piece(const Piece& other)
 {
     *this = other;
 }
 
+/*******************************************************************************
+ * Description: overloaded assignment operator                                 *
+ * Return: a reference to self                                                 *
+ * Pre: object exists, other is valid instance of the Piece class              *
+ * Post: object becomes an exact copy of other                                 *
+ ******************************************************************************/
 Piece& Piece::operator=(const Piece &other)
 {
     if(this != &other)
@@ -83,26 +92,25 @@ Piece& Piece::operator=(const Piece &other)
             delete squares[i];
             squares[i] = new Square(*(other.squares[i]));
         }
-        
+
         this->pieceType = other.pieceType;
         this->orientation = other.orientation;
         this->color = other.color;
         this->rest = other.rest;
-        
+
         setOrientation(orientation);
         setColor();
     }
-    
+
     return *this;
 }
 
-/******************************************************************************
-Function name:  rotateRight()
-Description:  Rotates the object 90 degrees to the right.
-Precondition:  Object must exist.
-Postcondition:  Object rotated 90 degrees.
-Return value:  None
-******************************************************************************/
+/*******************************************************************************
+ * Description:  Rotates the object 90 degrees to the right.                   *
+ * Precondition:  Object must exist.                                           *
+ * Postcondition:  Object rotated 90 degrees.                                  *
+ * Return value:  void                                                         *
+ ******************************************************************************/
 void Piece::rotateRight()
 {
     if(orientation == 3)
@@ -134,7 +142,7 @@ void Piece::rotateLeft()
     {
         orientation -= 1;
     }
-    
+
     setOrientation(orientation);
 }
 
@@ -147,19 +155,16 @@ Return value:  None
 ******************************************************************************/
 void Piece::fall()
 {
-    bool canFall = true;
-    
     for(int i = 0; i < 4; i++)
     {
         if(squares[i]->getCenter().y + (SQUARE_WIDTH) >= GAME_BOTTOM -
            BORDER_WIDTH - SQUARE_WIDTH / 2)
         {
-            canFall = false;
             rest = true;
         }
     }
-    
-    if(canFall)
+
+    if(!rest)
     {
         for(int i = 0; i < 4; i++)
         {
@@ -192,6 +197,8 @@ Return value:  None
 ******************************************************************************/
 void Piece::moveLeft()
 {
+    //Wall not perfect but its a start!
+    if(squares[0]->getCenter().x > MIN_COLS + SQUARE_WIDTH)
     for(int i = 0; i < 4; i++)
     {
         squares[i]->shiftLeft();
@@ -260,7 +267,7 @@ void Piece::setColor()
         default:
             color = RED;
     }
-    
+
     for(int i = 0; i < 4; i++)
     {
         squares[i]->setColor(color);
@@ -276,7 +283,7 @@ Return value:  None
 void Piece::setOrientation(int newOrientation)
 {
     orientation = newOrientation;
-    
+
     switch(this->pieceType)
     {
 
@@ -320,50 +327,45 @@ Precondition:  Object must exist.
 Postcondition:  Orientation of object is changed.
 Return value:  None
 ******************************************************************************/
-void Piece::iOrientation(int newOrientation)    //Flawless
+void Piece::iOrientation(int newOrientation)
 {
     switch(newOrientation)
     {
         case 0:
             squares[0]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y - SQUARE_WIDTH));
-            
+                                        squares[1]->getCenter().y
+                                        - SQUARE_WIDTH));
+
             squares[2]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y + SQUARE_WIDTH));
-            /*p3.x = p2.x;
-            p3.y = p2.y + 1;*/
+                                        squares[1]->getCenter().y
+                                        + SQUARE_WIDTH));
 
             squares[3]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y + 2 * SQUARE_WIDTH));
-            
-            /*p4.x = p2.x;
-            p4.y = p2.y + 2;*/
+                                        squares[1]->getCenter().y
+                                        + 2 * SQUARE_WIDTH));
 
             break;
 
         case 1:
-            
-            squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
-                                        squares[1]->getCenter().y));
-            // p1.y = p2.y;
-            //p1.x = p2.x - 1;
-            
-            squares[2]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
-                                        squares[1]->getCenter().y));
-            //p3.y = p2.y;
-            //p3.x = p2.x + 1;
-            
-            squares[3]->setCenter(Point(squares[1]->getCenter().x + 2 * SQUARE_WIDTH,
+
+            squares[0]->setCenter(Point(squares[1]->getCenter().x
+                                        - SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
 
-            //p4.y = p2.y;
-            //p4.x = p2.x + 2;
+            squares[2]->setCenter(Point(squares[1]->getCenter().x
+                                        + SQUARE_WIDTH,
+                                        squares[1]->getCenter().y));
+
+            squares[3]->setCenter(Point(squares[1]->getCenter().x + 2
+                                        * SQUARE_WIDTH,
+                                        squares[1]->getCenter().y));
 
             break;
 
         case 2:
             iOrientation(0);
             break;
+
         default:
             iOrientation(1);
     }
@@ -376,93 +378,75 @@ Precondition:  Object must exist.
 Postcondition:  Orientation of object is changed.
 Return value:  None
 ******************************************************************************/
-void Piece::jOrientation(int newOrientation)    //Flawless
+void Piece::jOrientation(int newOrientation)
 {
     switch(newOrientation)
     {
         case 0:
-            
-            squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
-                                        squares[1]->getCenter().y + SQUARE_WIDTH));
-            
-            //p1.x = p2.x - 1;
-            //p1.y = p2.y + 1;
-            
+
+            squares[0]->setCenter(Point(squares[1]->getCenter().x
+                                        - SQUARE_WIDTH,
+                                        squares[1]->getCenter().y
+                                        + SQUARE_WIDTH));
+
             squares[2]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y + SQUARE_WIDTH));
+                                        squares[1]->getCenter().y
+                                        + SQUARE_WIDTH));
 
-            //p3.x = p2.x;
-            //p3.y = p2.y + 1;
-            
             squares[3]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y - SQUARE_WIDTH));
-
-            //p4.x = p2.x;
-            //p4.y = p2.y -1;
+                                        squares[1]->getCenter().y
+                                        - SQUARE_WIDTH));
 
             break;
 
         case 1:
-            
-            squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
-                                        squares[1]->getCenter().y - SQUARE_WIDTH));
-            
-            //p1.y = p2.y - 1;
-            //p1.x = p2.x - 1;
-            
-            squares[2]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
+
+            squares[0]->setCenter(Point(squares[1]->getCenter().x
+                                        - SQUARE_WIDTH,
+                                        squares[1]->getCenter().y
+                                        - SQUARE_WIDTH));
+
+            squares[2]->setCenter(Point(squares[1]->getCenter().x
+                                        - SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
 
-            //p3.y = p2.y;
-            //p3.x = p2.x - 1;
-            
-            squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
+            squares[3]->setCenter(Point(squares[1]->getCenter().x
+                                        + SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
-
-            //p4.y = p2.y;
-            //p4.x = p2.x + 1;
 
             break;
 
         case 2:
-            
+
             squares[0]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y + SQUARE_WIDTH));
-            
-            //p1.y = p2.y + 1;
-            //p1.x = p2.x;
-            
+                                        squares[1]->getCenter().y
+                                        + SQUARE_WIDTH));
+
             squares[2]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y - SQUARE_WIDTH));
+                                        squares[1]->getCenter().y
+                                        - SQUARE_WIDTH));
 
-            //p3.y = p2.y - 1;
-            //p3.x = p2.x;
-            
-            squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
-                                        squares[1]->getCenter().y - SQUARE_WIDTH));
-            //p4.y = p2.y - 1;
-            //p4.x = p2.x + 1;
-
+            squares[3]->setCenter(Point(squares[1]->getCenter().x
+                                        + SQUARE_WIDTH,
+                                        squares[1]->getCenter().y
+                                        - SQUARE_WIDTH));
             break;
+
         default:
-            
-            squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
-                                        squares[1]->getCenter().y));
-            
-            //p1.y = p2.y;
-            //p1.x = p2.x - 1;
-            
-            squares[2]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
+
+            squares[0]->setCenter(Point(squares[1]->getCenter().x
+                                        - SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
 
-            //p3.y = p2.y;
-            //p3.x = p2.x + 1;
-            
-            squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
-                                        squares[1]->getCenter().y + SQUARE_WIDTH));
+            squares[2]->setCenter(Point(squares[1]->getCenter().x
+                                        + SQUARE_WIDTH,
+                                        squares[1]->getCenter().y));
 
-            //p4.y = p2.y + 1;
-            //p4.x = p2.x + 1;
+            squares[3]->setCenter(Point(squares[1]->getCenter().x
+                                        + SQUARE_WIDTH,
+                                        squares[1]->getCenter().y
+                                        + SQUARE_WIDTH));
+
     }
 }
 
@@ -473,59 +457,48 @@ Precondition:  Object must exist.
 Postcondition:  Orientation of object is changed.
 Return value:  None
 ******************************************************************************/
-void Piece::sOrientation(int newOrientation)    //Flawlessish
+void Piece::sOrientation(int newOrientation)
 {
     switch(newOrientation)
     {
         case 0:
-            
-            squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
+
+            squares[0]->setCenter(Point(squares[1]->getCenter().x
+                                        - SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
-            
-            //p1.x = p2.x - 1;
-            //p1.y = p2.y;
-            
+
             squares[2]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y - SQUARE_WIDTH));
+                                        squares[1]->getCenter().y
+                                        - SQUARE_WIDTH));
 
-            //p3.x = p2.x;
-            //p3.y = p2.y - 1;
-            
-            squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
-                                        squares[1]->getCenter().y - SQUARE_WIDTH));
-
-            //p4.x = p2.x + 1;
-            //p4.y = p2.y -1;
+            squares[3]->setCenter(Point(squares[1]->getCenter().x
+                                        + SQUARE_WIDTH,
+                                        squares[1]->getCenter().y
+                                        - SQUARE_WIDTH));
 
             break;
 
         case 1:
-            
+
             squares[0]->setCenter(Point(squares[1]->getCenter().x,
                                         squares[1]->getCenter().y -
                                         SQUARE_WIDTH));
-            
-            //p1.y = p2.y - 1;
-            //p1.x = p2.x;
-            
-            squares[2]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
+
+            squares[2]->setCenter(Point(squares[1]->getCenter().x
+                                        + SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
 
-            //p3.y = p2.y;
-            //p3.x = p2.x + 1;
-            
-            squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
-                                        squares[1]->getCenter().y + SQUARE_WIDTH));
-
-            //p4.y = p2.y - 1;
-            //p4.x = p2.x + 1;
+            squares[3]->setCenter(Point(squares[1]->getCenter().x
+                                        + SQUARE_WIDTH,
+                                        squares[1]->getCenter().y
+                                        + SQUARE_WIDTH));
 
             break;
 
         case 2:
             sOrientation(0);
-
             break;
+
         default:
             sOrientation(1);
     }
@@ -538,94 +511,71 @@ Precondition:  Object must exist.
 Postcondition:  Orientation of object is changed.
 Return value:  None
 ******************************************************************************/
-void Piece::tOrientation(int newOrientation)    //Flawless
+void Piece::tOrientation(int newOrientation)
 {
     switch(newOrientation)
     {
         case 0:
-            
-            squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
+
+            squares[0]->setCenter(Point(squares[1]->getCenter().x
+                                        - SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
-            
-            //p1.x = p2.x - 1;
-            //p1.y = p2.y;
-            
+
             squares[2]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y + SQUARE_WIDTH));
+                                        squares[1]->getCenter().y
+                                        + SQUARE_WIDTH));
 
-            //p3.x = p2.x;
-            //p3.y = p2.y + 1;
-            
-            squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
+            squares[3]->setCenter(Point(squares[1]->getCenter().x
+                                        + SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
-
-            //p4.x = p2.x + 1;
-            //p4.y = p2.y;
 
             break;
 
         case 1:
-            
-            squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
+
+            squares[0]->setCenter(Point(squares[1]->getCenter().x
+                                        - SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
-            
-            //p1.y = p2.y;
-            //p1.x = p2.x - 1;
-            
+
             squares[2]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y + SQUARE_WIDTH));
+                                        squares[1]->getCenter().y
+                                        + SQUARE_WIDTH));
 
-            //p3.y = p2.y + 1;
-            //p3.x = p2.x;
-            
             squares[3]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y - SQUARE_WIDTH));
-
-            //p4.y = p2.y - 1;
-            //p4.x = p2.x;
+                                        squares[1]->getCenter().y
+                                        - SQUARE_WIDTH));
 
             break;
 
         case 2:
-            
-            squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
+
+            squares[0]->setCenter(Point(squares[1]->getCenter().x
+                                        - SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
-            
-            //p1.y = p2.y;
-            //p1.x = p2.x - 1;
-            
+
             squares[2]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y - SQUARE_WIDTH));
+                                        squares[1]->getCenter().y
+                                        - SQUARE_WIDTH));
 
-            //p3.y = p2.y + 1;
-            //p3.x = p2.x;
-            
-            squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
+            squares[3]->setCenter(Point(squares[1]->getCenter().x
+                                        + SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
-
-            //p4.y = p2.y - 1;
-            //p4.x = p2.x;
 
             break;
+
         default:
-            
+
             squares[0]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y + SQUARE_WIDTH));
-            
-            //p1.y = p2.y - 1;
-            //p1.x = p2.x;
-            
+                                        squares[1]->getCenter().y
+                                        + SQUARE_WIDTH));
+
             squares[2]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y - SQUARE_WIDTH));
+                                        squares[1]->getCenter().y
+                                        - SQUARE_WIDTH));
 
-            //p3.y = p2.y - 1;
-            //p3.x = p2.x;
-            
-            squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
+            squares[3]->setCenter(Point(squares[1]->getCenter().x
+                                        + SQUARE_WIDTH,
                                         squares[1]->getCenter().y ));
-
-            //p4.y = p2.y;
-            //p4.x = p2.x + 1;
     }
 }
 
@@ -636,92 +586,74 @@ Precondition:  Object must exist.
 Postcondition:  Orientation of object is changed.
 Return value:  None
 ******************************************************************************/
-void Piece::lOrientation(int newOrientation)    //Flawless
+void Piece::lOrientation(int newOrientation)
 {
     switch(newOrientation)
     {
         case 0:
-            
+
             squares[0]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y - SQUARE_WIDTH));
-            
-            //p1.x = p2.x;
-            //p1.y = p2.y - 1;
-            
+                                        squares[1]->getCenter().y
+                                        - SQUARE_WIDTH));
+
             squares[2]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y + SQUARE_WIDTH));
+                                        squares[1]->getCenter().y
+                                        + SQUARE_WIDTH));
 
-            //p3.x = p2.x;
-            //p3.y = p2.y + 1;
-            
-            squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
-                                        squares[1]->getCenter().y + SQUARE_WIDTH));
-
-            //p4.x = p2.x + 1;
-            //p4.y = p2.y + 1;
+            squares[3]->setCenter(Point(squares[1]->getCenter().x
+                                        + SQUARE_WIDTH,
+                                        squares[1]->getCenter().y
+                                        + SQUARE_WIDTH));
 
             break;
 
         case 1:
-            
-            squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
-                                        squares[1]->getCenter().y + SQUARE_WIDTH));
-            
-            //p1.y = p2.y + 1;
-            //p1.x = p2.x - 1;
-            
-            squares[2]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
+
+            squares[0]->setCenter(Point(squares[1]->getCenter().x
+                                        - SQUARE_WIDTH,
+                                        squares[1]->getCenter().y
+                                        + SQUARE_WIDTH));
+
+            squares[2]->setCenter(Point(squares[1]->getCenter().x
+                                        - SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
 
-            //p3.y = p2.y;
-            //p3.x = p2.x - 1;
-            
-            squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
+            squares[3]->setCenter(Point(squares[1]->getCenter().x
+                                        + SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
-
-            //p4.y = p2.y;
-            //p4.x = p2.x + 1;
 
             break;
 
         case 2:
-            
-            squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
-                                        squares[1]->getCenter().y - SQUARE_WIDTH));
-            
-            //p1.y = p2.y - 1;
-            //p1.x = p2.x - 1;
-            
+
+            squares[0]->setCenter(Point(squares[1]->getCenter().x
+                                        - SQUARE_WIDTH,
+                                        squares[1]->getCenter().y
+                                        - SQUARE_WIDTH));
+
             squares[2]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y - SQUARE_WIDTH));
+                                        squares[1]->getCenter().y
+                                        - SQUARE_WIDTH));
 
-            //p3.y = p2.y - 1;
-            //p3.x = p2.x;
-            
             squares[3]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y + SQUARE_WIDTH));
-
-            //p4.y = p2.y + 1;
-            //p4.x = p2.x;
+                                        squares[1]->getCenter().y
+                                        + SQUARE_WIDTH));
 
             break;
+
         default:
-            squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
-                                        squares[1]->getCenter().y));
-            //p1.y = p2.y;
-            //p1.x = p2.x - 1;
-            
-            squares[2]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
+            squares[0]->setCenter(Point(squares[1]->getCenter().x
+                                        - SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
 
-            //p3.y = p2.y;
-            //p3.x = p2.x + 1;
-            
-            squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
-                                        squares[1]->getCenter().y - SQUARE_WIDTH));
+            squares[2]->setCenter(Point(squares[1]->getCenter().x
+                                        + SQUARE_WIDTH,
+                                        squares[1]->getCenter().y));
 
-            //p4.y = p2.y - 1;
-            //p4.x = p2.x + 1;
+            squares[3]->setCenter(Point(squares[1]->getCenter().x
+                                        + SQUARE_WIDTH,
+                                        squares[1]->getCenter().y
+                                        - SQUARE_WIDTH));
     }
 }
 
@@ -732,24 +664,16 @@ Precondition:  Object must exist.
 Postcondition:  Orientation of object is changed.
 Return value:  None
 ******************************************************************************/
-void Piece::oOrientation(int newOrientation)    //Flawless
+void Piece::oOrientation(int newOrientation)
 {
     squares[0]->setCenter(Point(squares[1]->getCenter().x,
                                 squares[1]->getCenter().y - SQUARE_WIDTH));
-    //p1.x = p2.x;
-    //p1.y = p2.y - 1;
-    
+
     squares[2]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
                                 squares[1]->getCenter().y - SQUARE_WIDTH));
 
-    //p3.x = p2.x + 1;
-    //p3.y = p2.y - 1;
-    
     squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
                                 squares[1]->getCenter().y));
-
-    //p4.x = p2.x + 1;
-    //p4.y = p2.y;*/
 
 }
 
@@ -765,45 +689,35 @@ void Piece::zOrientation(int newOrientation)
     switch(newOrientation)
     {
         case 0:
-            squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
-                                        squares[1]->getCenter().y - SQUARE_WIDTH));
-            //p1.x = p2.x - 1;
-            //p1.y = p2.y - 1;
-            
+            squares[0]->setCenter(Point(squares[1]->getCenter().x
+                                        - SQUARE_WIDTH,
+                                        squares[1]->getCenter().y
+                                        - SQUARE_WIDTH));
+
             squares[2]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y - SQUARE_WIDTH));
+                                        squares[1]->getCenter().y
+                                        - SQUARE_WIDTH));
 
-            //p3.x = p2.x;
-            //p3.y = p2.y - 1;
-            
-            squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
+            squares[3]->setCenter(Point(squares[1]->getCenter().x
+                                        + SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
-
-            //p4.x = p2.x + 1;
-            //p4.y = p2.y;
 
             break;
 
         case 1:
-            
-            squares[0]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
-                                        squares[1]->getCenter().y + SQUARE_WIDTH));
-            
-            //p1.y = p2.y + 1;
-            //p1.x = p2.x - 1;
-            
-            squares[2]->setCenter(Point(squares[1]->getCenter().x - SQUARE_WIDTH,
+
+            squares[0]->setCenter(Point(squares[1]->getCenter().x
+                                        - SQUARE_WIDTH,
+                                        squares[1]->getCenter().y
+                                        + SQUARE_WIDTH));
+
+            squares[2]->setCenter(Point(squares[1]->getCenter().x
+                                        - SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
 
-            //p3.y = p2.y;
-            //p3.x = p2.x - 1;
-            
             squares[3]->setCenter(Point(squares[1]->getCenter().x,
-                                        squares[1]->getCenter().y - SQUARE_WIDTH));
-
-            //p4.y = p2.y - 1;
-            //p4.x = p2.x;
-
+                                        squares[1]->getCenter().y
+                                        - SQUARE_WIDTH));
             break;
 
         case 2:
@@ -815,28 +729,59 @@ void Piece::zOrientation(int newOrientation)
     }
 }
 
+/*******************************************************************************
+ * Description: setter for pieceType                                           *
+ * Return: void                                                                *
+ * Pre: object exists                                                          *
+ * Post: piceType assigned a new value newType, object's orientation set to 0  *
+ ******************************************************************************/
 void Piece::setType(int newType)
 {
     pieceType = newType;
     setOrientation(0);
 }
 
+/*******************************************************************************
+ * Description: sets the center Point of the Square at squares[1]              *
+ * Return: void                                                                *
+ * Pre: object exists                                                          *
+ * Post: squares[i]->center is assigned a value newCenter, orientation         *
+ *       altered to match the new position                                     *
+ ******************************************************************************/
 void Piece::setPosition(Point newCenter)
 {
     squares[1]->setCenter(newCenter);
     setOrientation(orientation);
 }
 
+/*******************************************************************************
+ * Description: getter for pieceType                                           *
+ * Return: an integer value representing the type of pice the object is        *
+ * Pre: object exists                                                          *
+ * Post: object unchanged                                                      *
+ ******************************************************************************/
 int  Piece::getType()
 {
     return pieceType;
 }
 
+/*******************************************************************************
+ * Description: getter for orientation                                         *
+ * Return: an integer value representing the object's orientation              *
+ * Pre: object exists                                                          *
+ * Post: object unchanged                                                      *
+ ******************************************************************************/
 int Piece::getOrientation()
 {
     return orientation;
 }
 
+/*******************************************************************************
+ * Description: moves a Piece up a distance FALL_LENGTH                        *
+ * Return: void                                                                *
+ * Pre: object exists                                                          *
+ * Post: object shifted up                                                     *
+ ******************************************************************************/
 void Piece::moveUp()
 {
     for(int i = 0; i < 4; i++)
