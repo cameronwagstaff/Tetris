@@ -94,7 +94,7 @@ void ScoreTable::draw(GLUT_Plotter *g)
     cursor.x = leftEdge;
     cursor.y += gap + .5 * characterHeight;
 
-    for(int i = 0; i < players.size() && i < 10; i++)
+    for(int i = 0; i < static_cast<int>(players.size()) && i < 10; i++)
     {
         //Draw Player's daat.
         stringstream contentSS;
@@ -127,7 +127,7 @@ int ScoreTable::search(Player key)
     int position = -1;
 
     //Search list using linear search
-    for(int i = 0; i < players.size() && position == -1; i++)
+    for(int i = 0; i < static_cast<int>(players.size()) && position == -1; i++)
     {
         if(players[i] == key)
         {
@@ -157,7 +157,7 @@ int ScoreTable::search(string key)
     int position = -1;
 
     //Search list using linear search
-    for(int i = 0; i < players.size() && position == -1; i++)
+    for(int i = 0; i < static_cast<int>(players.size()) && position == -1; i++)
     {
         if(players[i].name == key)
         {
