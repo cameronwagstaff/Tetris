@@ -54,7 +54,7 @@ void Tetris::Play(void)
     {
         cout << e.what() << endl;
     }
-    
+
     static double time = clock();
 
     drawGame();
@@ -77,27 +77,28 @@ void Tetris::Play(void)
         if(clock() >= time + .75 * static_cast<double>(CLOCKS_PER_SEC))
         {
             current.erase(g);
-            try{
-            bool shouldFall = true;
-            for(int i = 0; i < 4 && shouldFall; i ++)
+            try
             {
-                int r = toMatrix(((current.getSquares())[i]->getTopLeft())).x;
-                int c = toMatrix(((current.getSquares())[i]->getTopLeft())).y;
-                if(matrix.occupied(c, r))
+                bool shouldFall = true;
+                for(int i = 0; i < 4 && shouldFall; i ++)
                 {
-                    shouldFall = false;
+                    int r = toMatrix(((current.getSquares())[i]->getTopLeft())).x;
+                    int c = toMatrix(((current.getSquares())[i]->getTopLeft())).y + 1;
+                    if(matrix.occupied(c, r))
+                    {
+                        shouldFall = false;
+                    }
+                }
+                if(shouldFall)
+                {
+                    current.fall();
+                }
+                else
+                {
+                    current.setRest(true);
                 }
             }
-            if(shouldFall)
-            {
-                current.fall();
-            }
-            else
-            {
-                current.setRest(true);
-            }
-            }
-            catch(LocationOccupied e)
+            catch(LocationOccupied &e)
             {
                 cout << e.what() << endl;
             }
@@ -139,9 +140,12 @@ void Tetris::Play(void)
         //Escape key always exits game
         if(k == 27)
         {
-            this->~Tetris();
-            exit(1);
+            //this->~Tetris();
+            //exit(1);
+            matrix.lineCheck();
         }
+
+
 
         if(end)
         {

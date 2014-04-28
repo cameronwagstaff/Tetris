@@ -17,7 +17,7 @@
 Matrix::Matrix(GLUT_Plotter *g)
 {
     matrix = new Shape** [MAX_ROWS];
-    
+
     for (int i = MIN_ROWS; i < MAX_ROWS; i++)
     {
         matrix[i] = new Shape* [MAX_COLS];
@@ -68,7 +68,7 @@ void Matrix::lineCheck()
         if (rowSum(i) == MAX_COLS)
         {
             deleteRow(i);
-            shiftDown(i);
+            //shiftDown(i);
         }
     }
 }
@@ -95,15 +95,25 @@ void Matrix::draw(GLUT_Plotter *g)
 ******************************************************************************/
 int Matrix::rowSum(int r)
 {
-    int count = 0;
-    for (int c = MIN_COLS; c < MAX_COLS; c++)
+    bool full = true;
+    for(int i = MIN_COLS; i < MAX_COLS && full; i ++)
+    {
+        if(matrix[r][i] == NULL)
+            full = false;
+    }
+    /*int count = 0;
+    for(int c = MIN_COLS; c < MAX_COLS; c++)
     {
         if (matrix[r][c] != NULL)
         {
             count++;
         }
     }
-    return count;
+    return count;*/
+    if(full)
+        return MAX_COLS;
+    else
+        return MIN_COLS;
 }
 
 /******************************************************************************
@@ -114,7 +124,7 @@ int Matrix::rowSum(int r)
 ******************************************************************************/
 void Matrix::deleteRow(int r)
 {
-    for(int i = 0; i < MAX_COLS; i++)
+    for(int i = 0; i < MAX_COLS; i ++)
     {
         matrix[r][i]->erase(g);
     }
@@ -123,7 +133,7 @@ void Matrix::deleteRow(int r)
     shiftDown(r);
 
     //Set top row to NULL
-    for (int c = MIN_COLS; c < MAX_COLS; c++)
+    for (int c = MIN_COLS; c < MAX_COLS; c ++)
     {
         /*/////////////////////////////////////\
         // I think this is a hardcore leak/////\
@@ -147,11 +157,11 @@ void Matrix::deleteRow(int r)
 ******************************************************************************/
 void Matrix::shiftDown(int r)
 {
-    for (int r; r > MIN_ROWS; r--)
+    for(; r > MIN_ROWS; r--)
     {
         for (int c = MIN_COLS; c < MAX_COLS; c++)
         {
-            swap(matrix[r][c], matrix[r-1][c]);
+            matrix[r][c] = matrix[r-1][c];
         }
     }
     return;
@@ -167,7 +177,7 @@ Matrix& Matrix::addPiece(Piece object)
         row = object.getSquares()[i]->getTopLeft().x / SQUARE_WIDTH; //maths
         col = object.getSquares()[i]->getTopLeft().y / SQUARE_WIDTH; // maths
 
-        addShape(row, col, *object.getSquares()[i]);
+        addShape(col, row, *object.getSquares()[i]);
     }
 
     return *this;
