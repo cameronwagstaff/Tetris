@@ -42,6 +42,19 @@ enterName("Enter Your Name")
 //Tetris Main Game Loop
 void Tetris::Play(void)
 {
+    Square square(Point(BORDER_WIDTH + SQUARE_WIDTH / 2, GAME_BOTTOM - 2 * BORDER_WIDTH - SQUARE_WIDTH + 1), GREEN);
+    try
+    {    for(int i = 0; i < MAX_COLS; i++)
+        {
+            matrix.addShape(MAX_ROWS - 1, i, square);
+            square.setCenter(square.getCenter() + Point(SQUARE_WIDTH, 0));
+        }
+    }
+    catch(LocationOccupied& e)
+    {
+        cout << e.what() << endl;
+    }
+    
     static double time = clock();
 
     drawGame();
@@ -252,7 +265,6 @@ void Tetris::Play(void)
         }
 
     }
-
 
 	// Update screen - draw game
 	g->Draw();

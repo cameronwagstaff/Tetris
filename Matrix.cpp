@@ -17,9 +17,7 @@
 Matrix::Matrix(GLUT_Plotter *g)
 {
     matrix = new Shape** [MAX_ROWS];
-
-    Square *p = new Square(Point(BORDER_WIDTH + SQUARE_WIDTH / 2, (GAME_BOTTOM - BORDER_WIDTH) - SQUARE_WIDTH / 2), YELLOW);
-
+    
     for (int i = MIN_ROWS; i < MAX_ROWS; i++)
     {
         matrix[i] = new Shape* [MAX_COLS];
@@ -28,12 +26,6 @@ Matrix::Matrix(GLUT_Plotter *g)
         {
 
             matrix[i][j] = NULL;
-            if(i == MAX_ROWS - 2)
-            {
-                matrix[i][j] = p;
-                p->setCenter(p->getCenter()+ Point(SQUARE_WIDTH, 0));
-                cout << p->getCenter().x << '\t' << p->getCenter().y << endl;
-            }
         }
     }
 
@@ -53,7 +45,7 @@ Matrix::~Matrix()
     {
         for(int j = 0; j < MAX_COLS; j++)
         {
-            delete matrix[i][j];
+            //delete matrix[i][j];
         }
 
         delete [] matrix[i];
@@ -193,7 +185,7 @@ Matrix& Matrix::addShape(int r, int c, Square& object)
     //  where something is already present; throw LocationOccupied
     if(matrix[r][c] != NULL)
     {
-        //throw(LocationOccupied(r, c));
+        throw(LocationOccupied(r, c));
     }
 
     //Else, add object to the matrix
