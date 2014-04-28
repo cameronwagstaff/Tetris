@@ -68,6 +68,16 @@ struct Point
         
         return newPoint;
     }
+    
+    Point operator - (Point other)
+    {
+        Point newPoint;
+        
+        newPoint.x = this->x - other.x;
+        newPoint.y = this->y - other.y;
+        
+        return newPoint;
+    }
 };
 
 #endif
