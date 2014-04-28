@@ -62,6 +62,8 @@ class NotInMatrix : public exception
 
 };
 
+Point toMatrix(Point);
+
 class Matrix
 {
     private:

@@ -2,7 +2,7 @@
  * Author: John Daniel                                                        *
  * Description: Implementation of Matrix Class                                *
  * Date Created:16 April 2014                                                 *
- * Date Last Modified:22 April 2014 - Matt Arnold                             *
+ * Date Last Modified:27 April 2014 - Cameron Wagstaff                        *
  *****************************************************************************/
 
 #include "Matrix.h"
@@ -18,13 +18,22 @@ Matrix::Matrix(GLUT_Plotter *g)
 {
     matrix = new Shape** [MAX_ROWS];
 
+    Square *p = new Square(Point(BORDER_WIDTH + SQUARE_WIDTH / 2, (GAME_BOTTOM - BORDER_WIDTH) - SQUARE_WIDTH / 2), YELLOW);
+
     for (int i = MIN_ROWS; i < MAX_ROWS; i++)
     {
         matrix[i] = new Shape* [MAX_COLS];
 
         for (int j = 0; j < MAX_COLS; j++)
         {
+
             matrix[i][j] = NULL;
+            if(i == MAX_ROWS - 2)
+            {
+                matrix[i][j] = p;
+                p->setCenter(p->getCenter()+ Point(SQUARE_WIDTH, 0));
+                cout << p->getCenter().x << '\t' << p->getCenter().y << endl;
+            }
         }
     }
 
@@ -163,8 +172,8 @@ Matrix& Matrix::addPiece(Piece object)
     {
         int row = 0, col = 0;
 
-        row = object.getSquares()[i]->getCenter().x / SQUARE_WIDTH; //maths
-        col = object.getSquares()[i]->getCenter().y / SQUARE_WIDTH; // maths
+        row = object.getSquares()[i]->getTopLeft().x / SQUARE_WIDTH; //maths
+        col = object.getSquares()[i]->getTopLeft().y / SQUARE_WIDTH; // maths
 
         addShape(row, col, *object.getSquares()[i]);
     }
@@ -184,7 +193,7 @@ Matrix& Matrix::addShape(int r, int c, Square& object)
     //  where something is already present; throw LocationOccupied
     if(matrix[r][c] != NULL)
     {
-        throw(LocationOccupied(r, c));
+        //throw(LocationOccupied(r, c));
     }
 
     //Else, add object to the matrix
@@ -206,6 +215,16 @@ bool Matrix::occupied(int r, int c)
         throw(NotInMatrix(r,c));
     }
     return matrix[r][c] != NULL;
+}
+
+Point toMatrix(Point convert)
+{
+    int row, col;
+    //shameless copy paste
+    row = convert.x / SQUARE_WIDTH; //maths
+    col = convert.y / SQUARE_WIDTH; // maths
+
+    return Point(row, col);
 }
 
 

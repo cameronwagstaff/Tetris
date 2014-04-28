@@ -64,26 +64,57 @@ void Tetris::Play(void)
         if(clock() >= time + .75 * static_cast<double>(CLOCKS_PER_SEC))
         {
             current.erase(g);
-            current.fall();
+            try{
+            bool shouldFall = true;
+            for(int i = 0; i < 4 && shouldFall; i ++)
+            {
+                int r = toMatrix(((current.getSquares())[i]->getTopLeft())).x;
+                int c = toMatrix(((current.getSquares())[i]->getTopLeft())).y;
+                if(matrix.occupied(c, r))
+                {
+                    shouldFall = false;
+                }
+            }
+            if(shouldFall)
+            {
+                current.fall();
+            }
+            else
+            {
+                current.setRest(true);
+            }
+            }
+            catch(LocationOccupied e)
+            {
+                cout << e.what() << endl;
+            }
+            catch(NotInMatrix e)
+            {
+                cout << e.what() << endl;
+            }
+            catch(...)
+            {
+                exit(3);
+            }
             time = clock();
         }
 
         current.draw(g);
         drawNextBox();
-        
+
         matrix.draw(g);
-        
+
         if(current.getRest())
         {
             matrix.addPiece(current);
-            
+
             current = next;
             current.setPosition(PIECE_START);
-            
+
             next.setType(rand() % 6);
             next.setColor();
         }
-        
+
     }
 
 

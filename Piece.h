@@ -39,6 +39,7 @@ class Piece
         void setColor();
         void setType(int newType);
         void setPosition(Point newCenter);
+        void setRest(bool);
         int  getType();
         int  getOrientation();
         void moveUp();
