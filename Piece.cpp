@@ -17,7 +17,7 @@ Date Last Modified:  April 27, 2014 - Cameron Wagstaff
 Piece::Piece()
 {
     pieceType = rand() % 6;
-    
+
     squares = new Square* [4];
 
     for(int i = 0; i < 4; i++)
@@ -66,7 +66,7 @@ Piece::~Piece()
     {
         delete squares[i];
     }
-    
+
     delete [] squares;
 }
 
@@ -92,21 +92,21 @@ Piece& Piece::operator=(const Piece &other)
     if(this != &other)
     {
         this->squares = new Square* [4];
-        
+
         for(int i = 0; i < 4; i++)
         {
             squares[i] = new Square(*(other.squares[i]));
         }
-        
+
         this->pieceType = other.pieceType;
         this->orientation = other.orientation;
         this->color = other.color;
         this->rest = other.rest;
-        
+
         setOrientation(orientation);
         setColor();
     }
-    
+
     return *this;
 }
 
@@ -176,6 +176,13 @@ void Piece::fall()
             squares[i]->fall();
         }
     }
+}
+
+/******************************************************************************
+******************************************************************************/
+void Piece::setRest(bool s)
+{
+    rest = s;
 }
 
 /******************************************************************************
