@@ -16,7 +16,7 @@ Date Last Modified:  April 28, 2014 - Cameron Wagstaff
  ******************************************************************************/
 Piece::Piece()
 {
-    pieceType = rand() % 6;
+    pieceType = rand() % 7;
 
     squares = new Square* [4];
 

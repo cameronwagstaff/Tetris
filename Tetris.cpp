@@ -2,7 +2,7 @@
  * Author: Dr. Booth, Matt Arnold, Cameron Wagstaff                            *
  * Description: Does the Tetris                                                *
  * Created on: Mar 31, 2014                                                    *
- * Last Modified: 28 April 2014 - Cameron Wagstaff                             *
+ * Last Modified: 29 April 2014 - Matt Arnold                                  *
  ******************************************************************************/
 
 #include "Tetris.h"
@@ -20,6 +20,8 @@ enterName("Enter Your Name")
     end = false;
 
     currentScore = 0;
+    rowsCleared = 0;
+    consecRC = 0;
 
     this->g = g;
 
@@ -44,7 +46,7 @@ enterName("Enter Your Name")
 //Tetris Main Game Loop
 void Tetris::Play(void)
 {
-    matrix.lineCheck();
+    //matrix.lineCheck();
 
     static double time = clock();
 
@@ -60,37 +62,47 @@ void Tetris::Play(void)
     }
     else if(end)
     {
+        matrix.draw(g);
+        drawCenteredString(g, "GAME OVER", Point(245, 40), BLACK);
         enterName.erase(g);
         enterName.draw(g);
     }
     else
     {
-        if(clock() >= time + .75 * static_cast<double>(CLOCKS_PER_SEC))
+        if(clock() >= time + fallSpeed() * static_cast<double>(CLOCKS_PER_SEC))
         {
             current.erase(g);
 
-            //this mimics pressing space every time the piece needs to move
-            // down, so stopping this function alone would be a pause game
             tryMoveDown(current, matrix);
 
             time = clock();
         }
 
         current.draw(g);
+        
         drawNextBox();
+        drawScore();
 
         matrix.draw(g);
 
         if(current.getRest())
         {
-            matrix.addPiece(current);
+            try
+            {
+                matrix.addPiece(current);
+                
+                current = next;
+                current.setPosition(PIECE_START);
 
-            current = next;
-            current.setPosition(PIECE_START);
-
-            srand(clock());//more randomness
-            next.setType(rand() % 6);
-            next.setColor();
+                //srand(clock());//more randomness 
+                next.setType(rand() % 6);
+                next.setColor();
+            }
+            catch(LocationOccupied &l)
+            {
+                end = true;
+            }
+            
         }
 
     }
@@ -187,7 +199,7 @@ void Tetris::Play(void)
                 break;
 
                 ///THESE ARE CHEATS, REMOVE THEM OR MAKE THEM EASTER EGGS
-                case 's': current.setType((current.getType() + 1) % 6); break; //s - Change type
+                case 's': current.setType((current.getType() + 1) % 7); break; //s - Change type
                 case 'u': current.moveUp(); break; //u - move up ya know, in case we want that
 
                 default: cout << k << endl;
@@ -203,31 +215,6 @@ void Tetris::Play(void)
 		Click c;
 		c = g->getClick();
         cout << c.x << " " << c.y << endl;
-
-        if(end && enterName.getEnter().isInRange(c))
-        {
-            enterName.getEnter().press(g);
-            scores[scores.search(enterName.getData())].addGame(currentScore);
-            scores.save();
-            enterName.getData().clear();
-            enterName.setExcedesLength(false);
-            enterName.setAlNumErr(false);
-            end = false;
-            scores.setRun(true);
-            break;
-        }
-
-        if(end && enterName.getCancel().isInRange(c))
-        {
-            enterName.getCancel().press(g);
-            end = false;
-            m.setRun(true);
-            enterName.getData().clear();
-            enterName.setExcedesLength(false);
-            enterName.setAlNumErr(false);
-            break;
-        }
-
 
         if(m && m.getStartButton().isInRange(Point(c)))
         {
@@ -250,7 +237,36 @@ void Tetris::Play(void)
             scores.setRun(false);
             m.setRun(true);
         }
-
+        
+        if(end && enterName.getEnter().isInRange(c))
+        {
+            enterName.getEnter().press(g);
+            scores[scores.search(enterName.getData())].addGame(currentScore);
+            scores.save();
+            scores.sort();
+            scores.save();
+            enterName.getData().clear();
+            enterName.setExcedesLength(false);
+            enterName.setAlNumErr(false);
+            end = false;
+            scores.setRun(true);
+        }
+        
+        if(end && enterName.getCancel().isInRange(c))
+        {
+            enterName.getCancel().press(g);
+            end = false;
+            m.setRun(true);
+            enterName.getData().clear();
+            enterName.setExcedesLength(false);
+            enterName.setAlNumErr(false);
+        }
+    }
+    
+    if(matrix.lineCheck())
+    {
+        currentScore += 100;
+        rowsCleared += 1;
     }
 
 	// Update screen - draw game
@@ -292,6 +308,12 @@ void Tetris::drawGame()
     }
 }
 
+/*******************************************************************************
+ * Description: draws the box holding the next piece                           *
+ * Return: void                                                                *
+ * Pre: object exists, nothing is broken                                       *
+ * Post: nextBox drawn to screen with next Piece inside, nothing changed       *
+ ******************************************************************************/
 void Tetris::drawNextBox()
 {
     nextBox.draw(g);
@@ -299,6 +321,53 @@ void Tetris::drawNextBox()
     next.draw(g);
 
     drawString(g, "Next Piece:", nextBox.getTopLeft(), BLACK);
+}
+
+/*******************************************************************************
+ * Description: Draws the user's current score to the screen                   *
+ * Return: void                                                                *
+ * Pre: object exists, score is valid                                          *
+ * Post: player score drawn to screen, object unchanged                        *
+ ******************************************************************************/
+void Tetris::drawScore()
+{
+    stringstream stream;
+    
+    stream << "Score: " << currentScore;
+    
+    drawString(g, stream.str(), Point(nextBox.getTopLeft().x,
+                                      nextBox.getTopLeft().y + 200), BLACK);
+    //Temporarily row cleared data is drawn here. will either change location of
+    //this block or name && description of function
+    stream = stringstream();
+    stream << "Rows Cleared: " << rowsCleared;
+    drawString(g, stream.str(), Point(nextBox.getTopLeft().x,
+                                      nextBox.getTopLeft().y + 300), BLACK);
+}
+
+/*******************************************************************************
+ * Description: returns the number of seconds to wait between falls based on   *
+ *              number of rows cleared (level)                                 *
+ * Return: a double representing the number of seconds between falls           *
+ * Pre: object exists, nothing is broken                                       *
+ * Post: object unchanged                                                      *
+ ******************************************************************************/
+double Tetris::fallSpeed()
+{
+    static bool canChange = false;
+    static double time = 0.75;
+    
+    if(!canChange && rowsCleared % 7 != 0)
+    {
+        canChange = true;
+    }
+    
+    if(canChange && rowsCleared %7 == 7)
+    {
+        time -= FALL_TIME_PER_LEVEL;
+    }
+    
+    return time;
 }
 
 /******************************************************************************

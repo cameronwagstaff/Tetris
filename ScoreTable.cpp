@@ -104,11 +104,11 @@ void ScoreTable::draw(GLUT_Plotter *g)
         drawString(g, players[i].name, cursor, BLACK);
         cursor.x += tab;
         drawString(g, contentSS.str(), cursor, BLACK);
-        contentSS.clear();
+        contentSS = stringstream();
         contentSS << players[i].pointsPerGame();
         cursor.x += tab;
         drawString(g, contentSS.str(), cursor, BLACK);
-        contentSS.clear();
+        contentSS = stringstream();
 
         cursor.y += gap;
         cursor.x = leftEdge;

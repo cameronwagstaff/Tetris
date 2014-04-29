@@ -2,7 +2,7 @@
  * Author: Matt Arnold                                                         *
  * Description: Contains various constants to be used in the Tetris game       *
  * Date Created:02 April 2014                                                  *
- * Date Last Modified: 28 April 2014 - Cameron Wagstaff                        *
+ * Date Last Modified: 29 April 2014 - Matt Arnold                             *
  ******************************************************************************/
 
 
@@ -67,6 +67,7 @@ const int MAX_LEN                   = 10;           //Maximum number of characte
 
 //Oddities
 const string WINDOW_TITLE = "TETRIS";               //The string displayed on the title bar of the game
+const double FALL_TIME_PER_LEVEL    = .5;           //Represents the change in the amount of time between falls when the level increases
 
 //Booleans
 const bool MATT_IS_THE_BEST = true;                 //Just me being a narcissist

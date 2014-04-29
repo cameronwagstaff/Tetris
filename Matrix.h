@@ -2,7 +2,7 @@
  * Author: John Daniel                                                        *
  * Description: Matrix Class, all you need in a Matrix 2.0! (2-D)             *
  * Date Created:16 April 2014                                                 *
- * Date Last Modified:22 April 2014 - Matt Arnold                             *
+ * Date Last Modified:29 April 2014 - Matt Arnold                             *
  *****************************************************************************/
 #ifndef TETRIS_MATRIX_H_
 #define TETRIS_MATRIX_H_
@@ -79,7 +79,7 @@ class Matrix
         Matrix(GLUT_Plotter *g);
         //Matrix(const Matrix& other);
         ~Matrix();
-        void lineCheck();
+        bool lineCheck();
         void shiftDown(int r);
         void draw(GLUT_Plotter *g);
         int  rowSum(int r);
