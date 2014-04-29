@@ -72,7 +72,7 @@ class Matrix
          pointer either points to NULL or a shape. So it's a group of
          pointers that point to pointers that point to NULL or SHAPES!
         **/
-         Shape*** matrix;
+         Square*** matrix;
          GLUT_Plotter *g;
 
     public:

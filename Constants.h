@@ -2,7 +2,7 @@
  * Author: Matt Arnold                                                         *
  * Description: Contains various constants to be used in the Tetris game       *
  * Date Created:02 April 2014                                                  *
- * Date Last Modified:27 April 2014 - Cameron Wagstaff                         *
+ * Date Last Modified: 28 April 2014 - Cameron Wagstaff                        *
  ******************************************************************************/
 
 
@@ -53,10 +53,10 @@ const int SQUARE_WIDTH              = 20;           //Side length of Squares
 const int SQUARE_BORDER             = 2;            //Width of border on Squares
 
 //Matrix Dimensions
-const int MAX_ROWS                  = (GAME_BOTTOM - 2 * BORDER_WIDTH) // Max number of Squares for width of game
-                                      / (SQUARE_WIDTH);
-const int MAX_COLS                  = (GAME_RIGHT - 2 * BORDER_WIDTH) // Max number of Squares for height of game
-                                      / (SQUARE_WIDTH);
+const int MAX_ROWS                  = 29;//(GAME_BOTTOM - 2 * BORDER_WIDTH) // Max number of Squares for width of game
+                                      // (SQUARE_WIDTH);
+const int MAX_COLS                  = 24;//(GAME_RIGHT - 2 * BORDER_WIDTH) // Max number of Squares for height of game
+                                      // (SQUARE_WIDTH);
 const int MIN_ROWS                  = 0;
 const int MIN_COLS                  = 0;
 

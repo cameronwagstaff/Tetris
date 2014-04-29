@@ -3,7 +3,7 @@ Author:  Brennan Saul
 File Name:  Piece.cpp
 Description:  Implements the Piece class.
 Date Created:  April 16, 2014
-Date Last Modified:  April 27, 2014 - Cameron Wagstaff
+Date Last Modified:  April 28, 2014 - Cameron Wagstaff
 ******************************************************************************/
 
 #include "Piece.h"
@@ -50,7 +50,7 @@ Piece::Piece(int pieceType)
     //p2.x = MAX_ROWS / 2;
     //p2.y = 1;
 
-    //set value and orientation for all ofther points
+    //set value and orientation for all other points
     setOrientation(orientation);
     setColor();
 }
@@ -118,7 +118,7 @@ Piece& Piece::operator=(const Piece &other)
  ******************************************************************************/
 void Piece::rotateRight()
 {
-    if(orientation == 3) //I'm making it love me
+    if(orientation == 3)
     {
         orientation = 0;
     }

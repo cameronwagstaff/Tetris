@@ -1,11 +1,13 @@
 /*******************************************************************************
- * Author: Dr. Booth, Matt Arnold                                              *
+ * Author: Dr. Booth, Matt Arnold, Cameron Wagstaff                            *
  * Description: Does the Tetris                                                *
  * Created on: Mar 31, 2014                                                    *
- * Last Modified: 26 April 2014 - Matt Arnold                                  *
+ * Last Modified: 28 April 2014 - Cameron Wagstaff                             *
  ******************************************************************************/
 
 #include "Tetris.h"
+
+using namespace std;
 
 //Tetris Constructor
 Tetris::Tetris(GLUT_Plotter* g)
@@ -42,18 +44,7 @@ enterName("Enter Your Name")
 //Tetris Main Game Loop
 void Tetris::Play(void)
 {
-    Square square(Point(BORDER_WIDTH + SQUARE_WIDTH / 2, GAME_BOTTOM - 2 * BORDER_WIDTH - SQUARE_WIDTH + 1), GREEN);
-    try
-    {    for(int i = 0; i < MAX_COLS; i++)
-        {
-            matrix.addShape(MAX_ROWS - 1, i, square);
-            square.setCenter(square.getCenter() + Point(SQUARE_WIDTH, 0));
-        }
-    }
-    catch(LocationOccupied& e)
-    {
-        cout << e.what() << endl;
-    }
+    matrix.lineCheck();
 
     static double time = clock();
 
@@ -77,39 +68,11 @@ void Tetris::Play(void)
         if(clock() >= time + .75 * static_cast<double>(CLOCKS_PER_SEC))
         {
             current.erase(g);
-            try
-            {
-                bool shouldFall = true;
-                for(int i = 0; i < 4 && shouldFall; i ++)
-                {
-                    int r = toMatrix(((current.getSquares())[i]->getTopLeft())).x;
-                    int c = toMatrix(((current.getSquares())[i]->getTopLeft())).y + 1;
-                    if(matrix.occupied(c, r))
-                    {
-                        shouldFall = false;
-                    }
-                }
-                if(shouldFall)
-                {
-                    current.fall();
-                }
-                else
-                {
-                    current.setRest(true);
-                }
-            }
-            catch(LocationOccupied &e)
-            {
-                cout << e.what() << endl;
-            }
-            catch(NotInMatrix e)
-            {
-                cout << e.what() << endl;
-            }
-            catch(...)
-            {
-                exit(3);
-            }
+
+            //this mimics pressing space every time the piece needs to move
+            // down, so stopping this function alone would be a pause game
+            tryMoveDown(current, matrix);
+
             time = clock();
         }
 
@@ -125,6 +88,7 @@ void Tetris::Play(void)
             current = next;
             current.setPosition(PIECE_START);
 
+            srand(clock());//more randomness
             next.setType(rand() % 6);
             next.setColor();
         }
@@ -140,11 +104,9 @@ void Tetris::Play(void)
         //Escape key always exits game
         if(k == 27)
         {
-            //this->~Tetris();
-            //exit(1);
-            matrix.lineCheck();
+            this->~Tetris();
+            exit(1);
         }
-
 
 
         if(end)
@@ -200,13 +162,34 @@ void Tetris::Play(void)
         {
             switch (k)
             {
-                case 164: current.moveLeft(); break; //Left Arrow
-                case 166: current.moveRight(); break; //Right Arrow
-                case 167: current.rotateLeft(); break; //Down Arrow
-                case 165: current.rotateRight(); break; //Up Arrow
-                case 32 : current.fall(); break;       //Space Bar
+                case 164: //Left Arrow
+                    tryMoveLeft(current, matrix);
+                break;
+
+                case 166: //Right Arrow
+                    tryMoveRight(current, matrix);
+                break;
+
+                case 167: //Down Arrow
+                    tryRotateLeft(current, matrix);
+                break;
+
+                case 165: //Up Arrow
+                    tryRotateRight(current, matrix);
+                break;
+
+                case 32 : //Space Bar
+                    tryMoveDown(current, matrix);
+                break;
+
+                case 112: //P
+                    //this will pause the game in the future
+                break;
+
+                ///THESE ARE CHEATS, REMOVE THEM OR MAKE THEM EASTER EGGS
                 case 's': current.setType((current.getType() + 1) % 6); break; //s - Change type
                 case 'u': current.moveUp(); break; //u - move up ya know, in case we want that
+
                 default: cout << k << endl;
             }
         }
@@ -317,3 +300,228 @@ void Tetris::drawNextBox()
 
     drawString(g, "Next Piece:", nextBox.getTopLeft(), BLACK);
 }
+
+/******************************************************************************
+THIS IS AN INPUT GUARD AND I AM TOO LAZY TO DOCUMENT IT RN
+******************************************************************************/
+void Tetris::tryMoveDown(Piece &current, Matrix &matrix)
+{
+    try
+    {
+        bool shouldFall = true;
+
+        for(int i = 0; i < 4 && shouldFall; i ++)
+        {
+            int r = toMatrix(((current.getSquares())[i]->getTopLeft())).x + 1;
+            int c = toMatrix(((current.getSquares())[i]->getTopLeft())).y;
+
+            if(r >= MAX_ROWS || matrix.occupied(r, c))
+            {
+                shouldFall = false;
+            }
+        }
+
+        if(shouldFall)
+        {
+            current.fall();
+        }
+        else
+        {
+            current.setRest(true);
+        }
+    }
+    catch(LocationOccupied &e)
+    {
+        cout << e.what() << endl;
+    }
+    catch(NotInMatrix e)
+    {
+        cout << e.what() << endl;
+    }
+    catch(...)
+    {
+        cout << "SOMETHING HAS GONE WRONG IN TRYMOVEDOWN" << endl;
+    }
+}
+
+/******************************************************************************
+THIS IS AN INPUT GUARD AND I AM TOO LAZY TO DOCUMENT IT RN
+******************************************************************************/
+void Tetris::tryMoveLeft(Piece &current, Matrix &matrix)
+{
+    try
+    {
+        bool canMoveLeft = true;
+
+        for(int i = 0; i < 4; i ++)
+        {
+            //I an an idiot
+            int row = toMatrix((current.getSquares())[i]->getTopLeft()).x;
+            int col = toMatrix((current.getSquares())[i]->getTopLeft()).y - 1;
+
+            if(matrix.occupied(row, col))
+            {
+                canMoveLeft = false;
+            }
+        }
+
+        if(canMoveLeft)
+        {
+            current.moveLeft();
+        }
+    }
+    catch(NotInMatrix &e)
+    {
+        cout << e.what() << endl;
+    }
+    catch(LocationOccupied &e)
+    {
+        cout << e.what() << endl;
+    }
+    catch(...)
+    {
+        cout << "SOMETHING HAS GONE WRONG IN TRYMOVELEFT" << endl;
+    }
+}
+
+/******************************************************************************
+THIS IS AN INPUT GUARD AND I AM TOO LAZY TO DOCUMENT IT RN
+******************************************************************************/
+void Tetris::tryMoveRight(Piece &current, Matrix &matrix)
+{
+    try
+    {
+        bool canMoveRight = true;
+
+        for(int i = 0; i < 4; i ++)
+        {
+            //I an an idiot
+            int row = toMatrix((current.getSquares())[i]->getTopLeft()).x;
+            int col = toMatrix((current.getSquares())[i]->getTopLeft()).y + 1;
+
+            if(matrix.occupied(row, col))
+            {
+                canMoveRight = false;
+            }
+        }
+
+        if(canMoveRight)
+        {
+            current.moveRight();
+        }
+    }
+    catch(NotInMatrix &e)
+    {
+        cout << e.what() << endl;
+    }
+    catch(LocationOccupied &e)
+    {
+        cout << e.what() << endl;
+    }
+    catch(...)
+    {
+        cout << "SOMETHING HAS GONE WRONG IN TRYMOVERIGHT" << endl;
+    }
+}
+
+/******************************************************************************
+THIS IS AN INPUT GUARD AND I AM TOO LAZY TO DOCUMENT IT RN
+******************************************************************************/
+void Tetris::tryRotateLeft(Piece &current, Matrix &matrix)
+{
+    Piece p = current;
+
+    try
+    {
+        bool canRotate = true;
+
+        p.rotateLeft();
+
+        for(int i = 0; i < 4; i ++)
+        {
+            int row = toMatrix((p.getSquares())[i]->getTopLeft()).x;
+            int col = toMatrix((p.getSquares())[i]->getTopLeft()).y;
+
+            if(matrix.occupied(row, col))
+            {
+                canRotate = false;
+            }
+
+            if(row < 0 || row >= MAX_ROWS || col < 0 || col >= MAX_COLS)
+            {
+                canRotate = false;
+            }
+        }
+
+        if(canRotate)
+        {
+            current.rotateLeft();
+        }
+    }
+    catch(NotInMatrix &e)
+    {
+        cout << e.what() << endl;
+    }
+    catch(OffScreen &e)
+    {
+        cout << "YOU CAN'T DO THAT" << endl;
+    }
+    catch(...)
+    {
+        cout << "SOMETHING HAS GONE WRONG IN TRYROTATELEFT" << endl;
+    }
+}
+
+/******************************************************************************
+THIS IS AN INPUT GUARD AND I AM TOO LAZY TO DOCUMENT IT RN
+******************************************************************************/
+void Tetris::tryRotateRight(Piece &current, Matrix &matrix)
+{
+    Piece p = current;
+
+    try
+    {
+        bool canRotate = true;
+
+        p.rotateRight();
+
+        for(int i = 0; i < 4; i ++)
+        {
+            int row = toMatrix((p.getSquares())[i]->getTopLeft()).x;
+            int col = toMatrix((p.getSquares())[i]->getTopLeft()).y;
+
+            if(matrix.occupied(row, col))
+            {
+                canRotate = false;
+            }
+
+            if(row < 0 || row >= MAX_ROWS || col < 0 || col >= MAX_COLS)
+            {
+                canRotate = false;
+            }
+        }
+
+        if(canRotate)
+        {
+            current.rotateRight();
+        }
+    }
+    catch(NotInMatrix &e)
+    {
+        cout << e.what() << endl;
+    }
+    catch(OffScreen &e)
+    {
+        cout << "YOU CAN'T DO THAT" << endl;
+    }
+    catch(...)
+    {
+        cout << "SOMETHING HAS GONE WRONG IN TRYROTATERIGHT" << endl;
+    }
+}
+
+
+
+
+
+

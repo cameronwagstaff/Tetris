@@ -45,6 +45,13 @@ public:
     void Play(void);
     void drawGame();
     void drawNextBox();
+
+    //Input guards
+    void tryMoveDown(Piece&, Matrix&);
+    void tryRotateRight(Piece&, Matrix&);
+    void tryRotateLeft(Piece&, Matrix&);
+    void tryMoveLeft(Piece&, Matrix&);
+    void tryMoveRight(Piece&, Matrix&);
 };
 
 #endif /* TETRIS_H_ */

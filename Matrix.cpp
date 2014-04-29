@@ -2,7 +2,7 @@
  * Author: John Daniel                                                        *
  * Description: Implementation of Matrix Class                                *
  * Date Created:16 April 2014                                                 *
- * Date Last Modified:27 April 2014 - Cameron Wagstaff                        *
+ * Date Last Modified:28 April 2014 - Cameron Wagstaff                        *
  *****************************************************************************/
 
 #include "Matrix.h"
@@ -14,17 +14,16 @@
 * Pre: Everything is Happy                                                    *
 * Post: Matrix is initiated with default shapes in it                         *
 ******************************************************************************/
-Matrix::Matrix(GLUT_Plotter *g)
+Matrix::Matrix(GLUT_Plotter *g)//works the way we think it does
 {
-    matrix = new Shape** [MAX_ROWS];
+    matrix = new Square** [MAX_ROWS];
 
     for (int i = MIN_ROWS; i < MAX_ROWS; i++)
     {
-        matrix[i] = new Shape* [MAX_COLS];
+        matrix[i] = new Square* [MAX_COLS];
 
         for (int j = 0; j < MAX_COLS; j++)
         {
-
             matrix[i][j] = NULL;
         }
     }
@@ -40,7 +39,7 @@ Matrix::Matrix(GLUT_Plotter *g)
 ******************************************************************************/
 Matrix::~Matrix()
 {
-    //Destructer needs to touch all levels of the array
+    //Destructor needs to touch all levels of the array
     for(int i = 0; i < MAX_ROWS; i++)
     {
         for(int j = 0; j < MAX_COLS; j++)
@@ -61,19 +60,20 @@ Matrix::~Matrix()
 * Pre: The Matrix exists, nothing is bad                                      *
 * Post: if there are full lines they are removed and matrix shifted down      *
 ******************************************************************************/
-void Matrix::lineCheck()
+void Matrix::lineCheck()//works the way we think it does
 {
     for (int i = MAX_ROWS - 1; i >= 0; i--)
     {
         if (rowSum(i) == MAX_COLS)
         {
-            deleteRow(i);
+            deleteRow(i);//DOES NOT WORK THE WAY WE THINK IT DOES
             //shiftDown(i);
         }
     }
 }
 
-void Matrix::draw(GLUT_Plotter *g)
+//document this you fool
+void Matrix::draw(GLUT_Plotter *g)//works the way we think it does
 {
     for(int i = 0; i < MAX_ROWS; i++)
     {
@@ -93,7 +93,7 @@ void Matrix::draw(GLUT_Plotter *g)
 * Pre: Everything exists, valid integer                                       *
 * Post: Nothing is changed                                                    *
 ******************************************************************************/
-int Matrix::rowSum(int r)
+int Matrix::rowSum(int r)//works the way we think it does
 {
     bool full = true;
     for(int i = MIN_COLS; i < MAX_COLS && full; i ++)
@@ -101,15 +101,7 @@ int Matrix::rowSum(int r)
         if(matrix[r][i] == NULL)
             full = false;
     }
-    /*int count = 0;
-    for(int c = MIN_COLS; c < MAX_COLS; c++)
-    {
-        if (matrix[r][c] != NULL)
-        {
-            count++;
-        }
-    }
-    return count;*/
+
     if(full)
         return MAX_COLS;
     else
@@ -120,13 +112,14 @@ int Matrix::rowSum(int r)
 * Description: Deletes the entire row!                                        *
 * Return: void                                                                *
 * Pre: The row is full and ready to be deleted                                *
-* Post: The row is deleted and ready to be shifted down                       *
+* Post: The row is deleted and the squares above it have moved down a unit    *
 ******************************************************************************/
-void Matrix::deleteRow(int r)
+void Matrix::deleteRow(int r)//this does what we think it does
 {
-    for(int i = 0; i < MAX_COLS; i ++)
+    for(int i = MIN_COLS; i < MAX_COLS; i ++)
     {
-        matrix[r][i]->erase(g);
+        matrix[r][i]->erase(g);//we don't know about this
+        matrix[r][i] = NULL;
     }
 
     //Shift matrix down
@@ -135,13 +128,7 @@ void Matrix::deleteRow(int r)
     //Set top row to NULL
     for (int c = MIN_COLS; c < MAX_COLS; c ++)
     {
-        /*/////////////////////////////////////\
-        // I think this is a hardcore leak/////\
-        //////////////////////////////////////*/
-
-        /*/////////////////////////////////////\
-        // Nah man, I think you're good////////\
-        //////////////////////////////////////*/
+        //I think this is a hardcore leak
 
         //delete matrix[r][c];
         matrix[MIN_ROWS][c] = NULL;
@@ -155,29 +142,39 @@ void Matrix::deleteRow(int r)
 * Pre: The line is hopefully deleted                                          *
 * Post: Well it's gone now                                                    *
 ******************************************************************************/
-void Matrix::shiftDown(int r)
+void Matrix::shiftDown(int r)//this does what we think it does
 {
-    for(; r > MIN_ROWS; r--)
+    cout << "shifting" << endl;
+    for(int row = r; row > MIN_ROWS; row--)
     {
-        for (int c = MIN_COLS; c < MAX_COLS; c++)
+        for(int c = MIN_COLS; c < MAX_COLS; c++)
         {
-            matrix[r][c] = matrix[r-1][c];
+            if(matrix[row][c])
+            {
+                matrix[row][c]->erase(g);
+                matrix[row][c]->setCenter(matrix[row][c]->getCenter() + Point(0, SQUARE_WIDTH));
+            }
+
+            matrix[row][c] = matrix[row-1][c];//needs to work
         }
     }
+
+    draw(g);
     return;
 }
 
-Matrix& Matrix::addPiece(Piece object)
+//document this you fool
+Matrix& Matrix::addPiece(Piece object)//this function has questionable maths
 {
-
+    cout << "try" << endl;
     for(int i = 0; i < 4; i++)
     {
         int row = 0, col = 0;
 
-        row = object.getSquares()[i]->getTopLeft().x / SQUARE_WIDTH; //maths
-        col = object.getSquares()[i]->getTopLeft().y / SQUARE_WIDTH; // maths
-
-        addShape(col, row, *object.getSquares()[i]);
+        col = (object.getSquares()[i]->getTopLeft().x - BORDER_WIDTH) / SQUARE_WIDTH; //maths
+        row = (object.getSquares()[i]->getTopLeft().y - BORDER_WIDTH) / SQUARE_WIDTH; //maths
+        cout << row << " " << col << endl;
+        addShape(row, col, *object.getSquares()[i]);
     }
 
     return *this;
@@ -189,8 +186,8 @@ Matrix& Matrix::addPiece(Piece object)
 * Pre: Valid shape                                                            *
 * Post: There is now a shape in row, col                                      *
 ******************************************************************************/
-Matrix& Matrix::addShape(int r, int c, Square& object)
-{
+Matrix& Matrix::addShape(int r, int c, Square& object)//this function does what
+{                                                     //  we think it does
     //If matrix already points to an object, we are trying to add something
     //  where something is already present; throw LocationOccupied
     if(matrix[r][c] != NULL)
@@ -212,19 +209,25 @@ Matrix& Matrix::addShape(int r, int c, Square& object)
 ******************************************************************************/
 bool Matrix::occupied(int r, int c)
 {
-    if (r >= MAX_ROWS || c >= MAX_COLS || r < MIN_ROWS || c < MIN_COLS)
+    if (r > MAX_ROWS || c >= MAX_COLS || r < MIN_ROWS || c < MIN_COLS)
     {
         throw(NotInMatrix(r,c));
     }
     return matrix[r][c] != NULL;
 }
 
+/******************************************************************************
+* Description: Converts the topLeft of a square to its supposed matrix position
+* Return: Point
+* Pre: none
+* Post: Nothing is changed
+******************************************************************************/
 Point toMatrix(Point convert)
 {
     int row, col;
-    //shameless copy paste
-    row = convert.x / SQUARE_WIDTH; //maths
-    col = convert.y / SQUARE_WIDTH; // maths
+    col = (convert.x - BORDER_WIDTH) / SQUARE_WIDTH; //maths
+    row = (convert.y - BORDER_WIDTH) / SQUARE_WIDTH; //maths
+
 
     return Point(row, col);
 }
