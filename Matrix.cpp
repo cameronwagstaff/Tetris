@@ -56,7 +56,7 @@ Matrix::~Matrix()
 /******************************************************************************
 * Description: Calls rowSum(int r) to check if a row is full; if full then    *
 *              calls deleteRow(int r) and shiftDown(int r)                    *
-* Return: void                                                                *
+* Return: an integer value representing the number of rows cleared            *
 * Pre: The Matrix exists, nothing is bad                                      *
 * Post: if there are full lines they are removed and matrix shifted down      *
 ******************************************************************************/

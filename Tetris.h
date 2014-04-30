@@ -38,7 +38,7 @@ private:
     bool end;
     int currentScore;
     int rowsCleared;
-    int consecRC;
+    int consecTetris;
 
 public:
     //constructor

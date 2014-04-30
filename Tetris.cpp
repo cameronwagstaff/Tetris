@@ -23,7 +23,7 @@ enterName("Enter Your Name")
 
     currentScore = 0;
     rowsCleared = 0;
-    consecRC = 0;
+    consecTetris = 0;
 
     this->g = g;
 
@@ -118,7 +118,7 @@ void Tetris::Play(void)
     {
 		int k = g->getKey();
 
-		cout << k << endl;
+		//cout << k << endl;
 
         //Escape key always exits game
         if(k == 27)
@@ -280,6 +280,16 @@ void Tetris::Play(void)
     }
     
         int rows = matrix.lineCheck();
+    
+        if(rows == 4)
+        {
+            currentScore += consecTetris * 400;
+            consecTetris += 1;
+        }
+        else
+        {
+            consecTetris = 0;
+        }
 
         currentScore += 100 * rows;
         rowsCleared += rows;
@@ -619,7 +629,7 @@ void Tetris::resetGame()
 
     currentScore = 0;
     rowsCleared = 0;
-    consecRC = 0;
+    consecTetris = 0;
 
     current = Piece();
     next = Piece();

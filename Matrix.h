@@ -17,7 +17,6 @@
 
 //Exception class thrown if the user tries to add a shape to the matrix in
 //  a location that is already occupied
-//Note: I tried way too hard on this - Matt
 class LocationOccupied : public exception
 {
     private:
