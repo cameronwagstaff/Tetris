@@ -38,10 +38,10 @@ private:
     InputBox enterName;
     Button endGame;
     bool end;
+    bool pause;
     int currentScore;
     int rowsCleared;
     int consecTetris;
-
 
 public:
     //constructor
@@ -53,6 +53,7 @@ public:
     void drawNextBox();
     void drawScore();
     double fallSpeed();
+    void togglePause();
 
     //Input guards
     void tryMoveDown(Piece&, Matrix&);

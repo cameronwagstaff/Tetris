@@ -32,9 +32,9 @@ Menu::Menu()
 void Menu::draw(GLUT_Plotter *g)
 {
     Square cursor(Point(25, 45), YELLOW);
-
+        
     g->setColor(MENU_BLUE);
-
+    
     for(int i = BORDER_WIDTH; i < GAME_RIGHT - BORDER_WIDTH; i++)
     {
         for(int j = BORDER_WIDTH; j < GAME_BOTTOM - BORDER_WIDTH; j++)
@@ -42,33 +42,33 @@ void Menu::draw(GLUT_Plotter *g)
             g->plot(i, j);
         }
     }
-
+    
     //I apologise in advance for the spaghetti I am about to force feed you
-
+    
     //T
     for(int i = 0; i < 3; i++)
     {
         cursor.draw(g);
-
+        
         if(i == 1)
         {
             cursor.setCenter(cursor.getCenter() + Point(0, SQUARE_WIDTH));
-
+            
             for(int j = 0; j < 4; j++)
             {
                 cursor.draw(g);
                 cursor.setCenter(cursor.getCenter() + Point(0, SQUARE_WIDTH));
             }
-
+            
             cursor.setCenter(cursor.getCenter() - Point(0, 5 * SQUARE_WIDTH));
         }
-
+        
         cursor.setCenter(cursor.getCenter() + Point(SQUARE_WIDTH, 0));
     }
-
+    
     cursor.setColor(RED);
     cursor.setCenter(cursor.getCenter() + Point(SQUARE_WIDTH, 0));
-
+    
     //E
     for(int i = 0; i < 3; i++)
     {
@@ -78,14 +78,14 @@ void Menu::draw(GLUT_Plotter *g)
            {
                cursor.draw(g);
            }
-
+            
             cursor.setCenter(cursor.getCenter() + Point(0, SQUARE_WIDTH));
         }
-
+        
         cursor.setCenter(cursor.getCenter() + Point(SQUARE_WIDTH, 0) -
                          Point(0, 5 * SQUARE_WIDTH));
     }
-
+    
 
     cursor.setColor(CYAN);
     cursor.setCenter(cursor.getCenter() + Point(SQUARE_WIDTH, 0));
@@ -94,31 +94,31 @@ void Menu::draw(GLUT_Plotter *g)
     for(int i = 0; i < 3; i++)
     {
         cursor.draw(g);
-
+        
         if(i == 1)
         {
             cursor.setCenter(cursor.getCenter() + Point(0, SQUARE_WIDTH));
-
+            
             for(int j = 0; j < 4; j++)
             {
                 cursor.draw(g);
                 cursor.setCenter(cursor.getCenter() + Point(0, SQUARE_WIDTH));
             }
-
+            
             cursor.setCenter(cursor.getCenter() - Point(0, 5 * SQUARE_WIDTH));
         }
-
+        
         cursor.setCenter(cursor.getCenter() + Point(SQUARE_WIDTH, 0));
     }
 
     cursor.setColor(GREEN);
     cursor.setCenter(cursor.getCenter() + Point(SQUARE_WIDTH, 0));
-
+    
     //R
     for(int i = 0; i < 3; i++)
     {
         cursor.draw(g);
-
+        
         if(i == 0)
         {
             for(int j = 0; j < 4; j++)
@@ -126,27 +126,27 @@ void Menu::draw(GLUT_Plotter *g)
                 cursor.setCenter(cursor.getCenter() + Point(0, SQUARE_WIDTH));
                 cursor.draw(g);
             }
-
+            
             cursor.setCenter(cursor.getCenter() - Point(0, 4 * SQUARE_WIDTH));
         }
-
+        
         cursor.setCenter(cursor.getCenter() + Point(SQUARE_WIDTH, 0));
     }
-
+    
     cursor.setCenter(cursor.getCenter() - Point(SQUARE_WIDTH, 0));
     cursor.setCenter(cursor.getCenter() + Point(0, SQUARE_WIDTH));
     cursor.draw(g);
     cursor.setCenter(cursor.getCenter() - Point(0, SQUARE_WIDTH));
     cursor.setCenter(cursor.getCenter() + Point(SQUARE_WIDTH, 0));
-
+    
     cursor.setColor(PURPLE);
     cursor.setCenter(cursor.getCenter() + Point(SQUARE_WIDTH, 0));
-
+    
     //I
     for(int i = 0; i < 3; i++)
     {
         cursor.draw(g);
-
+        
         if(i == 1)
         {
             for(int j = 0; j < 4; j++)
@@ -154,24 +154,24 @@ void Menu::draw(GLUT_Plotter *g)
                 cursor.setCenter(cursor.getCenter() + Point(0, SQUARE_WIDTH));
                 cursor.draw(g);
             }
-
+            
             cursor.setCenter(cursor.getCenter() - Point(0, 4 * SQUARE_WIDTH));
         }
-
+        
         else
         {
             cursor.setCenter(cursor.getCenter() + Point(0, 4 * SQUARE_WIDTH));
             cursor.draw(g);
             cursor.setCenter(cursor.getCenter() - Point(0, 4 * SQUARE_WIDTH));
         }
-
+        
         cursor.setCenter(cursor.getCenter() + Point(SQUARE_WIDTH, 0));
     }
 
-
+    
     cursor.setColor(ORANGE);
     cursor.setCenter(cursor.getCenter() + Point(SQUARE_WIDTH, 0));
-
+    
     //S
     for(int i = 0; i < 3; i++)
     {
@@ -182,10 +182,10 @@ void Menu::draw(GLUT_Plotter *g)
             {
                 cursor.draw(g);
             }
-
+            
             cursor.setCenter(cursor.getCenter() + Point(0, SQUARE_WIDTH));
         }
-
+        
         cursor.setCenter(cursor.getCenter() + Point(SQUARE_WIDTH, 0) -
                          Point(0, 5 * SQUARE_WIDTH));
     }
@@ -193,9 +193,6 @@ void Menu::draw(GLUT_Plotter *g)
     //Draw Buttons
     startButton.draw(g);
     viewScores.draw(g);
-
-    //Draw Title
-    drawCenteredString(g, "TETRIS", Point(255, 135), 0x00FF33);
 }
 
 /*******************************************************************************
