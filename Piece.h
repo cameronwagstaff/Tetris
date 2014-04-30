@@ -16,16 +16,16 @@
 
 using namespace std;
 
-const Point PIECE_START           = Point((GAME_RIGHT - BORDER_WIDTH) / 2 - 5,
-                                           SQUARE_WIDTH + BORDER_WIDTH * 2 + 1);
+const Point PIECE_START = Point((GAME_RIGHT - BORDER_WIDTH) / 2 - 5,
+                                SQUARE_WIDTH + BORDER_WIDTH * 2 + 1);
 
 class Piece
 {
     public:
-             Piece();
-             Piece(int);
-             Piece(const Piece &other);
-            ~Piece();
+        Piece();
+        Piece(int);
+        Piece(const Piece &other);
+        ~Piece();
         Piece& operator =(const Piece& other);
         void rotateRight();
         void rotateLeft();

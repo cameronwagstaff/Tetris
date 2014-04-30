@@ -38,6 +38,7 @@ private:
     InputBox enterName;
     Button endGame;
     bool end;
+    bool pause;
     int currentScore;
     int rowsCleared;
     int consecTetris;
@@ -46,12 +47,13 @@ public:
     //constructor
     Tetris(GLUT_Plotter* g);
 
-    //Main GAIM FUNCTION
+    //Main Game Function
     void Play(void);
     void drawGame();
     void drawNextBox();
     void drawScore();
     double fallSpeed();
+    void togglePause();
 
     //Input guards
     void tryMoveDown(Piece&, Matrix&);

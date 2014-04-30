@@ -45,10 +45,6 @@ Piece::Piece(int pieceType)
     rest = false;
     this->pieceType = pieceType;
 
-    //set value for point 2
-    //p2.x = MAX_ROWS / 2;
-    //p2.y = 1;
-
     //set value and orientation for all other points
     setOrientation(orientation);
     setColor();
@@ -178,6 +174,10 @@ void Piece::fall()
 }
 
 /******************************************************************************
+* Description: Setter function for rest
+* Return: void
+* Pre: object exists
+* Post: rest is set
 ******************************************************************************/
 void Piece::setRest(bool s)
 {
@@ -195,16 +195,6 @@ void Piece::moveRight()
 {
     bool canShift = true;
 
-    //uncomment this if pieces end up going through the wall
-    /*for(int i = 0; i < 4 && canShift; i ++)
-    {
-        if((squares[i]->getCenter()).x + SQUARE_WIDTH >= GAME_RIGHT - 1)
-        {
-            canShift = false;
-        }
-    }*/
-
-    //comment this if pieces end up going through the wall
     if((squares[3]->getCenter()).x + SQUARE_WIDTH >= GAME_RIGHT - 1)
     {
         canShift = false;
@@ -230,16 +220,6 @@ void Piece::moveLeft()
 {
     bool canShift = true;
 
-    //uncomment this if pieces end up going through the wall
-    /*for(int i = 0; i < 4 && canShift; i++)
-    {
-        if((squares[i]->getCenter()).x - SQUARE_WIDTH / 2 <= BORDER_WIDTH)
-        {
-            canShift = false;
-        }
-    }*/
-
-    //comment this if pieces end up going through the wall
     if((squares[0]->getCenter()).x - SQUARE_WIDTH / 2 <= BORDER_WIDTH)
     {
         canShift = false;
@@ -517,11 +497,9 @@ void Piece::sOrientation(int newOrientation)
                                         + SQUARE_WIDTH,
                                         squares[1]->getCenter().y
                                         - SQUARE_WIDTH));
-
             break;
 
         case 1:
-
             squares[0]->setCenter(Point(squares[1]->getCenter().x,
                                         squares[1]->getCenter().y -
                                         SQUARE_WIDTH));
@@ -534,7 +512,6 @@ void Piece::sOrientation(int newOrientation)
                                         + SQUARE_WIDTH,
                                         squares[1]->getCenter().y
                                         + SQUARE_WIDTH));
-
             break;
 
         case 2:
@@ -583,7 +560,6 @@ void Piece::tOrientation(int newOrientation)
             squares[3]->setCenter(Point(squares[1]->getCenter().x,
                                         squares[1]->getCenter().y
                                         - SQUARE_WIDTH));
-
             break;
 
         case 2:
@@ -613,6 +589,7 @@ void Piece::tOrientation(int newOrientation)
             squares[3]->setCenter(Point(squares[1]->getCenter().x
                                         + SQUARE_WIDTH,
                                         squares[1]->getCenter().y ));
+            break;
     }
 }
 
@@ -628,7 +605,6 @@ void Piece::lOrientation(int newOrientation)
     switch(newOrientation)
     {
         case 0:
-
             squares[0]->setCenter(Point(squares[1]->getCenter().x,
                                         squares[1]->getCenter().y
                                         - SQUARE_WIDTH));
@@ -686,6 +662,7 @@ void Piece::lOrientation(int newOrientation)
                                         + SQUARE_WIDTH,
                                         squares[1]->getCenter().y
                                         - SQUARE_WIDTH));
+            break;
     }
 }
 
@@ -706,7 +683,6 @@ void Piece::oOrientation(int newOrientation)
 
     squares[3]->setCenter(Point(squares[1]->getCenter().x + SQUARE_WIDTH,
                                 squares[1]->getCenter().y));
-
 }
 
 /******************************************************************************
@@ -733,7 +709,6 @@ void Piece::zOrientation(int newOrientation)
             squares[3]->setCenter(Point(squares[1]->getCenter().x
                                         + SQUARE_WIDTH,
                                         squares[1]->getCenter().y));
-
             break;
 
         case 1:
@@ -755,8 +730,11 @@ void Piece::zOrientation(int newOrientation)
             zOrientation(0);
 
             break;
+
         default:
             zOrientation(1);
+
+            break;
     }
 }
 

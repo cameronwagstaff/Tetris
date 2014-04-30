@@ -97,7 +97,6 @@ void ScoreTable::draw(GLUT_Plotter *g)
 
     for(int i = 0; i < static_cast<int>(players.size()) && i < 10; i++)
     {
-        //Draw Player's daat.
         try
         {
             stringstream contentSS, stream1, stream2;
@@ -107,18 +106,17 @@ void ScoreTable::draw(GLUT_Plotter *g)
             drawString(g, players[i].name, cursor, BLACK);
             cursor.x += tab;
             drawString(g, contentSS.str(), cursor, BLACK);
-            //contentSS = stringstream();
+
             stream1 << players[i].pointsPerGame();
             cursor.x += tab;
             drawString(g, stream1.str(), cursor, BLACK);
-            //contentSS = stringstream();
 
             cursor.y += gap;
             cursor.x = leftEdge;
         }
         catch(InvalidChar &a)
         {
-            cout << "InvalidChar in player name: "<< players[i].name;
+            cerr << "InvalidChar in player name: "<< players[i].name;
         }
     }
 
@@ -135,7 +133,6 @@ int ScoreTable::search(Player key)
 {
     int position = -1;
 
-    //Search list using linear search
     for(int i = 0; i < static_cast<int>(players.size()) && position == -1; i++)
     {
         if(players[i] == key)
@@ -144,7 +141,6 @@ int ScoreTable::search(Player key)
         }
     }
 
-    //If Player not found, add to players
     if(position == -1)
     {
         position = players.size();
@@ -165,7 +161,6 @@ int ScoreTable::search(string key)
 {
     int position = -1;
 
-    //Search list using linear search
     for(int i = 0; i < static_cast<int>(players.size()) && position == -1; i++)
     {
         if(players[i].name == key)
@@ -174,7 +169,6 @@ int ScoreTable::search(string key)
         }
     }
 
-    //If Player not found, add to players
     if(position == -1)
     {
         position = players.size();
@@ -243,7 +237,6 @@ void ScoreTable::get() throw(NoScores)
 
     try
     {
-
         for(int i = 0; i < numPlayers; i++)
         {
             stringstream convert;
@@ -260,11 +253,11 @@ void ScoreTable::get() throw(NoScores)
     }
     catch(exception &ex)
     {
-        cout << ex.what() << endl;
+        cerr << ex.what() << endl;
     }
     catch(...)
     {
-        cout << "Problem loading data" << endl;
+        cerr << "Problem loading data" << endl;
     }
 
 }

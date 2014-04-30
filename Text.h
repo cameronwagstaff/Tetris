@@ -2,7 +2,7 @@
  * Author: Cameron Wagtaff                                                     *
  * Description: Prints text to the screen at a given point in desired colors   *
  * Date Created: 04 April 2014                                                 *
- * Date Last Modified:  April 30 2014 - Cameron Wagstaff                       *
+ * Date Last Modified: April 30 2014 - Cameron Wagstaff                        *
  ******************************************************************************/
 
 #ifndef TEXT_H_INCLUDED

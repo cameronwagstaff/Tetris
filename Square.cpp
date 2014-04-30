@@ -40,7 +40,7 @@ Square& Square::operator= (const Square &other)
 {
     if(this != &other)
     {
-        setColor(other.color);// = other.color;
+        setColor(other.color);
         center = other.center;
     }
 
@@ -60,9 +60,6 @@ void Square::draw(GLUT_Plotter *g)
         //Draw border
         g->setColor(BLACK);
 
-        //creating topLeft makes drawing a bit easier and also can cause the
-        //Point constructor to throw an OffScreen, which indicates something
-        //has gone horribly awry
         Point topLeft(center.x - (SQUARE_WIDTH / 2), center.y +
                                                      (SQUARE_WIDTH / 2));
 
@@ -77,7 +74,6 @@ void Square::draw(GLUT_Plotter *g)
         //Draw Square
         g->setColor(this->color);
 
-        //Sorry about the line breaks; the constants are long
         for(int i = topLeft.x + SQUARE_BORDER; i < topLeft.x + SQUARE_WIDTH
                                                         - SQUARE_BORDER; i++)
         {
@@ -88,12 +84,13 @@ void Square::draw(GLUT_Plotter *g)
             }
         }
     }
+
     //Handle OffScreen exceptions
     catch(OffScreen &a)
     {
-        cout << "Square Point out of range: Attempted to create point at: "
+        cerr << "Square Point out of range: Attempted to create point at: "
              << endl;
-        cout << center.x - (SQUARE_WIDTH / 2) << '\t'
+        cerr << center.x - (SQUARE_WIDTH / 2) << '\t'
              << center.y + (SQUARE_WIDTH / 2) << endl;
         exit(15);
     }
@@ -108,11 +105,6 @@ void Square::draw(GLUT_Plotter *g)
  ******************************************************************************/
 void Square::erase(GLUT_Plotter *g)
 {
-
-    //The algorithm is exactly the same as draw except we don't have to deal
-    //with the border
-
-
     //Note: erase assumes we are only drawing Squares over white areas of screen
     g->setColor(BACKGROUND_WHITE);
 
@@ -132,9 +124,9 @@ void Square::erase(GLUT_Plotter *g)
     }
     catch(OffScreen &a)
     {
-        cout << "Square Point out of range: Attempted to create point at: "
+        cerr << "Square Point out of range: Attempted to create point at: "
         << endl;
-        cout << center.x - (SQUARE_WIDTH / 2) << '\t'
+        cerr << center.x - (SQUARE_WIDTH / 2) << '\t'
         << center.y + (SQUARE_WIDTH / 2) << endl;
         exit(15);
     }
@@ -204,7 +196,7 @@ void Square::shiftLeft()
  ******************************************************************************/
 void Square::moveUp()
 {
-    
+
     center.y -= FALL_LENGTH;
 }
 

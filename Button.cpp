@@ -31,7 +31,7 @@ Button::Button(string s, Point tl, Point br, unsigned int color,
  ******************************************************************************/
 Button::~Button()
 {
-    //empty
+
 }
 
 /*******************************************************************************
@@ -42,10 +42,8 @@ Button::~Button()
  ******************************************************************************/
 void Button::draw(GLUT_Plotter* g)
 {
-    //Draw Rectangle
     Rectangle::draw(g);
 
-    //Draw Text
     drawCenteredString(g, text, getCenter(), textColor);
 }
 
@@ -57,8 +55,6 @@ void Button::draw(GLUT_Plotter* g)
  ******************************************************************************/
 void Button::erase(GLUT_Plotter* g)
 {
-    
-    //Erase Rectangle
     Rectangle::erase(g);
 }
 
@@ -72,16 +68,16 @@ void Button::press(GLUT_Plotter* g)
 {
     float pressTime = .22;
     int times = clock();
+
     //erase existing button and redraw with different color
     erase(g);
     color += 0x555555;
     textColor += 0x555555;
     draw(g);
-    
+
     g->Draw();
 
     //Wait for pressTime seconds
-
     while(clock() < times + pressTime * CLOCKS_PER_SEC);
 
     //erase button and redraw with original color

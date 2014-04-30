@@ -66,17 +66,11 @@ Point toMatrix(Point);
 class Matrix
 {
     private:
-        /**
-         Yes three pointers. To determine whether a shape is there the
-         pointer either points to NULL or a shape. So it's a group of
-         pointers that point to pointers that point to NULL or SHAPES!
-        **/
          Square*** matrix;
          GLUT_Plotter *g;
 
     public:
         Matrix(GLUT_Plotter *g);
-        //Matrix(const Matrix& other);
         ~Matrix();
         int  lineCheck();
         void shiftDown(int r);

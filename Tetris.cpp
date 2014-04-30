@@ -2,7 +2,7 @@
  * Author: Dr. Booth, Matt Arnold, Cameron Wagstaff                            *
  * Description: Does the Tetris                                                *
  * Created on: Mar 31, 2014                                                    *
- * Last Modified: 30 April 2014 - Matt Arnold                                  *
+ * Last Modified: 30 April 2014 - Cameron Wagstaff                             *
  ******************************************************************************/
 
 #include "Tetris.h"
@@ -17,11 +17,11 @@ nextBox(Point(GAME_RIGHT + 40, 70),
 enterName("Enter Your Name"),
 endGame("End Game", Point(nextBox.getTopLeft().x, nextBox.getTopLeft().y + 400),
         Point(nextBox.getTopLeft().x + 200, nextBox.getTopLeft().y + 500), MENU_BLUE)
-
 {
     srand(clock());
 
     end = false;
+    pause = false;
 
     currentScore = 0;
     rowsCleared = 0;
@@ -45,16 +45,11 @@ endGame("End Game", Point(nextBox.getTopLeft().x, nextBox.getTopLeft().y + 400),
         data.close();
         scores.get();
     }
-
-    //scores.getPlayers().push_back(Player("Tim"));
 }
-
 
 //Tetris Main Game Loop
 void Tetris::Play(void)
 {
-    //matrix.lineCheck();
-
     static double time = clock();
 
     drawGame();
@@ -80,7 +75,10 @@ void Tetris::Play(void)
         {
             current.erase(g);
 
-            tryMoveDown(current, matrix);
+            if(!pause)
+            {
+                tryMoveDown(current, matrix);
+            }
 
             time = clock();
         }
@@ -92,6 +90,13 @@ void Tetris::Play(void)
 
         matrix.draw(g);
 
+        if(pause)
+        {
+            drawCenteredString(g, "PAUSED", Point((GAME_RIGHT - BORDER_WIDTH)
+                    / 2 + BORDER_WIDTH, (GAME_BOTTOM - BORDER_WIDTH * 2) / 2 +
+                    BORDER_WIDTH), RED);
+        }
+
         if(current.getRest())
         {
             try
@@ -101,8 +106,7 @@ void Tetris::Play(void)
                 current = next;
                 current.setPosition(PIECE_START);
 
-                //srand(clock());//more randomness
-                next.setType(rand() % 6);
+                next.setType(rand() % 7);
                 next.setColor();
             }
             catch(LocationOccupied &l)
@@ -111,25 +115,21 @@ void Tetris::Play(void)
             }
 
         }
-        
+
         endGame.draw(g);
     }
-
 
     //Check for Keyboard Hit
 	while(g->kbhit())
     {
 		int k = g->getKey();
 
-		//cout << k << endl;
-
-        //Escape key always exits game
+        //Escape key
         if(k == 27)
         {
             this->~Tetris();
             exit(1);
         }
-
 
         if(end)
         {
@@ -157,6 +157,7 @@ void Tetris::Play(void)
 
                     break;
                 }
+
                 default:
                 {
                     if(enterName.getData().empty() &&
@@ -164,7 +165,7 @@ void Tetris::Play(void)
                     {
                         break;
                     }
-                    
+
                     if((isalnum(static_cast<char>(k)) ||
                         static_cast<char>(k) == ' ')
                        && static_cast<int>(enterName.getData().length())
@@ -192,8 +193,6 @@ void Tetris::Play(void)
                     break;
                 }
             }
-             cout << enterName.getData() << '\t'
-                  << enterName.getData().length() << endl;
         }
 
         else
@@ -201,38 +200,49 @@ void Tetris::Play(void)
             switch (k)
             {
                 case 164: //Left Arrow
-                    tryMoveLeft(current, matrix);
+                    if(!pause)
+                    {
+                        tryMoveLeft(current, matrix);
+                    }
                 break;
 
                 case 166: //Right Arrow
-                    tryMoveRight(current, matrix);
+                    if(!pause)
+                    {
+                        tryMoveRight(current, matrix);
+                    }
                 break;
 
                 case 167: //Down Arrow
-                    tryRotateLeft(current, matrix);
+                    if(!pause)
+                    {
+                        tryRotateLeft(current, matrix);
+                    }
                 break;
 
                 case 165: //Up Arrow
-                    tryRotateRight(current, matrix);
+                    if(!pause)
+                    {
+                        tryRotateRight(current, matrix);
+                    }
                 break;
 
                 case 32 : //Space Bar
-                    tryMoveDown(current, matrix);
+                    if(!pause)
+                    {
+                        tryMoveDown(current, matrix);
+                    }
                 break;
 
                 case 112: //P
-                    //this will pause the game in the future
+                    togglePause();
                 break;
 
-                ///THESE ARE CHEATS, REMOVE THEM OR MAKE THEM EASTER EGGS
-                case 's': current.setType((current.getType() + 1) % 7); break; //s - Change type
-                case 'u': current.moveUp(); break; //u - move up ya know, in case we want that
-
-                default: cout << k << endl;
+                default:
+                break;
             }
         }
 	}
-
 
 	//Check for mouse click
 	while(g->click())
@@ -240,14 +250,12 @@ void Tetris::Play(void)
 
 		Click c;
 		c = g->getClick();
-        //cout << c.x << " " << c.y << endl;
 
         if(m && m.getStartButton().isInRange(Point(c)))
         {
             currentScore = 0;
             m.getStartButton().press(g);
             m.setRun(false);
-            //end = true;   //This was here for testing
         }
         if(m && m.getViewScores().isInRange(Point(c)))
         {
@@ -286,14 +294,14 @@ void Tetris::Play(void)
             enterName.setAlNumErr(false);
             resetGame();
         }
-        
+
         if(!m && !scores && endGame.isInRange(c))
         {
             endGame.press(g);
             end = true;
         }
     }
-    
+
     int rows = matrix.lineCheck();
 
     if(rows == 4)
@@ -377,8 +385,7 @@ void Tetris::drawScore()
 
     drawString(g, stream.str(), Point(nextBox.getTopLeft().x,
                                       nextBox.getTopLeft().y + 200), BLACK);
-    //Temporarily row cleared data is drawn here. will either change location of
-    //this block or name && description of function
+
     stringstream stream2;
     stream2 << "Rows Cleared: " << rowsCleared;
     drawString(g, stream2.str(), Point(nextBox.getTopLeft().x,
@@ -411,7 +418,10 @@ double Tetris::fallSpeed()
 }
 
 /******************************************************************************
-THIS IS AN INPUT GUARD AND I AM TOO LAZY TO DOCUMENT IT RN
+* Description: Attempts to move the current piece down
+* Return: void
+* Pre: object exists
+* Post: object is unchanged
 ******************************************************************************/
 void Tetris::tryMoveDown(Piece &current, Matrix &matrix)
 {
@@ -441,20 +451,23 @@ void Tetris::tryMoveDown(Piece &current, Matrix &matrix)
     }
     catch(LocationOccupied &e)
     {
-        cout << e.what() << endl;
+        cerr << e.what() << endl;
     }
     catch(NotInMatrix e)
     {
-        cout << e.what() << endl;
+        cerr << e.what() << endl;
     }
     catch(...)
     {
-        cout << "SOMETHING HAS GONE WRONG IN TRYMOVEDOWN" << endl;
+
     }
 }
 
 /******************************************************************************
-THIS IS AN INPUT GUARD AND I AM TOO LAZY TO DOCUMENT IT RN
+* Description: Attempts to move the current piece to the left
+* Return: void
+* Pre: object exists
+* Post: object is unchanged
 ******************************************************************************/
 void Tetris::tryMoveLeft(Piece &current, Matrix &matrix)
 {
@@ -464,7 +477,6 @@ void Tetris::tryMoveLeft(Piece &current, Matrix &matrix)
 
         for(int i = 0; i < 4; i ++)
         {
-            //I an an idiot
             int row = toMatrix((current.getSquares())[i]->getTopLeft()).x;
             int col = toMatrix((current.getSquares())[i]->getTopLeft()).y - 1;
 
@@ -481,20 +493,23 @@ void Tetris::tryMoveLeft(Piece &current, Matrix &matrix)
     }
     catch(NotInMatrix &e)
     {
-        cout << e.what() << endl;
+        cerr << e.what() << endl;
     }
     catch(LocationOccupied &e)
     {
-        cout << e.what() << endl;
+        cerr << e.what() << endl;
     }
     catch(...)
     {
-        cout << "SOMETHING HAS GONE WRONG IN TRYMOVELEFT" << endl;
+
     }
 }
 
 /******************************************************************************
-THIS IS AN INPUT GUARD AND I AM TOO LAZY TO DOCUMENT IT RN
+* Description: Attempts to move the piece to the right
+* Return: void
+* Pre: object exists
+* Post: object is unchanged
 ******************************************************************************/
 void Tetris::tryMoveRight(Piece &current, Matrix &matrix)
 {
@@ -504,7 +519,6 @@ void Tetris::tryMoveRight(Piece &current, Matrix &matrix)
 
         for(int i = 0; i < 4; i ++)
         {
-            //I an an idiot
             int row = toMatrix((current.getSquares())[i]->getTopLeft()).x;
             int col = toMatrix((current.getSquares())[i]->getTopLeft()).y + 1;
 
@@ -521,20 +535,23 @@ void Tetris::tryMoveRight(Piece &current, Matrix &matrix)
     }
     catch(NotInMatrix &e)
     {
-        cout << e.what() << endl;
+        cerr << e.what() << endl;
     }
     catch(LocationOccupied &e)
     {
-        cout << e.what() << endl;
+        cerr << e.what() << endl;
     }
     catch(...)
     {
-        cout << "SOMETHING HAS GONE WRONG IN TRYMOVERIGHT" << endl;
+
     }
 }
 
 /******************************************************************************
-THIS IS AN INPUT GUARD AND I AM TOO LAZY TO DOCUMENT IT RN
+* Description: Attempts to rotate the current piece to the left
+* Return: void
+* Pre: object exists
+* Post: Object is unchanged
 ******************************************************************************/
 void Tetris::tryRotateLeft(Piece &current, Matrix &matrix)
 {
@@ -569,20 +586,23 @@ void Tetris::tryRotateLeft(Piece &current, Matrix &matrix)
     }
     catch(NotInMatrix &e)
     {
-        cout << e.what() << endl;
+        cerr << e.what() << endl;
     }
     catch(OffScreen &e)
     {
-        cout << "YOU CAN'T DO THAT" << endl;
+
     }
     catch(...)
     {
-        cout << "SOMETHING HAS GONE WRONG IN TRYROTATELEFT" << endl;
+
     }
 }
 
 /******************************************************************************
-THIS IS AN INPUT GUARD AND I AM TOO LAZY TO DOCUMENT IT RN
+* Description: Attempts to rotate the current piece to the right
+* Return: void
+* Pre: object exists
+* Post: object is unchanged
 ******************************************************************************/
 void Tetris::tryRotateRight(Piece &current, Matrix &matrix)
 {
@@ -617,15 +637,15 @@ void Tetris::tryRotateRight(Piece &current, Matrix &matrix)
     }
     catch(NotInMatrix &e)
     {
-        cout << e.what() << endl;
+        cerr << e.what() << endl;
     }
     catch(OffScreen &e)
     {
-        cout << "YOU CAN'T DO THAT" << endl;
+
     }
     catch(...)
     {
-        cout << "SOMETHING HAS GONE WRONG IN TRYROTATERIGHT" << endl;
+
     }
 }
 
@@ -653,7 +673,16 @@ void Tetris::resetGame()
     current.setPosition(PIECE_START);
 }
 
-
+/******************************************************************************
+* Description: Function to pause the game
+* Return: void
+* Pre: object exists
+* Post: pause is toggled
+******************************************************************************/
+void Tetris::togglePause()
+{
+    pause = !pause;
+}
 
 
 

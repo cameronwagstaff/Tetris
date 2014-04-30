@@ -19,7 +19,6 @@ Rectangle::Rectangle(Point tl, Point br, unsigned int color) : Shape(color)
 {
     this->topLeft = tl;
     this->bottomRight = br;
-    //this->color = color;
 }
 
 /*******************************************************************************
@@ -30,7 +29,7 @@ Rectangle::Rectangle(Point tl, Point br, unsigned int color) : Shape(color)
  ******************************************************************************/
 Rectangle::~Rectangle()
 {
-    //empty
+
 }
 
 /*******************************************************************************
@@ -41,7 +40,6 @@ Rectangle::~Rectangle()
  ******************************************************************************/
 void Rectangle::draw(GLUT_Plotter* g)
 {
-    //Set Color to the color of the button and fill the appropriate area
     g->setColor(color);
 
     for(int i = topLeft.x; i < bottomRight.x; i++)
@@ -51,7 +49,6 @@ void Rectangle::draw(GLUT_Plotter* g)
             g->plot(i, SCREEN_HEIGHT - j);
         }
     }
-
 }
 
 /*******************************************************************************
@@ -62,7 +59,6 @@ void Rectangle::draw(GLUT_Plotter* g)
  ******************************************************************************/
 void Rectangle::erase(GLUT_Plotter* g)
 {
-    //Set Color to background color and fill area previously held by button
     g->setColor(BACKGROUND_GRAY);
 
     for(int i = topLeft.x; i < bottomRight.x; i++)
@@ -72,7 +68,6 @@ void Rectangle::erase(GLUT_Plotter* g)
             g->plot(i, SCREEN_HEIGHT - j);
         }
     }
-
 }
 
 /*******************************************************************************
@@ -96,17 +91,6 @@ void Rectangle::setBottomRight(Point b)
 {
     bottomRight = b;
 }
-
-/*******************************************************************************
- * Description: Getter for color                                               *
- * Return: an unsigned integer representing the object's color                 *
- * Pre: object exists                                                          *
- * Post: object unchanged                                                      *
- ******************************************************************************/
-//unsigned int Rectangle::getColor()
-//{
-//  return color;
-//}
 
 /*******************************************************************************
  * Description: Getter for topLeft Point                                       *

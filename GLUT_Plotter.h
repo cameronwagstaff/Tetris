@@ -18,8 +18,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <queue>
-//#include <GLUT/glut.h>
-//#include <GL/freeglut.h> //on a PC
+
 using namespace std;
 
 struct Click{

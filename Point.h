@@ -6,7 +6,6 @@
  * Date Last Modified: 26 April 2014 - Matt Arnold                             *
  ******************************************************************************/
 
-
 #ifndef Tetris_Point_h
 #define Tetris_Point_h
 
@@ -52,7 +51,7 @@ struct Point
         this->x = c.x;
         this->y = c.y;
     }
-    
+
     /***************************************************************************
      * Description: adds two Points                                            *
      * Return: a Point representing the sum of the two operands                *
@@ -62,13 +61,13 @@ struct Point
     Point operator + (Point other)
     {
         Point newPoint;
-        
+
         newPoint.x = this->x + other.x;
         newPoint.y = this->y + other.y;
-        
+
         return newPoint;
     }
-    
+
     /***************************************************************************
      * Description: subtracts two Points                                       *
      * Return: a Point representing the difference of the two operands         *
@@ -78,10 +77,10 @@ struct Point
     Point operator - (Point other)
     {
         Point newPoint;
-        
+
         newPoint.x = this->x - other.x;
         newPoint.y = this->y - other.y;
-        
+
         return newPoint;
     }
 };

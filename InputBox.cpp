@@ -22,7 +22,6 @@ InputBox::InputBox(string prompt, unsigned int backgroundColor,
           , Point( 400, 285), WHITE),
   enter("OK", Point(260, 300), Point(400, 345), buttonColor),
   cancel("Cancel", Point(100, 300), Point(240, 345), buttonColor)
-
 {
     this->data = data;
     this->prompt = prompt;
@@ -38,7 +37,7 @@ InputBox::InputBox(string prompt, unsigned int backgroundColor,
  ******************************************************************************/
 InputBox::~InputBox()
 {
-    //Empty Block
+
 }
 
 /*******************************************************************************
@@ -180,7 +179,6 @@ void InputBox::erase(GLUT_Plotter *g)
     dataBox.erase(g);
     enter.erase(g);
     cancel.erase(g);
-
 }
 
 /*******************************************************************************

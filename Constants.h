@@ -49,7 +49,7 @@ const unsigned int ORANGE           = 0xFF6600;
 
 //Colors
 const unsigned int BACKGROUND_WHITE = 0xFBFBFF;     //White background for gameplay area
-const unsigned int BACKGROUND_GRAY  = 0xADADAD;     //Gray background for main window colour
+const unsigned int BACKGROUND_GRAY  = 0xADADAD;     //Gray background for main window color
 const unsigned int BLACK            = 0x000000;     //Black
 const unsigned int WHITE            = 0xFFFFFF;     //White
 const unsigned int MENU_BLUE        = 0x02449F;     //Blue for menu background
@@ -69,9 +69,9 @@ const int SQUARE_WIDTH              = 20;           //Side length of Squares
 const int SQUARE_BORDER             = 2;            //Width of border on Squares
 
 //Matrix Dimensions
-const int MAX_ROWS                  = /*29;*/ (GAME_BOTTOM - 2 * BORDER_WIDTH) // Max number of Squares for width of game
+const int MAX_ROWS                  = (GAME_BOTTOM - 2 * BORDER_WIDTH) // Max number of Squares for width of game
                                       / (SQUARE_WIDTH);
-const int MAX_COLS                  = /*24;*/ (GAME_RIGHT - 2 * BORDER_WIDTH) // Max number of Squares for height of game
+const int MAX_COLS                  = (GAME_RIGHT - 2 * BORDER_WIDTH) // Max number of Squares for height of game
                                       / (SQUARE_WIDTH);
 const int MIN_ROWS                  = 0;
 const int MIN_COLS                  = 0;
@@ -84,8 +84,5 @@ const int MAX_LEN                   = 10;           //Maximum number of characte
 //Oddities
 const string WINDOW_TITLE = "TETRIS";               //The string displayed on the title bar of the game
 const double FALL_TIME_PER_LEVEL    = .5;           //Represents the change in the amount of time between falls when the level increases
-
-//Booleans
-const bool MATT_IS_THE_BEST = true;                 //Just me being a narcissist
 
 #endif

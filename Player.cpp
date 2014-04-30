@@ -43,12 +43,11 @@ void Player::addGame(int score)
 {
     gamesPlayed += 1;
     totalScore += score;
-    
+
     if(score > highScore)
     {
         highScore = score;
     }
-    
 }
 
 /*******************************************************************************
@@ -59,7 +58,6 @@ void Player::addGame(int score)
  ******************************************************************************/
 bool Player::operator < (const Player& other) const
 {
-    
     return (highScore == other.highScore)? pointsPerGame()
                                            < other.pointsPerGame()
                                            : highScore < other.highScore;

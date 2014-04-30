@@ -14,7 +14,7 @@
 * Pre: Everything is Happy                                                    *
 * Post: Matrix is initiated with default shapes in it                         *
 ******************************************************************************/
-Matrix::Matrix(GLUT_Plotter *g)//works the way we think it does
+Matrix::Matrix(GLUT_Plotter *g)
 {
     matrix = new Square** [MAX_ROWS];
 
@@ -39,7 +39,6 @@ Matrix::Matrix(GLUT_Plotter *g)//works the way we think it does
 ******************************************************************************/
 Matrix::~Matrix()
 {
-    //Destructor needs to touch all levels of the array
     for(int i = 0; i < MAX_ROWS; i++)
     {
         delete [] matrix[i];
@@ -55,9 +54,8 @@ Matrix::~Matrix()
 * Pre: The Matrix exists, nothing is bad                                      *
 * Post: if there are full lines they are removed and matrix shifted down      *
 ******************************************************************************/
-int Matrix::lineCheck()//works the way we think it does
+int Matrix::lineCheck()
 {
-    //bool flag = false;
     int count = 0;
 
     for (int i = MAX_ROWS - 1; i >= 0; i--)
@@ -72,8 +70,13 @@ int Matrix::lineCheck()//works the way we think it does
     return count;
 }
 
-//document this you fool
-void Matrix::draw(GLUT_Plotter *g)//works the way we think it does
+/******************************************************************************
+* Description: Draws the matrix of squares with plotter
+* Return: void
+* Pre: object exists
+* Post: object is unchanged
+******************************************************************************/
+void Matrix::draw(GLUT_Plotter *g)
 {
     for(int i = 0; i < MAX_ROWS; i++)
     {
@@ -89,11 +92,11 @@ void Matrix::draw(GLUT_Plotter *g)//works the way we think it does
 
 /******************************************************************************
 * Description: Finds the sum of the row                                       *
-* Return: INTEGER!!!!!                                                        *
+* Return: integer                                                             *
 * Pre: Everything exists, valid integer                                       *
 * Post: Nothing is changed                                                    *
 ******************************************************************************/
-int Matrix::rowSum(int r)//works the way we think it does
+int Matrix::rowSum(int r)
 {
     bool full = true;
     for(int i = MIN_COLS; i < MAX_COLS && full; i ++)
@@ -131,7 +134,6 @@ void Matrix::deleteRow(int r)
     //Set top row to NULL
     for (int c = MIN_COLS; c < MAX_COLS; c ++)
     {
-        //delete matrix[r][c];
         matrix[MIN_ROWS][c] = NULL;
     }
     return;
@@ -143,9 +145,8 @@ void Matrix::deleteRow(int r)
 * Pre: The line is hopefully deleted                                          *
 * Post: Well it's gone now                                                    *
 ******************************************************************************/
-void Matrix::shiftDown(int r)//this does what we think it does
+void Matrix::shiftDown(int r)
 {
-    cout << "shifting" << endl;
     for(int row = r; row > MIN_ROWS; row--)
     {
         for(int c = MIN_COLS; c < MAX_COLS; c++)
@@ -157,7 +158,7 @@ void Matrix::shiftDown(int r)//this does what we think it does
                                           Point(0, SQUARE_WIDTH));
             }
 
-            matrix[row][c] = matrix[row-1][c];//needs to work
+            matrix[row][c] = matrix[row-1][c];
         }
     }
 
@@ -165,10 +166,14 @@ void Matrix::shiftDown(int r)//this does what we think it does
     return;
 }
 
-//document this you fool
-Matrix& Matrix::addPiece(Piece object)//this function has questionable maths
+/******************************************************************************
+* Description: Adds a piece to the matrix
+* Return: Matrix by reference
+* Pre: object exists
+* Post: given piece is added to the matrix
+******************************************************************************/
+Matrix& Matrix::addPiece(Piece object)
 {
-    //cout << "try" << endl;
     for(int i = 0; i < 4; i++)
     {
         int row = 0, col = 0;
@@ -177,7 +182,7 @@ Matrix& Matrix::addPiece(Piece object)//this function has questionable maths
                 / SQUARE_WIDTH; //maths
         row = (object.getSquares()[i]->getTopLeft().y - BORDER_WIDTH)
                 / SQUARE_WIDTH; //maths
-        //cout << row << " " << col << endl;
+
         addShape(row, col, *object.getSquares()[i]);
     }
 
@@ -186,27 +191,24 @@ Matrix& Matrix::addPiece(Piece object)//this function has questionable maths
 
 /******************************************************************************
 * Description: Puts a shape in the matrix                                     *
-* Return: Matrix&                                                             *
+* Return: Matrix by reference                                                 *
 * Pre: Valid shape                                                            *
 * Post: There is now a shape in row, col                                      *
 ******************************************************************************/
 Matrix& Matrix::addShape(int r, int c, Square& object)
 {
-    //If matrix already points to an object, we are trying to add something
-    //  where something is already present; throw LocationOccupied
     if(matrix[r][c] != NULL)
     {
         throw(LocationOccupied(r, c));
     }
 
-    //Else, add object to the matrix
     matrix[r][c] = new Square(object);
 
     return *this;
 }
 
 /******************************************************************************
-* Description: Checks if Matrix[r][c] is occutpied                            *
+* Description: Checks if Matrix[r][c] is occupied                            *
 * Return: bool                                                                *
 * Pre: none                                                                   *
 * Post: Nothing is changed                                                    *
@@ -231,7 +233,6 @@ Point toMatrix(Point convert)
     int row, col;
     col = (convert.x - BORDER_WIDTH) / SQUARE_WIDTH; //maths
     row = (convert.y - BORDER_WIDTH) / SQUARE_WIDTH; //maths
-
 
     return Point(row, col);
 }
