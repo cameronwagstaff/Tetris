@@ -2,13 +2,16 @@
  * Author: Cameron Wagtaff                                                     *
  * Description: Prints text to the screen at a given point in desired colors   *
  * Date Created: 04 April 2014                                                 *
- * Date Last Modified: 26 April 2014 - Matt Arnold                             *
+ * Date Last Modified: 30 April 2014 - Cameron Wagstaff                        *
  ******************************************************************************/
 
 #include "Text.h"
 
 /******************************************************************************
-Default constructor for text object
+* Description: Default class constructor
+* Return: none
+* Pre: Function is called
+* Post: Text object is created
 ******************************************************************************/
 Text::Text(Point o, string n, unsigned int c, unsigned int bc)
 {
@@ -21,8 +24,10 @@ Text::Text(Point o, string n, unsigned int c, unsigned int bc)
 }
 
 /******************************************************************************
-Overloaded assignment operator, if the arguments/returns are off, patch it.
-I don't know why my compiler was mad at 'const Text& o' as a parameter
+* Description: Overloaded equals operator
+* Return: Text by reference
+* Pre: there is another text object
+* Post: this text object is a copy of the other text object
 ******************************************************************************/
 Text& Text::operator=(Text* o)
 {
@@ -40,8 +45,10 @@ Text& Text::operator=(Text* o)
 }
 
 /******************************************************************************
-This function sets the origin to a point. The origin defines the top left
-corner of the text
+* Description: Sets the location of the text
+* Return: void
+* Pre: object exists
+* Post: object is unchanged
 ******************************************************************************/
 void Text::setLocation(Point o)
 {
@@ -49,9 +56,10 @@ void Text::setLocation(Point o)
 }
 
 /******************************************************************************
-Draws a character given at any coordinate you specify at a color you specify.
-    ***THIS FUNCTION WILL GO PRIVATE WHEN Text::draw(GLUT_Plotter*) IS***
-                ***IMPLEMENTED, SO DON'T DEPEND ON IT***
+* Description: Draw function for characters
+* Return: void
+* Pre: object exists
+* Post: object is unchanged
 ******************************************************************************/
 void Text::drawChar(GLUT_Plotter* g, int x, int y, int val)
 {
@@ -71,8 +79,10 @@ void Text::drawChar(GLUT_Plotter* g, int x, int y, int val)
 }
 
 /******************************************************************************
-Draws the contents of text<string> to the screen from origin<Point> down
-and rightwards
+* Description: Draw function for the entire text
+* Return: void
+* Pre: object exists
+* Post: object is unchanged
 ******************************************************************************/
 void Text::draw(GLUT_Plotter* g)
 {
@@ -85,7 +95,10 @@ void Text::draw(GLUT_Plotter* g)
 }
 
 /******************************************************************************
-Calls Text::draw(GLUT_Plotter*) with the backgroundColor<int> given
+* Description: Replaces text with its background color, effectively erasing it
+* Return: void
+* Pre: object exists
+* Post: object is unchanged
 ******************************************************************************/
 void Text::erase(GLUT_Plotter* g)
 {
@@ -96,8 +109,10 @@ void Text::erase(GLUT_Plotter* g)
 }
 
 /******************************************************************************
-Converts given character to the index in the font array that its bitmap is in.
-This is hard code, but it maps characters to values well
+* Description: character to font code conversion tool
+* Return: int
+* Pre: the function is called with a character
+* Post: that character's identifier is returned
 ******************************************************************************/
 int Text::charToInt(char c)
 {
@@ -133,24 +148,35 @@ int Text::charToInt(char c)
         break;
 
         case '\'':
-            
+
         case '!':
             return 40;
 
         break;
     }
 
-    //mind the gap
     throw(InvalidChar());
 }
 
-void drawString(GLUT_Plotter* g, string s, Point n, unsigned int color/*, unsigned int backgroundColor*/)
+/******************************************************************************
+* Description: Shorthand string drawing tool
+* Return: void
+* Pre: function is called
+* Post: text appears on screen
+******************************************************************************/
+void drawString(GLUT_Plotter* g, string s, Point n, unsigned int color)
 {
     Text temp(n, s, color, WHITE);
 
     temp.draw(g);
 }
 
+/******************************************************************************
+* Description: Shorthand string drawing tool
+* Return: void
+* Pre: function is called
+* Post: text appears on screen
+******************************************************************************/
 void drawCenteredString(GLUT_Plotter* g, string s, Point n, unsigned int color)
 {
     Point refPoint;
