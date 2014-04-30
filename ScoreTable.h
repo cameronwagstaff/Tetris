@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <string>
 #include <sstream>
+#include <cstdlib>
 #include "GLUT_Plotter.h"
 #include "Player.h"
 #include "Constants.h"
@@ -51,6 +52,10 @@ class ScoreTable
         operator bool();
         Button& getMenuButton();
         Player& operator [] (int index);
+        vector<Player>& getPlayers()
+        {
+            return this->players;
+        }
 };
 
 #endif
