@@ -2,7 +2,7 @@
  * Author: John Daniel                                                        *
  * Description: Implementation of Matrix Class                                *
  * Date Created:16 April 2014                                                 *
- * Date Last Modified:29 April 2014 - Matt Arnold                             *
+ * Date Last Modified:30 April 2014 - Matt Arnold                             *
  *****************************************************************************/
 
 #include "Matrix.h"
@@ -60,20 +60,21 @@ Matrix::~Matrix()
 * Pre: The Matrix exists, nothing is bad                                      *
 * Post: if there are full lines they are removed and matrix shifted down      *
 ******************************************************************************/
-bool Matrix::lineCheck()//works the way we think it does
+int Matrix::lineCheck()//works the way we think it does
 {
-    bool flag = false;
+    //bool flag = false;
+    int count = 0;
 
     for (int i = MAX_ROWS - 1; i >= 0; i--)
     {
         if (rowSum(i) == MAX_COLS)
         {
             deleteRow(i);
-            flag = true;
+            count += 1;
         }
     }
 
-    return flag;
+    return count;
 }
 
 //document this you fool

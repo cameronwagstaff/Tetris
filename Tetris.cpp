@@ -278,12 +278,11 @@ void Tetris::Play(void)
             resetGame();
         }
     }
+    
+        int rows = matrix.lineCheck();
 
-    if(matrix.lineCheck())
-    {
-        currentScore += 100;
-        rowsCleared += 1;
-    }
+        currentScore += 100 * rows;
+        rowsCleared += rows;
 
 	// Update screen - draw game
 	g->Draw();
@@ -605,7 +604,6 @@ void Tetris::tryRotateRight(Piece &current, Matrix &matrix)
     }
 }
 
-<<<<<<< HEAD
 /*******************************************************************************
  * Description: Resets the game to allow replayability                         *
  * Return: void                                                                *
@@ -635,5 +633,3 @@ void Tetris::resetGame()
 
 
 
-=======
->>>>>>> FETCH_HEAD
