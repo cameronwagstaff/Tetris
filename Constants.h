@@ -75,7 +75,6 @@ const int MAX_ROWS                  = (GAME_BOTTOM - 2 * BORDER_WIDTH) / // Max 
                                        (SQUARE_WIDTH);
 const int MAX_COLS                  = (GAME_RIGHT - 2 * BORDER_WIDTH) / // Max number of Squares for height of game
                                        (SQUARE_WIDTH);
->>>>>>> FETCH_HEAD
 const int MIN_ROWS                  = 0;
 const int MIN_COLS                  = 0;
 
