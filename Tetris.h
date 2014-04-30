@@ -18,6 +18,7 @@
 #include "Piece.h"
 #include "Rectangle.h"
 #include "InputBox.h"
+#include "Button.h"
 #include <cstdlib>
 #include <ctime>
 #include <string>
@@ -35,6 +36,7 @@ private:
     Piece current,  next;
     stdRect::Rectangle nextBox;
     InputBox enterName;
+    Button endGame;
     bool end;
     int currentScore;
     int rowsCleared;

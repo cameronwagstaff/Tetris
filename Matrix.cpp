@@ -42,11 +42,6 @@ Matrix::~Matrix()
     //Destructor needs to touch all levels of the array
     for(int i = 0; i < MAX_ROWS; i++)
     {
-        for(int j = 0; j < MAX_COLS; j++)
-        {
-            //delete matrix[i][j];
-        }
-
         delete [] matrix[i];
     }
 

@@ -2,7 +2,7 @@
  * Author: Dr. Booth, Matt Arnold, Cameron Wagstaff                            *
  * Description: Does the Tetris                                                *
  * Created on: Mar 31, 2014                                                    *
- * Last Modified: 29 April 2014 - Matt Arnold                                  *
+ * Last Modified: 30 April 2014 - Matt Arnold                                  *
  ******************************************************************************/
 
 #include "Tetris.h"
@@ -14,7 +14,9 @@ Tetris::Tetris(GLUT_Plotter* g)
 : matrix(g),
 nextBox(Point(GAME_RIGHT + 40, 70),
         Point(SCREEN_WIDTH - 40, 170), BACKGROUND_WHITE),
-enterName("Enter Your Name")
+enterName("Enter Your Name"),
+endGame("End Game", Point(nextBox.getTopLeft().x, nextBox.getTopLeft().y + 400),
+        Point(nextBox.getTopLeft().x + 200, nextBox.getTopLeft().y + 500), MENU_BLUE)
 
 {
     srand(clock());
@@ -109,7 +111,8 @@ void Tetris::Play(void)
             }
 
         }
-
+        
+        endGame.draw(g);
     }
 
 
@@ -156,6 +159,12 @@ void Tetris::Play(void)
                 }
                 default:
                 {
+                    if(enterName.getData().empty() &&
+                       static_cast<char>(k) == ' ')
+                    {
+                        break;
+                    }
+                    
                     if((isalnum(static_cast<char>(k)) ||
                         static_cast<char>(k) == ' ')
                        && static_cast<int>(enterName.getData().length())
@@ -277,22 +286,28 @@ void Tetris::Play(void)
             enterName.setAlNumErr(false);
             resetGame();
         }
+        
+        if(!m && !scores && endGame.isInRange(c))
+        {
+            endGame.press(g);
+            end = true;
+        }
     }
     
-        int rows = matrix.lineCheck();
-    
-        if(rows == 4)
-        {
-            currentScore += consecTetris * 400;
-            consecTetris += 1;
-        }
-        else
-        {
-            consecTetris = 0;
-        }
+    int rows = matrix.lineCheck();
 
-        currentScore += 100 * rows;
-        rowsCleared += rows;
+    if(rows == 4)
+    {
+        currentScore += consecTetris * 400;
+        consecTetris += 1;
+    }
+    else
+    {
+        consecTetris = 0;
+    }
+
+    currentScore += 100 * rows;
+    rowsCleared += rows;
 
 	// Update screen - draw game
 	g->Draw();
