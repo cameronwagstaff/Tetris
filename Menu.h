@@ -18,7 +18,7 @@ class Menu
 private:
     Button startButton, viewScores;
     bool running;
-    
+
 public:
     Menu();
     void draw(GLUT_Plotter *g);

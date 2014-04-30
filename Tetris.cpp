@@ -15,6 +15,7 @@ nextBox(Point(GAME_RIGHT + 40, 70),
 enterName("Enter Your Name")
 
 {
+
     end = false;
 
     currentScore = 0;
@@ -70,20 +71,20 @@ void Tetris::Play(void)
 
         current.draw(g);
         drawNextBox();
-        
+
         matrix.draw(g);
-        
+
         if(current.getRest())
         {
             matrix.addPiece(current);
-            
+
             current = next;
             current.setPosition(PIECE_START);
-            
+
             next.setType(rand() % 6);
             next.setColor();
         }
-        
+
     }
 
 
@@ -212,6 +213,13 @@ void Tetris::Play(void)
             scores.setRun(true);
             scores.sort();
         }
+        if(m && m.getViewScores().isInRange(Point(c)))
+        {
+            m.getViewScores().press(g);
+            m.setRun(false);
+            scores.setRun(true);
+            scores.sort();
+        }
 
         if(scores && scores.getMenuButton().isInRange(c))
         {
@@ -260,6 +268,7 @@ void Tetris::drawGame()
             g->plot(i, j);
         }
     }
+
 }
 
 void Tetris::drawNextBox()
@@ -270,3 +279,4 @@ void Tetris::drawNextBox()
 
     drawString(g, "Next Piece:", nextBox.getTopLeft(), BLACK);
 }
+

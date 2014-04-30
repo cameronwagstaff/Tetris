@@ -37,6 +37,7 @@ private:
     bool end;
     int currentScore;
 
+
 public:
     //constructor
     Tetris(GLUT_Plotter* g);

@@ -32,7 +32,7 @@ Menu::Menu()
 void Menu::draw(GLUT_Plotter *g)
 {
     g->setColor(MENU_BLUE);
-    
+
     for(int i = BORDER_WIDTH; i < GAME_RIGHT - BORDER_WIDTH; i++)
     {
         for(int j = BORDER_WIDTH; j < GAME_BOTTOM - BORDER_WIDTH; j++)
@@ -40,11 +40,11 @@ void Menu::draw(GLUT_Plotter *g)
             g->plot(i, j);
         }
     }
-    
+
     //Draw Buttons
     startButton.draw(g);
     viewScores.draw(g);
-    
+
     //Draw Title
     drawCenteredString(g, "TETRIS", Point(255, 135), 0x00FF33);
 }
