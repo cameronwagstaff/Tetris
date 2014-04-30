@@ -12,6 +12,7 @@
 #include "GLUT_Plotter.h"
 #include "Button.h"
 #include "Constants.h"
+#include "Square.h"
 
 class Menu
 {

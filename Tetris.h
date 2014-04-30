@@ -2,7 +2,7 @@
  * Author: Dr. Booth, Matt Arnold                                              *
  * Description: Tetris game class header                                       *
  * Created on: Mar 28, 2014                                                    *
- * Last Modified: 26 April 2014 - Matt Arnold                                  *
+ * Last Modified: 29 April 2014 - Matt Arnold                                  *
  ******************************************************************************/
 
 #ifndef TETRIS_H_
@@ -18,9 +18,11 @@
 #include "Piece.h"
 #include "Rectangle.h"
 #include "InputBox.h"
+#include "Button.h"
 #include <cstdlib>
 #include <ctime>
 #include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -34,8 +36,11 @@ private:
     Piece current,  next;
     stdRect::Rectangle nextBox;
     InputBox enterName;
+    Button endGame;
     bool end;
     int currentScore;
+    int rowsCleared;
+    int consecTetris;
 
 
 public:
@@ -46,6 +51,16 @@ public:
     void Play(void);
     void drawGame();
     void drawNextBox();
+    void drawScore();
+    double fallSpeed();
+
+    //Input guards
+    void tryMoveDown(Piece&, Matrix&);
+    void tryRotateRight(Piece&, Matrix&);
+    void tryRotateLeft(Piece&, Matrix&);
+    void tryMoveLeft(Piece&, Matrix&);
+    void tryMoveRight(Piece&, Matrix&);
+    void resetGame();
 };
 
 #endif /* TETRIS_H_ */

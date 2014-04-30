@@ -3,10 +3,11 @@
  * Description: Implementation of the ScoreTable class, which represents the   *
  *              high scores table                                              *
  * Date Created: 07 April 2014                                                 *
- * Date Last Modified: 26 April 2014 - Matt Arnold                             *
+ * Date Last Modified: 29 April 2014 - Matt Arnold                             *
  ******************************************************************************/
 
 #include "ScoreTable.h"
+#include <stdexcept>
 
 using namespace std;
 
@@ -97,22 +98,30 @@ void ScoreTable::draw(GLUT_Plotter *g)
     for(int i = 0; i < static_cast<int>(players.size()) && i < 10; i++)
     {
         //Draw Player's daat.
-        stringstream contentSS;
+        try
+        {
+            stringstream contentSS, stream1, stream2;
 
-        contentSS << players[i].highScore;
+            contentSS << players[i].highScore;
 
-        drawString(g, players[i].name, cursor, BLACK);
-        cursor.x += tab;
-        drawString(g, contentSS.str(), cursor, BLACK);
-        contentSS.clear();
-        contentSS << players[i].pointsPerGame();
-        cursor.x += tab;
-        drawString(g, contentSS.str(), cursor, BLACK);
-        contentSS.clear();
+            drawString(g, players[i].name, cursor, BLACK);
+            cursor.x += tab;
+            drawString(g, contentSS.str(), cursor, BLACK);
+            //contentSS = stringstream();
+            stream1 << players[i].pointsPerGame();
+            cursor.x += tab;
+            drawString(g, stream1.str(), cursor, BLACK);
+            //contentSS = stringstream();
 
-        cursor.y += gap;
-        cursor.x = leftEdge;
+            cursor.y += gap;
+            cursor.x = leftEdge;
+        }
+        catch(InvalidChar &a)
+        {
+            cout << "InvalidChar in player name: "<< players[i].name;
+        }
     }
+
 }
 
 /*******************************************************************************
@@ -198,12 +207,17 @@ void ScoreTable::sort()
  ******************************************************************************/
 void ScoreTable::save()
 {
-    fstream data;
+    fstream data("scores.bin", ios::out|ios::binary);
+    char delimiter = ',';
 
-    //open file and write data
-    data.open("scores.bin", ios::out|ios::binary);
-    data.write(reinterpret_cast<char*>(players.data()),
-               players.size() * sizeof(Player));
+    data << players.size() << endl;
+
+    for(unsigned int i = 0; i < players.size(); i++)
+    {
+        data << players[i].name << delimiter << players[i].highScore
+             << delimiter << players[i].gamesPlayed << delimiter
+             << players[i].totalScore << delimiter ;
+    }
 
     data.close();
 }
@@ -217,35 +231,42 @@ void ScoreTable::save()
  ******************************************************************************/
 void ScoreTable::get() throw(NoScores)
 {
-    fstream data;
-    int num;
-    Player *a;
+    fstream data("scores.bin", ios::in|ios::binary);
+    Player p;
+    int numPlayers = 0;
+    char delimiter = ',';
+    string helper;
 
+    data >> numPlayers;
 
-    //Open and test file
-    data.open("scores.bin", ios::in|ios::binary);
+    data.ignore();
 
-    if(!data)
+    try
     {
-        throw(NoScores());
+
+        for(int i = 0; i < numPlayers; i++)
+        {
+            stringstream convert;
+            getline(data, p.name, delimiter);
+            getline(data, helper, delimiter);
+            p.highScore = atoi(helper.c_str());
+            getline(data, helper, delimiter);
+            p.gamesPlayed = atoi(helper.c_str());
+            getline(data, helper, delimiter);
+            p.totalScore = atoi(helper.c_str());
+
+            this->addPlayer(p);
+        }
+    }
+    catch(exception &ex)
+    {
+        cout << ex.what() << endl;
+    }
+    catch(...)
+    {
+        cout << "Problem loading data" << endl;
     }
 
-    //Calculate number of Players in the file
-    data.seekg(0L, ios::end);
-    num = data.tellg() / sizeof(Player);
-    data.seekg(0L, ios::beg);
-
-    a = new Player [num];
-
-    //read data
-    data.read(reinterpret_cast<char*>(a), num * sizeof(Player));
-
-    for(int i = 0; i < num; i++)
-    {
-        players.push_back(a[i]);
-    }
-
-    data.close();
 }
 
 /*******************************************************************************

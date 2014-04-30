@@ -2,7 +2,7 @@
  * Author: Matt Arnold                                                         *
  * Description: Implementation for the InputBox class                          *
  * Date Created: 26 April 2014                                                 *
- * Date Last Modified: 26 April 2014                                           *
+ * Last Modified: 29 April 2014 - Matt Arnold                                  *
  ******************************************************************************/
 
 #include "InputBox.h"
@@ -27,6 +27,7 @@ InputBox::InputBox(string prompt, unsigned int backgroundColor,
     this->data = data;
     this->prompt = prompt;
     this->alNumErr = false;
+    this->exceedsLength = false;
 }
 
 /*******************************************************************************

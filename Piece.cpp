@@ -1,10 +1,9 @@
-/******************************************************************************
-Author:  Brennan Saul
-File Name:  Piece.cpp
-Description:  Implements the Piece class.
-Date Created:  April 16, 2014
-Date Last Modified:  April 27, 2014 - Cameron Wagstaff
-******************************************************************************/
+/*******************************************************************************
+ * Author:  Brennan Saul                                                       *
+ * Description:  Implements the Piece class.                                   *
+ * Date Created:  April 16, 2014                                               *
+ * Date Last Modified:  April 28, 2014 - Cameron Wagstaff                      *
+ ******************************************************************************/
 
 #include "Piece.h"
 
@@ -16,8 +15,8 @@ Date Last Modified:  April 27, 2014 - Cameron Wagstaff
  ******************************************************************************/
 Piece::Piece()
 {
-    pieceType = rand() % 6;
-    
+    pieceType = rand() % 7;
+
     squares = new Square* [4];
 
     for(int i = 0; i < 4; i++)
@@ -50,7 +49,7 @@ Piece::Piece(int pieceType)
     //p2.x = MAX_ROWS / 2;
     //p2.y = 1;
 
-    //set value and orientation for all ofther points
+    //set value and orientation for all other points
     setOrientation(orientation);
     setColor();
 }
@@ -66,7 +65,7 @@ Piece::~Piece()
     {
         delete squares[i];
     }
-    
+
     delete [] squares;
 }
 
@@ -92,21 +91,21 @@ Piece& Piece::operator=(const Piece &other)
     if(this != &other)
     {
         this->squares = new Square* [4];
-        
+
         for(int i = 0; i < 4; i++)
         {
             squares[i] = new Square(*(other.squares[i]));
         }
-        
+
         this->pieceType = other.pieceType;
         this->orientation = other.orientation;
         this->color = other.color;
         this->rest = other.rest;
-        
+
         setOrientation(orientation);
         setColor();
     }
-    
+
     return *this;
 }
 
@@ -118,7 +117,7 @@ Piece& Piece::operator=(const Piece &other)
  ******************************************************************************/
 void Piece::rotateRight()
 {
-    if(orientation == 3) //I'm making it love me
+    if(orientation == 3)
     {
         orientation = 0;
     }
@@ -176,6 +175,13 @@ void Piece::fall()
             squares[i]->fall();
         }
     }
+}
+
+/******************************************************************************
+******************************************************************************/
+void Piece::setRest(bool s)
+{
+    rest = s;
 }
 
 /******************************************************************************
@@ -815,11 +821,23 @@ void Piece::moveUp()
     }
 }
 
+/*******************************************************************************
+ * Description: getter for squares pointer                                     *
+ * Return: a reference to the Square pointer array squares                     *
+ * Pre: object exists                                                          *
+ * Post: object unchanged                                                      *
+ ******************************************************************************/
 Square**& Piece::getSquares()
 {
     return squares;
 }
 
+/*******************************************************************************
+ * Description: getter for rest                                                *
+ * Return: the value of rest                                                   *
+ * Pre: object exists                                                          *
+ * Post: object unchanged                                                      *
+ ******************************************************************************/
 bool Piece::getRest()
 {
     return rest;

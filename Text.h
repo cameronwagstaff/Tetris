@@ -2,7 +2,7 @@
  * Author: Cameron Wagtaff                                                     *
  * Description: Prints text to the screen at a given point in desired colors   *
  * Date Created: 04 April 2014                                                 *
- * Date Last Modified:  April 23 2014 by Cameron Wagstaff                      *
+ * Date Last Modified:  April 30 2014 - Cameron Wagstaff                       *
  ******************************************************************************/
 
 #ifndef TEXT_H_INCLUDED
@@ -18,16 +18,19 @@ using namespace std;
 
 class InvalidChar{};;
 
-
 /******************************************************************************
-ATTENTION LAZY PEOPLE:
-    THIS IS A SINGLE FUNCTION WRAPPER FOR THE TEXT CLASS. USE IT
+* Description: Shorthand string drawing tool
+* Return: void
+* Pre: function is called
+* Post: given string is drawn
 ******************************************************************************/
-void drawString(GLUT_Plotter* g, string s, Point n, unsigned int color/*, unsigned int backgroundColor*/);
+void drawString(GLUT_Plotter* g, string s, Point n, unsigned int color);
 
 /******************************************************************************
-ATTENTION LAZY PEOPLE:
-    THIS CENTERS TEXT ABOUT A POINT YOU GIVE IT. IT MIGHT HELP YOU AVOID WORK
+* Description: Shorthand string drawing tool
+* Return: void
+* Pre: function is called
+* Post: given string is drawn
 ******************************************************************************/
 void drawCenteredString(GLUT_Plotter* g, string s, Point n, unsigned int color);
 
@@ -39,30 +42,15 @@ class Text
         int charWidth, charHeight;
         unsigned int drawColor, backgroundColor;
 
-        //draws a character you want, this function is public for debugging,
-        //do not write dependencies on it
         void drawChar(GLUT_Plotter* g, int x, int y, int val);
-
         int charToInt(char);
 
     public:
-        //constructor
         Text(Point o = Point(0,0), string n = "test", unsigned int c = BLACK,
              unsigned int bc = BACKGROUND_WHITE);
-
-        //you know what this does, but the location is defined by the top left
-        //of the text
         void setLocation(Point o);
-
-        //the soon to be implemented function that will draw the string
-        //contained in text<string> at origin<Point>
         void draw(GLUT_Plotter* g);
-
-        //do not expect this function to do anything as it uses the draw
-        //function to erase
         void erase(GLUT_Plotter* g);
-
-        //just your friendly neighborhood equals operator
         Text& operator=(Text*);
 };
 

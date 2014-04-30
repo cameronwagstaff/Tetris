@@ -9,11 +9,21 @@
 #ifndef GLUT_PLOTTER_H_
 #define GLUT_PLOTTER_H_
 
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#else
+#include <GL/freeglut.h>
+#endif
+
 #include <iostream>
 #include <cstdlib>
 #include <queue>
 //#include <GLUT/glut.h>
+<<<<<<< HEAD
 #include <GL/freeglut.h> //on a PC
+=======
+//#include <GL/freeglut.h> //on a PC
+>>>>>>> 7de41f669e26e024a184e462b84565a92d6764ea
 using namespace std;
 
 struct Click{
