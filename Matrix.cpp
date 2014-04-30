@@ -63,7 +63,7 @@ Matrix::~Matrix()
 bool Matrix::lineCheck()//works the way we think it does
 {
     bool flag = false;
-    
+
     for (int i = MAX_ROWS - 1; i >= 0; i--)
     {
         if (rowSum(i) == MAX_COLS)
@@ -72,7 +72,7 @@ bool Matrix::lineCheck()//works the way we think it does
             flag = true;
         }
     }
-    
+
     return flag;
 }
 
@@ -170,14 +170,14 @@ void Matrix::shiftDown(int r)//this does what we think it does
 //document this you fool
 Matrix& Matrix::addPiece(Piece object)//this function has questionable maths
 {
-    cout << "try" << endl;
+    //cout << "try" << endl;
     for(int i = 0; i < 4; i++)
     {
         int row = 0, col = 0;
 
         col = (object.getSquares()[i]->getTopLeft().x - BORDER_WIDTH) / SQUARE_WIDTH; //maths
         row = (object.getSquares()[i]->getTopLeft().y - BORDER_WIDTH) / SQUARE_WIDTH; //maths
-        cout << row << " " << col << endl;
+        //cout << row << " " << col << endl;
         addShape(row, col, *object.getSquares()[i]);
     }
 

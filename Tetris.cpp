@@ -17,6 +17,8 @@ nextBox(Point(GAME_RIGHT + 40, 70),
 enterName("Enter Your Name")
 
 {
+    srand(clock());
+
     end = false;
 
     currentScore = 0;
@@ -31,6 +33,7 @@ enterName("Enter Your Name")
     try
     {
         scores.get();
+        cerr << "Successfully got scores" << endl;
     }
     catch(NoScores a)
     {
@@ -40,6 +43,8 @@ enterName("Enter Your Name")
         data.close();
         scores.get();
     }
+
+    //scores.getPlayers().push_back(Player("Tim"));
 }
 
 
@@ -79,7 +84,7 @@ void Tetris::Play(void)
         }
 
         current.draw(g);
-        
+
         drawNextBox();
         drawScore();
 
@@ -90,11 +95,11 @@ void Tetris::Play(void)
             try
             {
                 matrix.addPiece(current);
-                
+
                 current = next;
                 current.setPosition(PIECE_START);
 
-                //srand(clock());//more randomness 
+                //srand(clock());//more randomness
                 next.setType(rand() % 6);
                 next.setColor();
             }
@@ -102,7 +107,7 @@ void Tetris::Play(void)
             {
                 end = true;
             }
-            
+
         }
 
     }
@@ -112,6 +117,8 @@ void Tetris::Play(void)
 	while(g->kbhit())
     {
 		int k = g->getKey();
+
+		//cout << k << endl;
 
         //Escape key always exits game
         if(k == 27)
@@ -125,7 +132,7 @@ void Tetris::Play(void)
         {
             switch(k)
             {
-                case 127://Backspace
+                case BACKSPACE://Backspace - see Constants.h
 
                 {
                     enterName.setAlNumErr(false);
@@ -168,6 +175,7 @@ void Tetris::Play(void)
                     break;
                 }
             }
+             cout << enterName.getData() << '\t' << enterName.getData().length() << endl;
         }
 
         else
@@ -214,7 +222,7 @@ void Tetris::Play(void)
 
 		Click c;
 		c = g->getClick();
-        cout << c.x << " " << c.y << endl;
+        //cout << c.x << " " << c.y << endl;
 
         if(m && m.getStartButton().isInRange(Point(c)))
         {
@@ -237,7 +245,7 @@ void Tetris::Play(void)
             scores.setRun(false);
             m.setRun(true);
         }
-        
+
         if(end && enterName.getEnter().isInRange(c))
         {
             enterName.getEnter().press(g);
@@ -251,7 +259,7 @@ void Tetris::Play(void)
             end = false;
             scores.setRun(true);
         }
-        
+
         if(end && enterName.getCancel().isInRange(c))
         {
             enterName.getCancel().press(g);
@@ -262,7 +270,7 @@ void Tetris::Play(void)
             enterName.setAlNumErr(false);
         }
     }
-    
+
     if(matrix.lineCheck())
     {
         currentScore += 100;
@@ -332,16 +340,16 @@ void Tetris::drawNextBox()
 void Tetris::drawScore()
 {
     stringstream stream;
-    
+
     stream << "Score: " << currentScore;
-    
+
     drawString(g, stream.str(), Point(nextBox.getTopLeft().x,
                                       nextBox.getTopLeft().y + 200), BLACK);
     //Temporarily row cleared data is drawn here. will either change location of
     //this block or name && description of function
-    stream = stringstream();
-    stream << "Rows Cleared: " << rowsCleared;
-    drawString(g, stream.str(), Point(nextBox.getTopLeft().x,
+    stringstream stream2;
+    stream2 << "Rows Cleared: " << rowsCleared;
+    drawString(g, stream2.str(), Point(nextBox.getTopLeft().x,
                                       nextBox.getTopLeft().y + 300), BLACK);
 }
 
@@ -356,17 +364,17 @@ double Tetris::fallSpeed()
 {
     static bool canChange = false;
     static double time = 0.75;
-    
+
     if(!canChange && rowsCleared % 7 != 0)
     {
         canChange = true;
     }
-    
+
     if(canChange && rowsCleared %7 == 7)
     {
         time -= FALL_TIME_PER_LEVEL;
     }
-    
+
     return time;
 }
 
