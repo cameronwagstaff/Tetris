@@ -605,6 +605,7 @@ void Tetris::tryRotateRight(Piece &current, Matrix &matrix)
     }
 }
 
+<<<<<<< HEAD
 /*******************************************************************************
  * Description: Resets the game to allow replayability                         *
  * Return: void                                                                *
@@ -634,3 +635,5 @@ void Tetris::resetGame()
 
 
 
+=======
+>>>>>>> FETCH_HEAD
