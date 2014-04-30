@@ -1,10 +1,9 @@
-/******************************************************************************
-Author:  Brennan Saul
-File Name:  Piece.cpp
-Description:  Implements the Piece class.
-Date Created:  April 16, 2014
-Date Last Modified:  April 28, 2014 - Cameron Wagstaff
-******************************************************************************/
+/*******************************************************************************
+ * Author:  Brennan Saul                                                       *
+ * Description:  Implements the Piece class.                                   *
+ * Date Created:  April 16, 2014                                               *
+ * Date Last Modified:  April 28, 2014 - Cameron Wagstaff                      *
+ ******************************************************************************/
 
 #include "Piece.h"
 
@@ -822,11 +821,23 @@ void Piece::moveUp()
     }
 }
 
+/*******************************************************************************
+ * Description: getter for squares pointer                                     *
+ * Return: a reference to the Square pointer array squares                     *
+ * Pre: object exists                                                          *
+ * Post: object unchanged                                                      *
+ ******************************************************************************/
 Square**& Piece::getSquares()
 {
     return squares;
 }
 
+/*******************************************************************************
+ * Description: getter for rest                                                *
+ * Return: the value of rest                                                   *
+ * Pre: object exists                                                          *
+ * Post: object unchanged                                                      *
+ ******************************************************************************/
 bool Piece::getRest()
 {
     return rest;

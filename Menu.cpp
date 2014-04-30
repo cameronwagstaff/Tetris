@@ -177,7 +177,8 @@ void Menu::draw(GLUT_Plotter *g)
     {
         for(int j = 0; j < 5; j++)
         {
-            if(((i == 0 || j % 2 == 0) && !(i == 0 && j == 3)) || (i == 2 && j == 3))
+            if(((i == 0 || j % 2 == 0) && !(i == 0 && j == 3)) ||
+               (i == 2 && j == 3))
             {
                 cursor.draw(g);
             }

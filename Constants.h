@@ -15,12 +15,14 @@
 *******************************************************************************/
 #ifdef WIN32
 #define BACKSPACE 8
-#define SHIFT 176
+#define LSHIFT 176
+#define RSHIFT 177
 #endif
 
 #ifdef __APPLE__
 #define BACKSPACE 127
-#define SHIFT 27
+#define LSHIFT -1
+#define RSHIFT -2
 #endif
 
 #include <string>
@@ -67,17 +69,10 @@ const int SQUARE_WIDTH              = 20;           //Side length of Squares
 const int SQUARE_BORDER             = 2;            //Width of border on Squares
 
 //Matrix Dimensions
-<<<<<<< HEAD
 const int MAX_ROWS                  = /*29;*/ (GAME_BOTTOM - 2 * BORDER_WIDTH) // Max number of Squares for width of game
                                       / (SQUARE_WIDTH);
 const int MAX_COLS                  = /*24;*/ (GAME_RIGHT - 2 * BORDER_WIDTH) // Max number of Squares for height of game
                                       / (SQUARE_WIDTH);
-=======
-const int MAX_ROWS                  = (GAME_BOTTOM - 2 * BORDER_WIDTH) / // Max number of Squares for width of game
-                                       (SQUARE_WIDTH);
-const int MAX_COLS                  = (GAME_RIGHT - 2 * BORDER_WIDTH) / // Max number of Squares for height of game
-                                       (SQUARE_WIDTH);
->>>>>>> FETCH_HEAD
 const int MIN_ROWS                  = 0;
 const int MIN_COLS                  = 0;
 

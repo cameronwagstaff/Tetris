@@ -118,12 +118,15 @@ int Matrix::rowSum(int r)//works the way we think it does
 * Pre: The row is full and ready to be deleted                                *
 * Post: The row is deleted and the squares above it have moved down a unit    *
 ******************************************************************************/
-void Matrix::deleteRow(int r)//this does what we think it does
+void Matrix::deleteRow(int r)
 {
     for(int i = MIN_COLS; i < MAX_COLS; i ++)
     {
-        matrix[r][i]->erase(g);//we don't know about this
-        matrix[r][i] = NULL;
+        if(matrix[r][i])
+        {
+            matrix[r][i]->erase(g);
+             matrix[r][i] = NULL;
+        }
     }
 
     //Shift matrix down
@@ -132,8 +135,6 @@ void Matrix::deleteRow(int r)//this does what we think it does
     //Set top row to NULL
     for (int c = MIN_COLS; c < MAX_COLS; c ++)
     {
-        //I think this is a hardcore leak
-
         //delete matrix[r][c];
         matrix[MIN_ROWS][c] = NULL;
     }
@@ -156,7 +157,8 @@ void Matrix::shiftDown(int r)//this does what we think it does
             if(matrix[row][c])
             {
                 matrix[row][c]->erase(g);
-                matrix[row][c]->setCenter(matrix[row][c]->getCenter() + Point(0, SQUARE_WIDTH));
+                matrix[row][c]->setCenter(matrix[row][c]->getCenter() +
+                                          Point(0, SQUARE_WIDTH));
             }
 
             matrix[row][c] = matrix[row-1][c];//needs to work
@@ -175,8 +177,10 @@ Matrix& Matrix::addPiece(Piece object)//this function has questionable maths
     {
         int row = 0, col = 0;
 
-        col = (object.getSquares()[i]->getTopLeft().x - BORDER_WIDTH) / SQUARE_WIDTH; //maths
-        row = (object.getSquares()[i]->getTopLeft().y - BORDER_WIDTH) / SQUARE_WIDTH; //maths
+        col = (object.getSquares()[i]->getTopLeft().x - BORDER_WIDTH)
+                / SQUARE_WIDTH; //maths
+        row = (object.getSquares()[i]->getTopLeft().y - BORDER_WIDTH)
+                / SQUARE_WIDTH; //maths
         //cout << row << " " << col << endl;
         addShape(row, col, *object.getSquares()[i]);
     }
@@ -190,8 +194,8 @@ Matrix& Matrix::addPiece(Piece object)//this function has questionable maths
 * Pre: Valid shape                                                            *
 * Post: There is now a shape in row, col                                      *
 ******************************************************************************/
-Matrix& Matrix::addShape(int r, int c, Square& object)//this function does what
-{                                                     //  we think it does
+Matrix& Matrix::addShape(int r, int c, Square& object)
+{
     //If matrix already points to an object, we are trying to add something
     //  where something is already present; throw LocationOccupied
     if(matrix[r][c] != NULL)
@@ -234,6 +238,20 @@ Point toMatrix(Point convert)
 
 
     return Point(row, col);
+}
+
+/*******************************************************************************
+ * Description: Removes all elements from the Matrix                           *
+ * Return: void                                                                *
+ * Pre: object exists                                                          *
+ * Post: all elements removed from Matrix                                      *
+ ******************************************************************************/
+void Matrix::clear()
+{
+    for(int i = 0; i < MAX_ROWS; i++)
+    {
+        deleteRow(i);
+    }
 }
 
 

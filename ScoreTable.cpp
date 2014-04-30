@@ -20,8 +20,7 @@ using namespace std;
 ScoreTable::ScoreTable()
 : menuButton("Return to Menu", Point(95, 506), Point(95 + BUTTON_LENGTH,
                                                      506 + BUTTON_WIDTH),
-                                                            WHITE, BLACK),
-  players()
+                                                            WHITE, BLACK)
 {
     backgroundColor = 0x22DC45;
     run = false;
@@ -213,7 +212,7 @@ void ScoreTable::save()
 
     data << players.size() << endl;
 
-    for(int i = 0; i < players.size(); i++)
+    for(unsigned int i = 0; i < players.size(); i++)
     {
         data << players[i].name << delimiter << players[i].highScore
              << delimiter << players[i].gamesPlayed << delimiter
@@ -221,31 +220,6 @@ void ScoreTable::save()
     }
 
     data.close();
-    /*int size = players.size();
-    Player* a = new Player [size];
-
-    for(int i = 0; i < size; i++)
-    {
-        a[i] = players[i];
-    }
-
-    //open file and write data
-    data.open("scores.bin", ios::out|ios::binary);
-
-    data << players.size() << '\n';
-
-    for(int i = 0; i< players.size(); i++)
-    {
-        int psize = sizeof(a[i]);
-        data << psize << " ";
-        data.write(reinterpret_cast<char*>(a + i), psize);
-    }
-    /*
-    for(int i = 0; i < players.size(); i++)
-    {
-        data << players[i].name << '\t' << this->players[i].highScore << '\t'
-             << players[i].gamesPlayed << '\t' << players[i].totalScore << '\n';
-    }*/
 }
 
 /*******************************************************************************
@@ -267,73 +241,32 @@ void ScoreTable::get() throw(NoScores)
 
     data.ignore();
 
-try
-{
-
-    for(int i = 0; i < numPlayers; i++)
-    {
-        stringstream convert;
-        getline(data, p.name, delimiter);
-        getline(data, helper, delimiter);
-        p.highScore = atoi(helper.c_str());
-        getline(data, helper, delimiter);
-        p.gamesPlayed = atoi(helper.c_str());
-        getline(data, helper, delimiter);
-        p.totalScore = atoi(helper.c_str());
-
-        this->addPlayer(p);
-    }
-}
-catch(exception &ex)
-{
-    cout << ex.what() << endl;
-}
-catch(...)
-{
-    cout << "Problem loading data" << endl;
-}
-
-    /*int num;
-    Player *a;
-
-
-    //Open and test file
-    data.open("scores.bin", ios::in|ios::binary);
-
-    if(!data)
-    {
-        throw(NoScores());
-    }
-
-    //Calculate number of Players in the file
-    data.seekg(0L, ios::end);
-    num = data.tellg() / sizeof(Player);
-    data.seekg(0L, ios::beg);
-
-    a = new Player [1];
-
-    //read data
     try
     {
-        data.read(reinterpret_cast<char*>(a), sizeof(Player));
+
+        for(int i = 0; i < numPlayers; i++)
+        {
+            stringstream convert;
+            getline(data, p.name, delimiter);
+            getline(data, helper, delimiter);
+            p.highScore = atoi(helper.c_str());
+            getline(data, helper, delimiter);
+            p.gamesPlayed = atoi(helper.c_str());
+            getline(data, helper, delimiter);
+            p.totalScore = atoi(helper.c_str());
+
+            this->addPlayer(p);
+        }
     }
-    catch(exception& e)
+    catch(exception &ex)
     {
-        cout << e.what() << endl;
+        cout << ex.what() << endl;
     }
     catch(...)
     {
-        cout << "THERE'S A PROBLEM HERE" << endl;
+        cout << "Problem loading data" << endl;
     }
 
-    cout << a[0].name << endl;
-
-    //for(int i = 0; i < num; i++)
-    //{
-        //players.push_back(a[i]);
-    //}
-
-    data.close();*/
 }
 
 /*******************************************************************************

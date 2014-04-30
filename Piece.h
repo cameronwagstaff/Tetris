@@ -1,6 +1,5 @@
 /*******************************************************************************
 * Author:  Brennan Saul                                                        *
-* File Name:  Piece.h                                                          *
 * Description:  Defines the Piece class. Includes prototypes of functions      *
 *               and private fields.                                            *
 * Date Created:  16 April 2014                                                 *

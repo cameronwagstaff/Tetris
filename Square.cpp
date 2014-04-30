@@ -204,10 +204,16 @@ void Square::shiftLeft()
  ******************************************************************************/
 void Square::moveUp()
 {
-    //Because up is negative...I don't get it either
+    
     center.y -= FALL_LENGTH;
 }
 
+/*******************************************************************************
+ * Description: calculates the top left Point in a Square                      *
+ * Return: a Point by value representing the top left Point                    *
+ * Pre: object exists                                                          *
+ * Post: object unchanged                                                      *
+ ******************************************************************************/
 Point Square::getTopLeft()
 {
     return Point(center.x - (SQUARE_WIDTH / 2), center.y +

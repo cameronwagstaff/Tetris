@@ -57,6 +57,7 @@ public:
     void tryRotateLeft(Piece&, Matrix&);
     void tryMoveLeft(Piece&, Matrix&);
     void tryMoveRight(Piece&, Matrix&);
+    void resetGame();
 };
 
 #endif /* TETRIS_H_ */

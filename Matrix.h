@@ -87,6 +87,7 @@ class Matrix
         Matrix& addPiece(Piece object);
         Matrix& addShape(int row, int col, Square& object);
         bool occupied(int r, int c);
+        void clear();
 };
 
 #endif

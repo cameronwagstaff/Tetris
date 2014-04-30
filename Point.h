@@ -69,6 +69,12 @@ struct Point
         return newPoint;
     }
     
+    /***************************************************************************
+     * Description: subtracts two Points                                       *
+     * Return: a Point representing the difference of the two operands         *
+     * Pre: object exists                                                      *
+     * Post: object unchanged                                                  *
+     **************************************************************************/
     Point operator - (Point other)
     {
         Point newPoint;

@@ -118,7 +118,7 @@ void Tetris::Play(void)
     {
 		int k = g->getKey();
 
-		//cout << k << endl;
+		cout << k << endl;
 
         //Escape key always exits game
         if(k == 27)
@@ -132,19 +132,24 @@ void Tetris::Play(void)
         {
             switch(k)
             {
+                //Ignore shift keys
+                case LSHIFT: break;
+                case RSHIFT: break;
                 case BACKSPACE://Backspace - see Constants.h
 
                 {
                     enterName.setAlNumErr(false);
 
-                    if(static_cast<int>(enterName.getData().length()) <= MAX_LEN)
+                    if(static_cast<int>(enterName.getData().length())
+                       <= MAX_LEN)
                     {
                         enterName.setExcedesLength(false);
                     }
 
                     if(enterName.getData().length() > 0)
                     {
-                        enterName.getData().erase(enterName.getData().size() - 1, 1);
+                        enterName.getData().erase(enterName.getData().size()
+                                                  - 1, 1);
                     }
 
                     break;
@@ -153,7 +158,8 @@ void Tetris::Play(void)
                 {
                     if((isalnum(static_cast<char>(k)) ||
                         static_cast<char>(k) == ' ')
-                       && static_cast<int>(enterName.getData().length()) <= MAX_LEN)
+                       && static_cast<int>(enterName.getData().length())
+                       <= MAX_LEN)
                     {
                         enterName.getData() += toupper(static_cast<char>(k));
                         enterName.setAlNumErr(false);
@@ -161,12 +167,14 @@ void Tetris::Play(void)
                     }
                     else
                     {
-                        if(!(isalnum(static_cast<char>(k)) || static_cast<char>(k) == ' '))
+                        if(!(isalnum(static_cast<char>(k)) ||
+                             static_cast<char>(k) == ' '))
                         {
                             enterName.setAlNumErr(true);
                         }
 
-                        if(static_cast<int>(enterName.getData().length()) >= MAX_LEN)
+                        if(static_cast<int>(enterName.getData().length())
+                           >= MAX_LEN)
                         {
                             enterName.setExcedesLength(true);
                         }
@@ -175,7 +183,8 @@ void Tetris::Play(void)
                     break;
                 }
             }
-             cout << enterName.getData() << '\t' << enterName.getData().length() << endl;
+             cout << enterName.getData() << '\t'
+                  << enterName.getData().length() << endl;
         }
 
         else
@@ -256,18 +265,17 @@ void Tetris::Play(void)
             enterName.getData().clear();
             enterName.setExcedesLength(false);
             enterName.setAlNumErr(false);
-            end = false;
             scores.setRun(true);
+            resetGame();
         }
 
         if(end && enterName.getCancel().isInRange(c))
         {
             enterName.getCancel().press(g);
-            end = false;
             m.setRun(true);
-            enterName.getData().clear();
             enterName.setExcedesLength(false);
             enterName.setAlNumErr(false);
+            resetGame();
         }
     }
 
@@ -595,6 +603,30 @@ void Tetris::tryRotateRight(Piece &current, Matrix &matrix)
     {
         cout << "SOMETHING HAS GONE WRONG IN TRYROTATERIGHT" << endl;
     }
+}
+
+/*******************************************************************************
+ * Description: Resets the game to allow replayability                         *
+ * Return: void                                                                *
+ * Pre: object exists                                                          *
+ * Post: game is reset                                                         *
+ ******************************************************************************/
+void Tetris::resetGame()
+{
+    end = false;
+    matrix.clear();
+
+    enterName.getData().clear();
+
+    currentScore = 0;
+    rowsCleared = 0;
+    consecRC = 0;
+
+    current = Piece();
+    next = Piece();
+
+    next.setPosition(Point((GAME_RIGHT + SCREEN_WIDTH) / 2, 95));
+    current.setPosition(PIECE_START);
 }
 
 
