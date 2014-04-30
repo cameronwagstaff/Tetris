@@ -67,12 +67,10 @@ const int SQUARE_WIDTH              = 20;           //Side length of Squares
 const int SQUARE_BORDER             = 2;            //Width of border on Squares
 
 //Matrix Dimensions
-<<<<<<< HEAD
-const int MAX_ROWS                  = /*29;*/ (GAME_BOTTOM - 2 * BORDER_WIDTH) // Max number of Squares for width of game
+const int MAX_ROWS                  = (GAME_BOTTOM - 2 * BORDER_WIDTH) // Max number of Squares for width of game
                                       / (SQUARE_WIDTH);
-const int MAX_COLS                  = /*24;*/ (GAME_RIGHT - 2 * BORDER_WIDTH) // Max number of Squares for height of game
+const int MAX_COLS                  = (GAME_RIGHT - 2 * BORDER_WIDTH) // Max number of Squares for height of game
                                       / (SQUARE_WIDTH);
-=======
 const int MAX_ROWS                  = (GAME_BOTTOM - 2 * BORDER_WIDTH) / // Max number of Squares for width of game
                                        (SQUARE_WIDTH);
 const int MAX_COLS                  = (GAME_RIGHT - 2 * BORDER_WIDTH) / // Max number of Squares for height of game
