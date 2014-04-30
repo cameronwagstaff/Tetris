@@ -18,7 +18,7 @@
 using namespace std;
 
 const Point PIECE_START           = Point((GAME_RIGHT - BORDER_WIDTH) / 2 - 5,
-                                           SQUARE_WIDTH + BORDER_WIDTH * 2 +1);
+                                           SQUARE_WIDTH + BORDER_WIDTH * 2 + 1);
 
 class Piece
 {
