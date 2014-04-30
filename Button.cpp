@@ -23,6 +23,12 @@ Button::Button(string s, Point tl, Point br, unsigned int color,
     this->textColor = textColor;
 }
 
+/*******************************************************************************
+ * Description: Button class destructor                                        *
+ * Return: nothing                                                             *
+ * Pre: object exists                                                          *
+ * Post: object destructed                                                     *
+ ******************************************************************************/
 Button::~Button()
 {
     //empty
@@ -51,13 +57,9 @@ void Button::draw(GLUT_Plotter* g)
  ******************************************************************************/
 void Button::erase(GLUT_Plotter* g)
 {
-    //Erase Button Text
-    //HAHA I DON'T NEED THIS TO ERASE TEXT
-
+    
     //Erase Rectangle
     Rectangle::erase(g);
-
-
 }
 
 /*******************************************************************************
@@ -87,8 +89,6 @@ void Button::press(GLUT_Plotter* g)
     color -= 0x555555;
     textColor -= 0x555555;
     draw(g);
-
-    //g->Draw();
 }
 
 /*******************************************************************************

@@ -36,14 +36,14 @@ Square::Square(const Square & other)
  * Pre: object exists, other exists                                            *
  * Post: *this becomes a copy of other                                         *
  ******************************************************************************/
-Square& Square::operator = (const Square &other)
+Square& Square::operator= (const Square &other)
 {
     if(this != &other)
     {
         setColor(other.color);// = other.color;
         center = other.center;
     }
-    
+
     return *this;
 }
 
@@ -59,13 +59,13 @@ void Square::draw(GLUT_Plotter *g)
     {
         //Draw border
         g->setColor(BLACK);
-        
+
         //creating topLeft makes drawing a bit easier and also can cause the
         //Point constructor to throw an OffScreen, which indicates something
         //has gone horribly awry
         Point topLeft(center.x - (SQUARE_WIDTH / 2), center.y +
                                                      (SQUARE_WIDTH / 2));
-    
+
         for(int i = topLeft.x; i < topLeft.x + SQUARE_WIDTH; i++)
         {
             for(int j = topLeft.y; j < topLeft.y + SQUARE_WIDTH; j++)
@@ -73,10 +73,10 @@ void Square::draw(GLUT_Plotter *g)
                 g->plot(i, SCREEN_HEIGHT - j);
             }
         }
-        
+
         //Draw Square
         g->setColor(this->color);
-        
+
         //Sorry about the line breaks; the constants are long
         for(int i = topLeft.x + SQUARE_BORDER; i < topLeft.x + SQUARE_WIDTH
                                                         - SQUARE_BORDER; i++)
@@ -108,19 +108,19 @@ void Square::draw(GLUT_Plotter *g)
  ******************************************************************************/
 void Square::erase(GLUT_Plotter *g)
 {
-    
+
     //The algorithm is exactly the same as draw except we don't have to deal
     //with the border
-    
-    
+
+
     //Note: erase assumes we are only drawing Squares over white areas of screen
     g->setColor(BACKGROUND_WHITE);
-    
+
     try
     {
         Point topLeft(center.x - (SQUARE_WIDTH / 2), center.y +
                                   (SQUARE_WIDTH / 2));
-        
+
         for(int i = topLeft.x; i < topLeft.x + SQUARE_WIDTH; i++)
         {
             for(int j = topLeft.y; j < topLeft.y + SQUARE_WIDTH; j++)
@@ -128,7 +128,7 @@ void Square::erase(GLUT_Plotter *g)
                 g->plot(i, SCREEN_HEIGHT - j);
             }
         }
-        
+
     }
     catch(OffScreen &a)
     {
@@ -204,10 +204,16 @@ void Square::shiftLeft()
  ******************************************************************************/
 void Square::moveUp()
 {
-    //Because up is negative...I don't get it either
+    
     center.y -= FALL_LENGTH;
 }
 
+/*******************************************************************************
+ * Description: calculates the top left Point in a Square                      *
+ * Return: a Point by value representing the top left Point                    *
+ * Pre: object exists                                                          *
+ * Post: object unchanged                                                      *
+ ******************************************************************************/
 Point Square::getTopLeft()
 {
     return Point(center.x - (SQUARE_WIDTH / 2), center.y +

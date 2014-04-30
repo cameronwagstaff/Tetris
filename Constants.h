@@ -2,12 +2,28 @@
  * Author: Matt Arnold                                                         *
  * Description: Contains various constants to be used in the Tetris game       *
  * Date Created:02 April 2014                                                  *
- * Date Last Modified:27 April 2014 - Cameron Wagstaff                         *
+ * Date Last Modified: 29 April 2014 - Matt Arnold                             *
  ******************************************************************************/
 
 
 #ifndef Tetris_Constants_h
 #define Tetris_Constants_h
+
+/*******************************************************************************
+* The following preprocessor directives define our characters in a             *
+* cross-platform way                                                           *
+*******************************************************************************/
+#ifdef WIN32
+#define BACKSPACE 8
+#define LSHIFT 176
+#define RSHIFT 177
+#endif
+
+#ifdef __APPLE__
+#define BACKSPACE 127
+#define LSHIFT -1
+#define RSHIFT -2
+#endif
 
 #include <string>
 
@@ -53,9 +69,9 @@ const int SQUARE_WIDTH              = 20;           //Side length of Squares
 const int SQUARE_BORDER             = 2;            //Width of border on Squares
 
 //Matrix Dimensions
-const int MAX_ROWS                  = (GAME_BOTTOM - 2 * BORDER_WIDTH) // Max number of Squares for width of game
+const int MAX_ROWS                  = /*29;*/ (GAME_BOTTOM - 2 * BORDER_WIDTH) // Max number of Squares for width of game
                                       / (SQUARE_WIDTH);
-const int MAX_COLS                  = (GAME_RIGHT - 2 * BORDER_WIDTH) // Max number of Squares for height of game
+const int MAX_COLS                  = /*24;*/ (GAME_RIGHT - 2 * BORDER_WIDTH) // Max number of Squares for height of game
                                       / (SQUARE_WIDTH);
 const int MIN_ROWS                  = 0;
 const int MIN_COLS                  = 0;
@@ -67,6 +83,7 @@ const int MAX_LEN                   = 10;           //Maximum number of characte
 
 //Oddities
 const string WINDOW_TITLE = "TETRIS";               //The string displayed on the title bar of the game
+const double FALL_TIME_PER_LEVEL    = .5;           //Represents the change in the amount of time between falls when the level increases
 
 //Booleans
 const bool MATT_IS_THE_BEST = true;                 //Just me being a narcissist

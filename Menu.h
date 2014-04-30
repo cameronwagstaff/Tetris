@@ -12,13 +12,14 @@
 #include "GLUT_Plotter.h"
 #include "Button.h"
 #include "Constants.h"
+#include "Square.h"
 
 class Menu
 {
 private:
     Button startButton, viewScores;
     bool running;
-    
+
 public:
     Menu();
     void draw(GLUT_Plotter *g);

@@ -1,6 +1,5 @@
 /*******************************************************************************
 * Author:  Brennan Saul                                                        *
-* File Name:  Piece.h                                                          *
 * Description:  Defines the Piece class. Includes prototypes of functions      *
 *               and private fields.                                            *
 * Date Created:  16 April 2014                                                 *
@@ -18,7 +17,7 @@
 using namespace std;
 
 const Point PIECE_START           = Point((GAME_RIGHT - BORDER_WIDTH) / 2 - 5,
-                                           SQUARE_WIDTH + BORDER_WIDTH * 2 +1);
+                                           SQUARE_WIDTH + BORDER_WIDTH * 2 + 1);
 
 class Piece
 {
@@ -39,6 +38,7 @@ class Piece
         void setColor();
         void setType(int newType);
         void setPosition(Point newCenter);
+        void setRest(bool);
         int  getType();
         int  getOrientation();
         void moveUp();
