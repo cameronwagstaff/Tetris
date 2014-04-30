@@ -1,3 +1,4 @@
+
 /*******************************************************************************
  * Author: Matt Arnold                                                         *
  * Description: Contains various constants to be used in the Tetris game       *
@@ -86,3 +87,5 @@ const string WINDOW_TITLE = "TETRIS";               //The string displayed on th
 const double FALL_TIME_PER_LEVEL    = .5;           //Represents the change in the amount of time between falls when the level increases
 
 #endif
+
+
