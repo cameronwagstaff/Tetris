@@ -403,16 +403,30 @@ double Tetris::fallSpeed()
 {
     static bool canChange = false;
     static double time = 0.75;
+    static double warp = .05;
+    static int lastRowsCleared = rowsCleared;
+    int level = (500 + currentScore / 700.0) * .001;
 
-    if(!canChange && rowsCleared % 7 != 0)
+    if(!canChange && lastRowsCleared != rowsCleared)
     {
         canChange = true;
     }
 
-    if(canChange && rowsCleared %7 == 7)
+    if(canChange)
     {
-        time -= FALL_TIME_PER_LEVEL;
+        canChange = false;
+
+        time -= warp;
+
+        warp = level / rowsCleared;
+
+        if(time <= 0)
+        {
+            time = .000001;
+        }
     }
+
+    lastRowsCleared = rowsCleared;
 
     return time;
 }
