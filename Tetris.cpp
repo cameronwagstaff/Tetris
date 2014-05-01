@@ -2,7 +2,7 @@
  * Author: Dr. Booth, Matt Arnold, Cameron Wagstaff                            *
  * Description: Does the Tetris                                                *
  * Created on: Mar 31, 2014                                                    *
- * Last Modified: 30 April 2014 - Cameron Wagstaff                             *
+ * Last Modified: 30 April 2014 - Matt Arnold                                  *
  ******************************************************************************/
 
 #include "Tetris.h"
@@ -16,7 +16,8 @@ nextBox(Point(GAME_RIGHT + 40, 70),
         Point(SCREEN_WIDTH - 40, 170), BACKGROUND_WHITE),
 enterName("Enter Your Name"),
 endGame("End Game", Point(nextBox.getTopLeft().x, nextBox.getTopLeft().y + 400),
-        Point(nextBox.getTopLeft().x + 200, nextBox.getTopLeft().y + 500), MENU_BLUE)
+        Point(nextBox.getBottomRight().x, nextBox.getTopLeft().y + 475),
+        0x1593EE)
 {
     srand(clock());
 
@@ -304,10 +305,10 @@ void Tetris::Play(void)
 
     int rows = matrix.lineCheck();
 
-    if(rows == 4)
+    if(rows >= 4)
     {
-        currentScore += consecTetris * 400;
         consecTetris += 1;
+        currentScore += 400;
     }
     else
     {
